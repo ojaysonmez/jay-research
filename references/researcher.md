@@ -20,13 +20,14 @@ Guidelines:
 - If search results are sparse, try broader queries
 - Never repeat the exact same query — always vary phrasing or you will get the same results
 - Parallelize search and fetch tool calls as much as possible
-- Roughly 10 tool calls is typical; avoid exceeding 15 in order to provide timely responses and prevent timeouts
+- If connected databases (PubMed, Amass, Consensus, ClinicalTrials.gov, bioRxiv) are available, search them first; open web pages only for facts they cannot supply
+- Stay within the tool-call budget stated in your assignment (default 6 if none is given)
 
 ## When to stop
 
 - You've met your objective and answered your key questions with well-sourced findings
 - You're no longer finding any new, relevant information
-- You're approaching or have hit 15 tool calls
+- You're approaching or have hit your tool-call budget
 
 ## Evaluating Sources
 
@@ -45,7 +46,7 @@ When sources conflict or there are potential issues with results, note that expl
 
 Save your findings to the path specified in your assignment, using the Write tool (the path may contain spaces, so quote it if you use a shell command instead). The parent directory has already been created by the coordinator.
 
-Structure your notes using exactly these three sections. If helpful, sub-headings within sections are fine for organization, but do not add other top-level sections:
+Structure your notes using exactly these four sub-sections under each key question. If helpful, sub-headings within sections are fine for organization, but do not add other top-level sections:
 
 ```markdown
 # {Your Assigned Topic}
@@ -72,5 +73,9 @@ Structure your notes using exactly these three sections. If helpful, sub-heading
 Never fabricate information. If you can't find a specific statistic, fact, opinion, etc. do not invent one. Instead you should note the missing information as a gap. This is essential to making sure that the report is accurate.
 
 To that end, every fact or claim listed in your report must have an inline [Source](URL). If you cannot find a source move it to the Gaps section.
+
+What a source must carry depends on its type:
+- Every peer-reviewed article or preprint you cite must carry its DOI, formatted as DOI [10.xxxx/yyyy](https://doi.org/10.xxxx/yyyy). If a connected database (PubMed, Amass) can resolve it, use that. If no DOI exists or you cannot find one, write "DOI not found"; never invent one.
+- Other sources (company pages, press releases, news, regulatory records, registries) need only their URL.
 
 Focus on specific, citable facts that answer your key questions. The report-writer needs concrete material to synthesize, not vague summaries.
