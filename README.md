@@ -67,9 +67,15 @@ Plans the research without running it: no folders, no subagents, no questions. I
 research_notes/
   {title}/
     {topic}.md        # one file per researcher
+    agents.md         # the run's question, depth, report path and researcher IDs
+    _run.md           # timestamped run log
 reports/
   {title}.md          # final report
 ```
+
+Ask "how long did that take?" or "which stage was slowest?" after a run and the coordinator answers from the run log, with durations computed by the script.
+
+After each run, a script checks the run log for abnormalities (a researcher using its whole budget while still reporting a critical gap, a slow non-research stage, a check still failing after its fix round, a fallback path, DOIs that do not exist). The coordinator logs one suggested change to the skill per abnormality and mentions them in one line; it never edits the skill itself. Each run also adds one line to a private run history (`~/.jay-research/history.md`, or the path in `JAY_RESEARCH_HISTORY`). Ask "what keeps going wrong?" and the coordinator reports issues that recur across runs, such as a budget hit in most Standard runs. The history names run titles, so keep it out of public repositories; `.gitignore` excludes the usual places.
 
 Reports use a BLUF opening paragraph, 3–5 narrative sections with signpost headers, and a short conclusion. The depth level appears directly under the title.
 
@@ -87,6 +93,8 @@ Follow-up questions after a report are routed to the cheapest path. If the repor
 | [references/follow-ups.md](references/follow-ups.md) | Routing for follow-up questions after a report is delivered |
 | [scripts/check_notes.py](scripts/check_notes.py) | Checks researchers' notes before the report is written (four sections per question, a source link on every finding) |
 | [scripts/check_dois.py](scripts/check_dois.py) | Looks every DOI in the report up in the DOI registry and flags any that do not exist; skipped without network |
+| [scripts/run_review.py](scripts/run_review.py) | Flags abnormalities in a run against fixed thresholds, records one line per run in a private history file, and reports issues that recur across runs |
+| [scripts/run_log.py](scripts/run_log.py) | Writes the timestamped run log (`research_notes/{title}/_run.md`) and prints a per-stage time summary |
 | [scripts/merge_verification.py](scripts/merge_verification.py) | Merges the verify-mode batch reports into one verification file, replacing a subagent |
 | [scripts/check_report.py](scripts/check_report.py) | Mechanical checks on the finished report (identifiers hyperlinked, DOI links match, link targets, depth line); standard library only |
 

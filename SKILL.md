@@ -7,7 +7,7 @@ description: Jay's own copy of deep-research. Use it instead of the built-in dee
 
 ## Your Role
 
-You are acting as the **coordinator**. Your job is to analyze the user's question, spawn subagents, and manage output files. In order to keep your context clean, you should never conduct research or write files directly. The only file you write yourself is agents.md (step 4). For the same reason, you also should not read the researcher.md or report-writer.md files. The other files in references/ (modes.md, verify.md, follow-ups.md) are for you, and you read each one only when its feature is used. In these instructions, {path_to_skill} means this skill's base directory (the folder this SKILL.md was loaded from).
+You are acting as the **coordinator**. Your job is to analyze the user's question, spawn subagents, and manage output files. In order to keep your context clean, you should never conduct research or write files directly. The only files you write yourself are agents.md (step 4) and the run log _run.md, which you add to only through scripts/run_log.py (see "Run log"). For the same reason, you also should not read the researcher.md or report-writer.md files. The other files in references/ (modes.md, verify.md, follow-ups.md) are for you, and you read each one only when its feature is used. In these instructions, {path_to_skill} means this skill's base directory (the folder this SKILL.md was loaded from).
 
 As you work, if you have a to-do or task-list tool (for example TodoWrite, or TaskCreate and TaskUpdate), use it to keep the user informed of your plan and progress. For clarity, don't reference subagents in those items. For example, you might say "Conduct research" instead of "Spawn research subagents".
 
@@ -50,6 +50,30 @@ Decide once, in step 2, whether the topic is **scientific or clinical**: researc
 - **No:** researchers do not look for DOIs and the report does not list them. Sources are cited by URL only.
 
 Whatever the topic, any DOI, FDA number (510(k), PMA, De Novo, NDA, BLA or ANDA application number, recall number) or clinical trial number (NCT or other registry ID) that appears in notes or in the report must be a hyperlink, never plain text. Say so in every researcher and report writer prompt.
+
+## Run log
+
+Keep a timestamped log of every run, in the same notes folder as agents.md, so you and the user can see later where the time went. Log each event with:
+
+`python3 "{path_to_skill}/scripts/run_log.py" "{absolute path of your working directory}/research_notes/{research title}" event "<stage>" "<detail>"`
+
+The script adds the time, so never write times yourself. Each call costs time and context, so log only stage boundaries and exceptions, one line of detail each:
+
+- `run start` right after step 2: the question (shortened), depth level, verify on or off, and the model setting
+- `research start` when you spawn the researchers in step 4
+- `research end` once research is finished, after step 5 if it runs. In its detail, put every researcher's result from its status report in this exact form, separated by semicolons: "{topic} {tool calls used} of {budget}, critical gaps: {number, or none}". If step 5 ran, end with "gap round: N continued, M spawned". For example: "Segment A 8 of 10, critical gaps: none; Segment B 10 of 10, critical gaps: 1; gap round: 1 continued, 0 spawned"
+- `report start` and `report end` around the report writer
+- `verify start` and `verify end` around step 7, if it runs, with the outcome
+- `run end` just before you write the delivery summary in step 8
+
+Log these only when they happen:
+
+- `notes check`, `report check` or `doi check`, when the check was not OK: "N problems; M remain" after the fix round (for the DOI check: "N checked, M not found; K remain"). Do not log checks that passed.
+- `brief corrections`: their number, then a few words on each
+- `fallback`, whenever a fallback path runs (SendMessage unavailable or failed, a script could not run, the merge script fell back to a subagent): what happened
+- `observation`, in step 8: all suggested changes to the skill in one event, separated by semicolons
+
+Stages named "<name> start" and "<name> end" are timed as a pair. If the script cannot run, skip the log; it must never hold up the research. Questions about a run afterwards are covered in references/follow-ups.md.
 
 ## Process
 
@@ -271,6 +295,10 @@ After the report writer is done, make the report available to the user: if you h
 
 If step 7 ran, deliver reports/{research title} verification.md the same way, alongside the report, and add one sentence to the summary with the outcome (PASS, PARTIAL or FAIL) and the number of HIGH-WARN claims. Never describe a report as verified while a HIGH-WARN claim stands.
 
-End the summary with this line, filled in: "Follow-up questions: ask here and I'll route them through jay-research (research files: {absolute path of your working directory}/research_notes/{research title}/)." It keeps a pointer to this run in the conversation itself, where it is more likely to survive if earlier context is compressed than the instructions in this file.
+**Review the run.** If the run log is working, run `python3 "{path_to_skill}/scripts/run_review.py" review "{absolute path of your working directory}/research_notes/{research title}"`. It applies fixed thresholds to the run log and prints "No abnormalities." or one FLAG line per finding. For each flag, work out one concrete change to the skill that would prevent it (for example: "a researcher used its whole 10-call budget at Standard and still reported a critical gap; raise the budget to 12 in the Research depth table") and log all of them together as one `observation` event. Never edit the skill's files yourself: the user decides what to change. A `brief-wrong` flag is about the question, not the skill, so log it without a suggestion. If any other flag came up, add one line to the summary: "I noticed N issue(s) with the skill itself; suggested changes are in the run log."
+
+Then run `python3 "{path_to_skill}/scripts/run_review.py" record "{absolute path of your working directory}/research_notes/{research title}"` to add this run to the run history (one line per run, in ~/.jay-research/history.md unless the JAY_RESEARCH_HISTORY environment variable points elsewhere). If you are working in a workspace that is not the user's own computer (for example a cloud workspace) and a link to the user's computer is available, also append the line the script prints to the history file on the user's computer through that link, asking for access to its folder if needed; if no link is available, skip that copy. The history holds run titles and may name confidential topics, so never put it inside a repository that is or may become public. If either script cannot run, skip it without mentioning it.
+
+If the run log is working, run `python3 "{path_to_skill}/scripts/run_log.py" "{absolute path of your working directory}/research_notes/{research title}" summary` and add the total run time to the summary in a few words. End the summary with this line, filled in: "Follow-up questions: ask here and I'll route them through jay-research (research files: {absolute path of your working directory}/research_notes/{research title}/)." It keeps a pointer to this run in the conversation itself, where it is more likely to survive if earlier context is compressed than the instructions in this file.
 
 If the user later asks a follow-up question about this report, read {path_to_skill}/references/follow-ups.md before answering. If this skill was reloaded later in the conversation, find the run's folder from that line in your earlier summary and read its agents.md to recover the question, the report path and the researcher IDs. If there are several, use the run whose report the user is asking about, and ask if it's unclear.

@@ -101,6 +101,7 @@ Status per key question:
 - {Key question 1, shortened}: answered | partial | not found
 - {Key question 2, shortened}: answered | partial | not found
 Sources cited: {number}
+Tool calls used: {number} of {your tool-call budget}
 Critical gaps: {one line per gap that would leave the report incomplete, or "none"}
 Brief corrections: {one line per assumption in your assignment that proved wrong: what it said, what is correct, and the source, or "none"}
 ```

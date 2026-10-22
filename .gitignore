@@ -1,0 +1,7 @@
+# Research output and run history can name confidential topics.
+research_notes/
+reports/
+history/
+.jay-research/
+_run.md
+history.md
