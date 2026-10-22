@@ -58,6 +58,7 @@ Plans the research without running it: no folders, no subagents, no questions. I
 - **DOIs only for scientific and clinical topics.** The coordinator classifies each request. For topics that need scientific evidence, every journal article or preprint is cited with its DOI, or "DOI not found". DOIs are never invented. For market research, general research and product topics, no DOIs are collected and sources are cited by URL only.
 - **Identifiers are hyperlinks.** DOIs, FDA numbers (510(k), PMA, NDA, BLA, ANDA, recall numbers) and clinical trial numbers (NCT IDs) always appear as links, for example `[NCT01234567](https://clinicaltrials.gov/study/NCT01234567)`, never as plain text. Links are never guessed.
 - Other sources (news, company pages, registries) need only a URL.
+- **The brief is checked, not trusted.** Researchers confirm the facts the question takes for granted (codes, company status, product names). A wrong one is researched correctly, reported as a brief correction, and stated openly in the report.
 - **Findings, inferences and gaps stay separate.** The report writer treats inferences as leads, not evidence.
 
 ## Output

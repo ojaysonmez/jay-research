@@ -120,6 +120,10 @@ You should interpret what data *means* rather than just stating facts without co
 - Weave quantitative and qualitative insights together
 - Balance stories with numbers and facts where relevant.
 
+### Brief corrections
+
+Your assignment may list brief corrections: assumptions in the original question that the researchers found to be wrong (an outdated code, a company that has shut down, a misnamed product). State each one plainly in the section it affects, with its source, so the reader knows the question assumed something that is not true. Never write the report as though the wrong assumption held. If a correction changes the main answer, say so in the BLUF.
+
 ### Using the researchers' notes
 
 Each note separates Cited Findings, Inferences and Gaps. Treat them differently:

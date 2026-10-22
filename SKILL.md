@@ -197,11 +197,11 @@ Researchers working in parallel cannot see each other, so give every researcher 
 
 In order to ensure research is conducted as quickly as possible, it's essential that all subagents are spawned in parallel, i.e., that you make all your calls to the Agent tool in a single turn.
 
-Each researcher replies with a short status report, not its notes (the format is in researcher.md). Do not open the notes files yourself. For each researcher, keep track of its topic, its notes path and the agent ID or name the Agent tool returned. Step 5 and later follow-up questions need them. Write them to {absolute path of your working directory}/research_notes/{research title}/agents.md, one line per researcher (topic, notes path, agent ID or name), so they survive if your context is compacted.
+Each researcher replies with a short status report, not its notes (the format is in researcher.md). Do not open the notes files yourself. Collect every "Brief corrections" line the researchers report, and merge corrections that say the same thing into one line: step 6 passes them to the report writer, and you mention them in the summary in step 8. For each researcher, keep track of its topic, its notes path and the agent ID or name the Agent tool returned. Step 5 and later follow-up questions need them. Write them to {absolute path of your working directory}/research_notes/{research title}/agents.md, one line per researcher (topic, notes path, agent ID or name), so they survive if your context is compacted.
 
 ### 5. [If absolutely necessary] Conduct one additional round of research
 
-Skip this step at the Quick and Standard levels. At Deep or Exhaustive, based on the status reports returned by the research subagents (their "Critical gaps" lines), determine if there are any critical gaps that would make the report incomplete. Extra research delays delivery of the report to the user, leading to a much worse experience, so this must be used with extreme care.
+Skip this step at the Quick and Standard levels. At Deep or Exhaustive, based on the status reports returned by the research subagents (their "Critical gaps" lines), determine if there are any critical gaps that would make the report incomplete. A brief correction (their "Brief corrections" lines) that changes what another researcher should have covered also counts as a critical gap, because researchers run in parallel and that researcher worked from the wrong assumption; redo its topic for the corrected version. Extra research delays delivery of the report to the user, leading to a much worse experience, so this must be used with extreme care.
 
 Close each critical gap in the cheapest way available:
 
@@ -232,6 +232,8 @@ Agent(
   prompt="Read the notes in {absolute path of your working directory}/research_notes/{research title}/ and synthesize into a research report that answers: {the user's original question}.
 
 Earlier research in this conversation to build on: {absolute paths of the earlier report and notes folder from step 2, or "none"}
+
+Brief corrections reported by researchers: {the "Brief corrections" lines from the researchers' status reports, merged where they repeat each other, or "none"}
 
 Research depth: {the level, for example "1 Quick"; add "(default, no level was chosen)" if you fell back to Quick}
 
@@ -285,7 +287,7 @@ Do not correct the report automatically. The user decides which corrections to a
 
 ### 8. Deliver report to user
 
-After the report writer is done, make the report available to the user: if you have a tool for sending files to the user (for example SendUserFile), send reports/{research title}.md with it; otherwise, if your environment has a user-visible outputs folder, copy the report there under the same filename; otherwise leave it at reports/{research title}.md. Then send the user a brief summary (aim for 3-5 sentences) that says where the full report is (sent to them, in the outputs folder, or its absolute path). Build the summary from the report writer's reply, which already carries one (see report-writer.md). Open the report yourself only if that reply is missing, unclear, or says the report could not be saved (follow-up questions after delivery are the other exception, see below).
+After the report writer is done, make the report available to the user: if you have a tool for sending files to the user (for example SendUserFile), send reports/{research title}.md with it; otherwise, if your environment has a user-visible outputs folder, copy the report there under the same filename; otherwise leave it at reports/{research title}.md. Then send the user a brief summary (aim for 3-5 sentences) that says where the full report is (sent to them, in the outputs folder, or its absolute path). Build the summary from the report writer's reply, which already carries one (see report-writer.md). If any researcher reported a brief correction, say so in one sentence, because it means the question itself assumed something that is not true. Open the report yourself only if that reply is missing, unclear, or says the report could not be saved (follow-up questions after delivery are the other exception, see below).
 
 If step 7 ran, deliver reports/{research title} verification.md the same way, alongside the report, and add one sentence to the summary with the outcome (PASS, PARTIAL or FAIL) and the number of HIGH-WARN claims. Never describe a report as verified while a HIGH-WARN claim stands.
 

@@ -10,6 +10,8 @@ Your notes will be read by a report writer who will synthesize findings from all
 
 ## How to Research
 
+Before you start, check the brief itself. Your assignment may state facts as given: a product code, a company's status, a trial number, a product name, a date. Treat each one as a claim to confirm, not as settled. If one turns out to be wrong or out of date, do not research around it: research the correct version instead (if the user may plausibly have meant the original, cover both and label which is which), record the correction under Cited Findings with its source ("The brief says X; the source shows Y"), and report it in your final reply under "Brief corrections". Spend no more than one or two tool calls per assumption unless it is central to your key questions.
+
 Core loop:
 1. Reflect on what knowledge gaps exist to meet your objective and answer key questions
 2. Use search tools (WebSearch or internal knowledge base searches) to collect information to close those gaps - generally shorter queries (<5 words) provide better results
@@ -100,6 +102,7 @@ Status per key question:
 - {Key question 2, shortened}: answered | partial | not found
 Sources cited: {number}
 Critical gaps: {one line per gap that would leave the report incomplete, or "none"}
+Brief corrections: {one line per assumption in your assignment that proved wrong: what it said, what is correct, and the source, or "none"}
 ```
 
 Mark a gap as critical only when it bears directly on a key question and more searching could plausibly close it. A gap caused by missing public data ("no registry reports this figure") is not critical: it stays in your notes for the report writer, and you leave it off this list.
