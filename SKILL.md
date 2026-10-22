@@ -13,7 +13,7 @@ As you work, if you have a to-do or task-list tool (for example TodoWrite, or Ta
 
 ## Help mode
 
-If the request is "help" (for example "/jay-research help"), do not research. Reply with: the four depth levels (table below), how to request one ("/jay-research deep: <question>"), the default (Quick), how to preview a plan without running it ("/jay-research dry-run: <question>", or with a level, "/jay-research dry-run deep: <question>", then "go" to run it), and the rules the skill follows (connector-first sourcing, DOIs for every journal article or preprint cited and URLs for other sources, report delivered as a Markdown file). Then stop.
+If the request is "help" (for example "/jay-research help"), do not research. Reply with: the four depth levels (table below), how to request one ("/jay-research deep: <question>"), the default (Quick), how to preview a plan without running it ("/jay-research dry-run: <question>", or with a level, "/jay-research dry-run deep: <question>", then "go" to run it), and the rules the skill follows (connector-first sourcing, DOIs only for scientific and clinical topics, DOI, FDA and clinical trial numbers always shown as hyperlinks, URLs for other sources, report delivered as a Markdown file). Then stop.
 
 ## Dry-run mode
 
@@ -21,7 +21,7 @@ If the request asks for a dry run (for example "/jay-research dry-run: <question
 
 1. The question as you understand it, and what you treat as in and out of scope
 2. The follow up questions you would have asked in step 1, each with the answer you would assume if nobody replied
-3. The depth level you would use and the title you would choose
+3. The depth level you would use, the title you would choose, and whether you would treat it as a scientific evidence topic (which decides whether DOIs are collected)
 4. A table of the researchers you would start: topic, objective, key questions, suggested sources, tool-call budget
 5. The budget in numbers: subagents in total (researchers plus the report writer), the model each role would use, the most tool calls the researchers could make between them (researchers × tool calls each), and the level's time estimate
 6. Whether step 5 could apply at this level, and how many follow-up tool calls it could add (step 5 continues existing researchers rather than starting new ones where it can)
@@ -54,6 +54,15 @@ If your Agent tool has no `model` parameter, leave it out everywhere. If the use
 ## Sources: connectors first
 
 When connected databases are available (for example PubMed, Amass, Consensus, ClinicalTrials.gov, bioRxiv), tell every researcher to search them before the open web, and to fetch web pages only for facts those databases cannot supply (company news, press releases, regulatory pages).
+
+## Sources: identifiers and DOIs
+
+Decide once, in step 2, whether the topic is **scientific or clinical**: research that needs scientific evidence, such as biomedical, clinical, pharmaceutical or other academic questions. Market research, general research and product topics are not. Pass the decision to every researcher and to the report writer as "Scientific evidence topic: yes" or "no".
+
+- **Yes:** researchers cite peer-reviewed articles and preprints with their DOIs.
+- **No:** researchers do not look for DOIs and the report does not list them. Sources are cited by URL only.
+
+Whatever the topic, any DOI, FDA number (510(k), PMA, De Novo, NDA, BLA or ANDA application number, recall number) or clinical trial number (NCT or other registry ID) that appears in notes or in the report must be a hyperlink, never plain text. Say so in every researcher and report writer prompt.
 
 ## Process
 
@@ -88,6 +97,8 @@ This research's folders go in the same directory you used for research earlier i
 - The user asks for earlier research to be redone independently: choose a title as in the previous case, but do not pass the earlier material on.
 
 In every case the title must differ from every report delivered earlier in this conversation and from every folder you see, so that this request's notes and report never mix with or replace an earlier one's. Never rename, move or write into an earlier request's folder.
+
+Also decide here whether this is a scientific or clinical evidence topic (see "Sources: identifiers and DOIs").
 
 Then create the folders research_notes/{research title}/ and reports/ in that directory. Quote these paths in shell commands, since the title contains spaces, and note the directory's absolute path — you will give the subagents absolute paths into these folders, and they will store their files there.
 
@@ -135,6 +146,8 @@ Tool-call budget: {the per-researcher limit for the chosen depth level}
 
 Connected databases to search first: {the connected databases available, or "none"}
 
+Scientific evidence topic: {yes or no}
+
 Save your output notes to {absolute path of your working directory}/research_notes/{research title}/{topic}.md
 
 **As a first step, you must read {path_to_skill}/references/researcher.md for instructions on how to conduct research.**"
@@ -164,6 +177,8 @@ Example of a good, clear, detailed prompt for a research subagent:
 > Tool-call budget: 10
 >
 > Connected databases to search first: none
+>
+> Scientific evidence topic: no
 >
 > Save your output notes to {absolute path of your working directory}/research_notes/Semiconductor supply chain outlook 2026/semiconductor_supply_chain.md
 >
@@ -208,6 +223,8 @@ Agent(
 Earlier research in this conversation to build on: {absolute paths of the earlier report and notes folder from step 2, or "none"}
 
 Research depth: {the level, for example "1 Quick"; add "(default, no level was chosen)" if you fell back to Quick}
+
+Scientific evidence topic: {yes or no}
 
 Save your final report to this exact path: {absolute path of your working directory}/reports/{research title}.md
 

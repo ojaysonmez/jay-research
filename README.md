@@ -55,7 +55,9 @@ Plans the research without running it: no folders, no subagents, no questions. I
 
 - **Connectors first.** Researchers search connected databases (PubMed, Amass, Consensus, ClinicalTrials.gov, bioRxiv) before the open web, and fetch web pages only for facts those databases cannot supply.
 - **Every claim carries a source.** Unsourced findings go in a Gaps section and are left out of the report.
-- **DOIs for papers.** Every journal article or preprint is cited with its DOI as `[10.xxxx/yyyy](https://doi.org/10.xxxx/yyyy)`, or "DOI not found". DOIs are never invented. Other sources (news, company pages, registries) need only a URL.
+- **DOIs only for scientific and clinical topics.** The coordinator classifies each request. For topics that need scientific evidence, every journal article or preprint is cited with its DOI, or "DOI not found". DOIs are never invented. For market research, general research and product topics, no DOIs are collected and sources are cited by URL only.
+- **Identifiers are hyperlinks.** DOIs, FDA numbers (510(k), PMA, NDA, BLA, ANDA, recall numbers) and clinical trial numbers (NCT IDs) always appear as links, for example `[NCT01234567](https://clinicaltrials.gov/study/NCT01234567)`, never as plain text. Links are never guessed.
+- Other sources (news, company pages, registries) need only a URL.
 - **Findings, inferences and gaps stay separate.** The report writer treats inferences as leads, not evidence.
 
 ## Output

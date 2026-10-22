@@ -137,6 +137,17 @@ You must include inline citations using the `([Source](URL))` format following k
 - References to specific published media
 - Not every sentence - cite strategically
 
-Carry every DOI from the notes into the report next to the article it belongs to, and include them in any reference list. Do not drop a DOI to shorten a citation. Sources that are not journal articles or preprints are cited by URL only.
+Your assignment says "Scientific evidence topic: yes" or "no".
+- **Yes:** carry every DOI from the notes into the report next to the article it belongs to, and include them in any reference list. Do not drop a DOI to shorten a citation.
+- **No** (market research, general research, product topics): do not add DOIs, do not write "DOI not found", and cite sources by URL only. Drop any DOI the notes happen to contain unless the reader needs it to find the source.
+
+Sources that are not journal articles or preprints are cited by URL only.
+
+Whatever the topic, write every DOI, FDA number (510(k), PMA, De Novo, NDA, BLA, ANDA application number, recall number) and clinical trial number (NCT or other registry ID) as a hyperlink, never as plain text, including in reference lists and tables. Reuse the link from the notes. If the notes give only a number, build it with these patterns, and otherwise leave out the link rather than guess one:
+- DOI: `[10.xxxx/yyyy](https://doi.org/10.xxxx/yyyy)`
+- Clinical trial: `[NCT01234567](https://clinicaltrials.gov/study/NCT01234567)`
+- 510(k): `[K123456](https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K123456)`
+- PMA: `[P123456](https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpma/pma.cfm?id=P123456)`
+- NDA, BLA or ANDA: `[NDA 012345](https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=012345)`
 
 If a research note contains a specific major finding, quantitative claim, or reference to published media without an inline source URL, do not include it in the final report. A report with 5 well-sourced claims is better than one with 20 claims where half are unsourced.

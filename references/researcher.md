@@ -75,8 +75,17 @@ Never fabricate information. If you can't find a specific statistic, fact, opini
 To that end, every fact or claim listed in your report must have an inline [Source](URL). If you cannot find a source move it to the Gaps section.
 
 What a source must carry depends on its type:
-- Every peer-reviewed article or preprint you cite must carry its DOI, formatted as DOI [10.xxxx/yyyy](https://doi.org/10.xxxx/yyyy). If a connected database (PubMed, Amass) can resolve it, use that. If no DOI exists or you cannot find one, write "DOI not found"; never invent one.
+- Your assignment says "Scientific evidence topic: yes" or "no".
+  - **Yes:** every peer-reviewed article or preprint you cite must carry its DOI, formatted as DOI [10.xxxx/yyyy](https://doi.org/10.xxxx/yyyy). If a connected database (PubMed, Amass) can resolve it, use that. If no DOI exists or you cannot find one, write "DOI not found"; never invent one.
+  - **No** (market research, general research, product topics): do not search for DOIs or spend tool calls on them. Cite sources by URL only. If a source page happens to show a DOI, you may link it, but never write "DOI not found".
 - Other sources (company pages, press releases, news, regulatory records, registries) need only their URL.
+- Always write DOIs, FDA numbers (510(k), PMA, De Novo, NDA, BLA, ANDA application numbers, recall numbers) and clinical trial numbers (NCT or other registry IDs) as hyperlinks, never as plain text. Use the record URL the database or page gave you. If you have only the number, build the link from these patterns:
+  - DOI: `[10.xxxx/yyyy](https://doi.org/10.xxxx/yyyy)`
+  - Clinical trial: `[NCT01234567](https://clinicaltrials.gov/study/NCT01234567)`
+  - 510(k): `[K123456](https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K123456)`
+  - PMA: `[P123456](https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpma/pma.cfm?id=P123456)`
+  - NDA, BLA or ANDA: `[NDA 012345](https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=overview.process&ApplNo=012345)` (digits only in ApplNo)
+  - For any other number (De Novo, recall, other registries), use the URL of the record you found. Never guess a link.
 
 Focus on specific, citable facts that answer your key questions. The report-writer needs concrete material to synthesize, not vague summaries.
 
