@@ -9,7 +9,7 @@ A personal [Claude Code](https://claude.com/claude-code) skill for multi-source 
 3. **Decompose** – splits the question into independent subtopics, capped by the chosen depth level.
 4. **Research** – spawns one foreground `general-purpose` researcher per subtopic, all in parallel. Each saves notes to `research_notes/{title}/{topic}.md` and replies with a short status report only.
 5. **Gap-fill (optional)** – at Deep and Exhaustive levels only, one extra round for critical gaps. Where it can, it continues the researcher that owns the gap (via `SendMessage`) instead of starting a new one, so sources are not re-read. It never runs a second time.
-6. **Write** – a report-writer subagent synthesises the notes into `reports/{title}.md` and replies with a 3–5 sentence summary.
+6. **Write** – a report-writer subagent synthesises the notes into `reports/{title}.md` and replies with a 3–5 sentence summary, then a script checks the report's links and identifiers, and the writer fixes any flagged lines.
 7. **Verify (optional)** – only when requested with `verify`. Fresh subagents fact-check the report's claims, DOIs and registry numbers with the [verify-claims](#verify-mode) skill and write `reports/{title} verification.md`. The report itself is never edited automatically.
 8. **Deliver** – the coordinator sends or copies the report (and the verification file, if any) and passes on the summary.
 
@@ -85,6 +85,7 @@ Follow-up questions after a report are routed to the cheapest path. If the repor
 | [references/modes.md](references/modes.md) | Help and dry-run modes, read by the coordinator only when requested |
 | [references/verify.md](references/verify.md) | The optional fact-check step, read only when `verify` is on |
 | [references/follow-ups.md](references/follow-ups.md) | Routing for follow-up questions after a report is delivered |
+| [scripts/check_report.py](scripts/check_report.py) | Mechanical checks on the finished report (identifiers hyperlinked, DOI links match, link targets, depth line); standard library only |
 
 ## Requirements
 

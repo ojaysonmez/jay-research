@@ -229,6 +229,18 @@ Save your final report to this exact path: {absolute path of your working direct
 )
 ```
 
+Keep the agent ID or name the Agent tool returns for the report writer; the check below may need it.
+
+**Check the report mechanically.** Some rules have an exact answer, so a script checks them instead of you or another subagent: every DOI, FDA number and clinical trial number is a hyperlink, every DOI link points to the DOI its text shows, no link has an empty or non-web target, and the depth level sits under the title. Run:
+
+`python3 "{path_to_skill}/scripts/check_report.py" "{absolute path of your working directory}/reports/{research title}.md"`
+
+It prints "OK" or a short list of problems with line numbers. Read only that output, never the report itself.
+
+- **OK:** continue.
+- **Problems:** send the list to the report writer with SendMessage, asking it to fix exactly those lines in the report in place and reply in its usual format. If SendMessage is unavailable or fails, spawn a new report writer as above with the report path and the list instead, telling it to fix only those lines. Then run the check once more. Never loop beyond that: if problems remain, deliver anyway and say in the summary how many formatting problems are left.
+- **The script cannot run** (no Python, exit code 2, or any error): skip the check and continue without mentioning it.
+
 ### 7. [If verify is on] Fact-check the report
 
 Skip this step unless verify is on (see "Verify mode"). Otherwise read {path_to_skill}/references/verify.md and follow it.
