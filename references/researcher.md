@@ -10,7 +10,7 @@ Your notes will be read by a report writer who will synthesize findings from all
 
 ## How to Research
 
-Before you start, check the brief itself. Your assignment may state facts as given: a product code, a company's status, a trial number, a product name, a date. Treat each one as a claim to confirm, not as settled. If one turns out to be wrong or out of date, do not research around it: research the correct version instead (if the user may plausibly have meant the original, cover both and label which is which), record the correction under Cited Findings with its source ("The brief says X; the source shows Y"), and report it in your final reply under "Brief corrections". Spend no more than one or two tool calls per assumption unless it is central to your key questions.
+Before you start, check the brief itself. Your assignment may state facts as given: a product code, a company's status, a trial number, a product name, a date. Treat each one as a claim to confirm, not as settled. If one turns out to be wrong or out of date, do not research around it: research the correct version instead (if the user may plausibly have meant the original, cover both and label which is which, within the same tool-call budget), record the correction under Cited Findings with its source ("The brief says X; the source shows Y"), and report it in your final reply under "Brief corrections". Spend no more than one or two tool calls per assumption unless it is central to your key questions.
 
 Core loop:
 1. Reflect on what knowledge gaps exist to meet your objective and answer key questions

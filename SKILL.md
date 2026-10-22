@@ -201,14 +201,14 @@ Each researcher replies with a short status report, not its notes (the format is
 
 ### 5. [If absolutely necessary] Conduct one additional round of research
 
-Skip this step at the Quick and Standard levels. At Deep or Exhaustive, based on the status reports returned by the research subagents (their "Critical gaps" lines), determine if there are any critical gaps that would make the report incomplete. A brief correction (their "Brief corrections" lines) that changes what another researcher should have covered also counts as a critical gap, because researchers run in parallel and that researcher worked from the wrong assumption; redo its topic for the corrected version. Extra research delays delivery of the report to the user, leading to a much worse experience, so this must be used with extreme care.
+Skip this step at the Quick and Standard levels. At Deep or Exhaustive, based on the status reports returned by the research subagents (their "Critical gaps" lines), determine if there are any critical gaps that would make the report incomplete. A brief correction (their "Brief corrections" lines) that changes what another researcher should have covered also counts as a critical gap, because researchers run in parallel and that researcher worked from the wrong assumption. Do not redo its whole topic: send that researcher the correction and have it re-check only the findings that relied on the wrong assumption. Extra research delays delivery of the report to the user, leading to a much worse experience, so this must be used with extreme care.
 
 Close each critical gap in the cheapest way available:
 
 - **Gap inside an existing researcher's topic:** continue that researcher rather than starting a new one. It has already read the relevant sources, so it can go straight to the missing piece. Use the SendMessage tool (load it with ToolSearch first if it is deferred) with the agent ID or name you noted in step 4, and send:
 
   ```
-  Follow-up: {the specific gap, as a question}.
+  Follow-up: {the specific gap, as a question; for a brief correction, include the correction itself and ask it to re-check only the findings that relied on the old assumption}.
   Tool-call budget: {half the per-researcher limit for the level, rounded up}
   Save what you find to {absolute path of your working directory}/research_notes/{research title}/{topic} followup.md, in the same four-part format as your notes. Do not rewrite your original notes file.
   Then reply with the same short status report as before.

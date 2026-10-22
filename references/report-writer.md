@@ -122,7 +122,7 @@ You should interpret what data *means* rather than just stating facts without co
 
 ### Brief corrections
 
-Your assignment may list brief corrections: assumptions in the original question that the researchers found to be wrong (an outdated code, a company that has shut down, a misnamed product). State each one plainly in the section it affects, with its source, so the reader knows the question assumed something that is not true. Never write the report as though the wrong assumption held. If a correction changes the main answer, say so in the BLUF.
+Your assignment may list brief corrections: assumptions in the original question that the researchers found to be wrong (an outdated code, a company that has shut down, a misnamed product). State each one plainly in the section it affects, with its source, so the reader knows the question assumed something that is not true. Never write the report as though the wrong assumption held. If a correction changes the main answer, say so in the BLUF. If a correction affects another topic's notes (researchers work in parallel, so a sibling may have relied on the wrong assumption), prefer the corrected version and say where those notes were built on the wrong assumption.
 
 ### Using the researchers' notes
 
