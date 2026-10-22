@@ -145,6 +145,8 @@ Suggested sources:
 Constraints:
 - {Any bounds from the initial user query, including temporal or geographic}
 
+Other researchers in this run (do not research these): {one line per sibling researcher: its topic and what it covers, or "none"}
+
 Tool-call budget: {the per-researcher limit for the chosen depth level}
 
 Connected databases to search first: {the connected databases available, or "none"}
@@ -177,6 +179,10 @@ Example of a good, clear, detailed prompt for a research subagent:
 > Constraints:
 > - Must reflect current state as of 2026 with prior issues clearly noted as such
 >
+> Other researchers in this run (do not research these):
+> - Chip demand forecasts: demand by end market (AI, auto, consumer) through 2028
+> - Equipment makers: ASML, Applied Materials and Tokyo Electron capacity and lead times
+>
 > Tool-call budget: 10
 >
 > Connected databases to search first: none
@@ -186,6 +192,8 @@ Example of a good, clear, detailed prompt for a research subagent:
 > Save your output notes to {absolute path of your working directory}/research_notes/Semiconductor supply chain outlook 2026/semiconductor_supply_chain.md
 >
 > **As a first step, you must read {path_to_skill}/references/researcher.md for instructions on how to conduct research.**"
+
+Researchers working in parallel cannot see each other, so give every researcher the list of its siblings' topics in the "Other researchers in this run" line. Without it, researchers whose topics touch repeat the same searches and send the report writer duplicate or conflicting facts. A researcher spawned in step 5 gets the full list too.
 
 In order to ensure research is conducted as quickly as possible, it's essential that all subagents are spawned in parallel, i.e., that you make all your calls to the Agent tool in a single turn.
 

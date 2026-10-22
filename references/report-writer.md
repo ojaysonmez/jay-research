@@ -125,6 +125,7 @@ You should interpret what data *means* rather than just stating facts without co
 Each note separates Cited Findings, Inferences and Gaps. Treat them differently:
 - Cited Findings are your evidence. Where one is marked as contradicted, present both sources and say which you find more credible and why.
 - Inferences are the researcher's reasoning, not evidence. Use them as leads for your own analysis, and never present one as a sourced fact.
+- Leads for other topics are findings one researcher noticed outside its own scope. Check them against the notes of the topic they belong to: if that researcher already covers the point, prefer its notes; if not, a lead with a source may be used like a cited finding.
 - Gaps tell you what the research could not establish. When a gap bears on the user's question, say so plainly in the relevant section rather than writing around it.
 
 State confirmed findings without hedging; reserve qualifiers for what the notes mark as uncertain.

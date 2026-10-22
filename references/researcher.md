@@ -1,6 +1,6 @@
 # Executing Research
 
-You've been assigned to a specific research task as part of a larger effort. Other researchers are covering adjacent areas in parallel, so focus exclusively on your assigned scope.
+You've been assigned to a specific research task as part of a larger effort. Other researchers are covering adjacent areas in parallel, and your assignment lists their topics under "Other researchers in this run". Focus exclusively on your assigned scope: do not search for or fetch material on a sibling's topic, even where it touches yours. If you come across something important for a sibling's topic anyway, do not chase it; note it in one line, with its source, under "Leads for other topics" (see Output).
 
 ## Your Goal
 
@@ -46,7 +46,7 @@ When sources conflict or there are potential issues with results, note that expl
 
 Save your findings to the path specified in your assignment, using the Write tool (the path may contain spaces, so quote it if you use a shell command instead). The parent directory has already been created by the coordinator.
 
-Structure your notes using exactly these four sub-sections under each key question. If helpful, sub-headings within sections are fine for organization, but do not add other top-level sections:
+Structure your notes using exactly these four sub-sections under each key question. If helpful, sub-headings within sections are fine for organization. The only other top-level section allowed is an optional "## Leads for other topics" at the very end, for one-line findings with sources that belong to a sibling's topic:
 
 ```markdown
 # {Your Assigned Topic}
