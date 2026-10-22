@@ -7,35 +7,19 @@ description: Jay's own copy of deep-research. Use it instead of the built-in dee
 
 ## Your Role
 
-You are acting as the **coordinator**. Your job is to analyze the user's question, spawn subagents, and manage output files. In order to keep your context clean, you should never conduct research or write files directly. The only file you write yourself is agents.md (step 4). For the same reason, you also should not read the researcher.md or report-writer.md files.
+You are acting as the **coordinator**. Your job is to analyze the user's question, spawn subagents, and manage output files. In order to keep your context clean, you should never conduct research or write files directly. The only file you write yourself is agents.md (step 4). For the same reason, you also should not read the researcher.md or report-writer.md files. The other files in references/ (modes.md, verify.md, follow-ups.md) are for you, and you read each one only when its feature is used. In these instructions, {path_to_skill} means this skill's base directory (the folder this SKILL.md was loaded from).
 
 As you work, if you have a to-do or task-list tool (for example TodoWrite, or TaskCreate and TaskUpdate), use it to keep the user informed of your plan and progress. For clarity, don't reference subagents in those items. For example, you might say "Conduct research" instead of "Spawn research subagents".
 
-## Help mode
+## Help and dry-run modes
 
-If the request is "help" (for example "/jay-research help"), do not research. Reply with: the four depth levels (table below), how to request one ("/jay-research deep: <question>"), the default (Quick), how to choose a model (by default every subagent uses the main chat's model; add "use Sonnet" for a faster run, or name one model per role, for example "Sonnet for researchers, Opus for the report"), how to preview a plan without running it ("/jay-research dry-run: <question>", or with a level, "/jay-research dry-run deep: <question>", then "go" to run it), how to fact-check the finished report ("/jay-research deep verify: <question>"; off unless requested), and the rules the skill follows (connector-first sourcing, DOIs only for scientific and clinical topics, DOI, FDA and clinical trial numbers always shown as hyperlinks, URLs for other sources, report delivered as a Markdown file). Then stop.
-
-## Dry-run mode
-
-If the request asks for a dry run (for example "/jay-research dry-run: <question>", "dry run" or "plan only"), plan the research but do not carry it out. Work through steps 1 to 3 on paper only: create no folders, spawn nothing, and ask no follow up questions. Then reply with:
-
-1. The question as you understand it, and what you treat as in and out of scope
-2. The follow up questions you would have asked in step 1, each with the answer you would assume if nobody replied
-3. The depth level you would use, the title you would choose, and whether you would treat it as a scientific evidence topic (which decides whether DOIs are collected)
-4. A table of the researchers you would start: topic, objective, key questions, suggested sources, tool-call budget
-5. The budget in numbers: subagents in total (researchers, the report writer, and the verification subagents if verify is on), the model each role would use, the most tool calls the researchers could make between them (researchers × tool calls each), and the level's time estimate
-6. Whether step 5 could apply at this level, and how many follow-up tool calls it could add (step 5 continues existing researchers rather than starting new ones where it can)
-7. What the report would look like at this level
-
-End by telling the user they can reply "go" to run this plan as shown, or reply with changes. On "go", run the full process using this plan, with any changes the user gave. Then stop.
+If the request is "help" (for example "/jay-research help"), or asks for a dry run (for example "/jay-research dry-run: <question>", "dry run" or "plan only"), read {path_to_skill}/references/modes.md and follow the section for that mode. Do no research in either mode.
 
 ## Verify mode
 
 Verification is off unless the request turns it on. Turn it on when the word "verify" appears among the options before the question (for example "/jay-research verify: <question>", "/jay-research deep verify: <question>", "/jay-research dry-run deep verify: <question>"), or when the user asks in words for the finished report to be fact-checked. The word "verify" inside the question itself does not count.
 
 When it is on, step 7 fact-checks the finished report with the user's verify-claims skill, using fresh subagents that never see the report. If no verify-claims skill is available, or you cannot find its SKILL.md, tell the user at the start that verification will be skipped and why, and run everything else as usual.
-
-In dry-run mode, say whether verification is on and that it adds roughly the time of one research round.
 
 ## Research depth
 
@@ -197,7 +181,7 @@ Researchers working in parallel cannot see each other, so give every researcher 
 
 In order to ensure research is conducted as quickly as possible, it's essential that all subagents are spawned in parallel, i.e., that you make all your calls to the Agent tool in a single turn.
 
-Each researcher replies with a short status report, not its notes (the format is in researcher.md). Do not open the notes files yourself. Collect every "Brief corrections" line the researchers report, and merge corrections that say the same thing into one line: step 6 passes them to the report writer, and you mention them in the summary in step 8. For each researcher, keep track of its topic, its notes path and the agent ID or name the Agent tool returned. Step 5 and later follow-up questions need them. Write them to {absolute path of your working directory}/research_notes/{research title}/agents.md, one line per researcher (topic, notes path, agent ID or name), so they survive if your context is compacted.
+Each researcher replies with a short status report, not its notes (the format is in researcher.md). Do not open the notes files yourself. Collect every "Brief corrections" line the researchers report, and merge corrections that say the same thing into one line: step 6 passes them to the report writer, and you mention them in the summary in step 8. For each researcher, keep track of its topic, its notes path and the agent ID or name the Agent tool returned. Step 5 and later follow-up questions need them. Write them to {absolute path of your working directory}/research_notes/{research title}/agents.md, so they survive if your context is compacted. Start the file with one header line giving the user's original question, the depth level, whether verify is on, and the report path ({absolute path of your working directory}/reports/{research title}.md), then add one line per researcher (topic, notes path, agent ID or name). The file should make sense on its own to someone who has seen nothing else of this run.
 
 ### 5. [If absolutely necessary] Conduct one additional round of research
 
@@ -247,67 +231,14 @@ Save your final report to this exact path: {absolute path of your working direct
 
 ### 7. [If verify is on] Fact-check the report
 
-Skip this step unless verify is on (see "Verify mode"). Keep your context clean here too: do not read the report or the claims yourself. In the prompts below, replace {path_to_verify_claims} with the verify-claims skill's base directory (the folder that holds its SKILL.md), and fill in the other placeholders as in step 4.
-
-**a. Extract the claims.** Spawn one subagent (subagent_type="general-purpose", run_in_background=false, `model` as in "Models per role"):
-
-```
-Agent(
-  run_in_background=false
-  subagent_type="general-purpose",
-  description="Extract report claims",
-  prompt="Read {path_to_verify_claims}/SKILL.md and follow only its section "2. Extract claims", applied to the report at {absolute path of your working directory}/reports/{research title}.md. Treat every DOI, FDA number and clinical trial number in the report as a claim about what that identifier points to, and use the report's own inline citation for each claim as its source.
-
-Write the claims in batches of up to 25 to {absolute path of your working directory}/research_notes/{research title}/claims batch {N}.md. Each claim gets its ID (C1, C2, ...), the claim, its source (or "no source given") and one verification question.
-
-Then reply with exactly: the number of claims and the number of batch files, and nothing else."
-)
-```
-
-**b. Verify each batch.** Spawn one verifier per batch file, all in a single turn so they run in parallel. Each must be a new subagent, never a fork of this conversation:
-
-```
-Agent(
-  run_in_background=false
-  subagent_type="general-purpose",
-  description="Verify claims batch {N}",
-  prompt="Read {path_to_verify_claims}/SKILL.md and follow only its section "Verifier protocol". Ignore the rest of that file, and do not open the report or any other file in {absolute path of your working directory}/reports/.
-
-Your claims are in {absolute path of your working directory}/research_notes/{research title}/claims batch {N}.md.
-
-Write your report, in the protocol's report format, to {absolute path of your working directory}/research_notes/{research title}/verification batch {N}.md.
-
-Then reply with exactly: the outcome (PASS, PARTIAL or FAIL), the tier counts, and the IDs of any HIGH-WARN claims, and nothing else."
-)
-```
-
-**c. Combine.** Spawn one subagent to merge the batch reports into {absolute path of your working directory}/reports/{research title} verification.md, using verify-claims section "4. Report": overall outcome and tier counts first, then each HIGH-WARN claim with its evidence and the correct value from the source, then the claims that could not be verified and why. It must not edit the report itself. It replies with the overall outcome, the tier counts and the number of HIGH-WARN claims, and nothing else.
-
-Do not correct the report automatically. The user decides which corrections to apply.
+Skip this step unless verify is on (see "Verify mode"). Otherwise read {path_to_skill}/references/verify.md and follow it.
 
 ### 8. Deliver report to user
 
-After the report writer is done, make the report available to the user: if you have a tool for sending files to the user (for example SendUserFile), send reports/{research title}.md with it; otherwise, if your environment has a user-visible outputs folder, copy the report there under the same filename; otherwise leave it at reports/{research title}.md. Then send the user a brief summary (aim for 3-5 sentences) that says where the full report is (sent to them, in the outputs folder, or its absolute path). Build the summary from the report writer's reply, which already carries one (see report-writer.md). If any researcher reported a brief correction, say so in one sentence, because it means the question itself assumed something that is not true. Open the report yourself only if that reply is missing, unclear, or says the report could not be saved (follow-up questions after delivery are the other exception, see below).
+After the report writer is done, make the report available to the user: if you have a tool for sending files to the user (for example SendUserFile), send reports/{research title}.md with it; otherwise, if your environment has a user-visible outputs folder, copy the report there under the same filename; otherwise leave it at reports/{research title}.md. Then send the user a brief summary (aim for 3-5 sentences) that says where the full report is (sent to them, in the outputs folder, or its absolute path). Build the summary from the report writer's reply, which already carries one (see report-writer.md). If any researcher reported a brief correction, say so in one sentence, because it means the question itself assumed something that is not true. Open the report yourself only if that reply is missing, unclear, or says the report could not be saved (follow-up questions after delivery are the other exception, see references/follow-ups.md).
 
 If step 7 ran, deliver reports/{research title} verification.md the same way, alongside the report, and add one sentence to the summary with the outcome (PASS, PARTIAL or FAIL) and the number of HIGH-WARN claims. Never describe a report as verified while a HIGH-WARN claim stands.
 
-## Follow-up questions after delivery
+End the summary with this line, filled in: "Follow-up questions: ask here and I'll route them through jay-research (research files: {absolute path of your working directory}/research_notes/{research title}/)." It keeps a pointer to this run in the conversation itself, where it is more likely to survive if earlier context is compressed than the instructions in this file.
 
-After a report has been delivered in this conversation, the user may ask about it ("why did X rank first?", "dig deeper into Y"). Route each follow-up to the cheapest path that can answer it:
-
-1. **The report already answers it.** Answer directly, without subagents. Search the report (and, if needed, the notes of the one topic involved) for the relevant passage rather than reading everything, and cite the sources the report cites. If you are not sure whether the user wants new research, answer from the report first and offer to dig deeper.
-
-2. **It needs more research inside one or more existing researchers' topics.** Continue those researchers instead of starting new ones, since they have already read the relevant sources. Choose a title as in step 2's "returning to an earlier topic" case and create its notes folder (never write into the earlier folder). Then send each researcher, via SendMessage with the agent ID or name from the agents.md file you wrote in step 4 (read it back first), all in one turn:
-
-   ```
-   Follow-up: {the user's question, as it applies to your topic}.
-   Tool-call budget: {half the per-researcher limit for the original level, rounded up}
-   Save what you find to {absolute path of your working directory}/research_notes/{new research title}/{topic} followup.md, in the same four-part format as your notes.
-   Then reply with the same short status report as before.
-   ```
-
-   Answer the user from those follow-up files, with their sources, and offer an updated report. If they want one, spawn the report writer as in step 6 with the new title, passing the earlier report and notes folder as earlier research to build on. Verification (step 7) runs on that updated report only if the user asks for it again.
-
-3. **It needs a topic no researcher covered, this is a different conversation, or SendMessage is unavailable or fails.** Run the full process as an extension of the earlier research (step 2's "returning to an earlier topic" case), at the original depth level unless the user names another.
-
-Continuing a researcher only works within the conversation where it was spawned, because only that conversation holds its agent ID.
+If the user later asks a follow-up question about this report, read {path_to_skill}/references/follow-ups.md before answering. If this skill was reloaded later in the conversation, find the run's folder from that line in your earlier summary and read its agents.md to recover the question, the report path and the researcher IDs. If there are several, use the run whose report the user is asking about, and ask if it's unclear.
