@@ -13,7 +13,7 @@ As you work, if you have a to-do or task-list tool (for example TodoWrite, or Ta
 
 ## Help mode
 
-If the request is "help" (for example "/jay-research help"), do not research. Reply with: the four depth levels (table below), how to request one ("/jay-research deep: <question>"), the default (Quick), how to preview a plan without running it ("/jay-research dry-run: <question>", or with a level, "/jay-research dry-run deep: <question>", then "go" to run it), and the rules the skill follows (connector-first sourcing, DOIs only for scientific and clinical topics, DOI, FDA and clinical trial numbers always shown as hyperlinks, URLs for other sources, report delivered as a Markdown file). Then stop.
+If the request is "help" (for example "/jay-research help"), do not research. Reply with: the four depth levels (table below), how to request one ("/jay-research deep: <question>"), the default (Quick), how to choose a model (by default every subagent uses the main chat's model; add "use Sonnet" for a faster run, or name one model per role, for example "Sonnet for researchers, Opus for the report"), how to preview a plan without running it ("/jay-research dry-run: <question>", or with a level, "/jay-research dry-run deep: <question>", then "go" to run it), and the rules the skill follows (connector-first sourcing, DOIs only for scientific and clinical topics, DOI, FDA and clinical trial numbers always shown as hyperlinks, URLs for other sources, report delivered as a Markdown file). Then stop.
 
 ## Dry-run mode
 
@@ -42,14 +42,9 @@ Take the level from the request ("quick", "standard", "deep", "exhaustive", or "
 
 ## Models per role
 
-Researchers do a lot of searching and reading and little synthesis, so they run on a faster model. The report writer does the synthesis, so it keeps the coordinator's model.
+By default every subagent (researchers and the report writer) uses the same model as the main chat: leave the `model` parameter out of every Agent call so each one inherits it.
 
-| Role | Model |
-|---|---|
-| Researcher (step 4 and step 5) | `model="sonnet"` |
-| Report writer (step 6) | leave `model` out, so it inherits the coordinator's model |
-
-If your Agent tool has no `model` parameter, leave it out everywhere. If the user names a model for the research ("use Opus for everything"), use that model for every role instead.
+Only set `model` when the user's request names one. If they name a single model ("use Sonnet"), pass it to every subagent. If they name one per role ("Sonnet for researchers, Opus for the report"), pass each to its role. Use the Agent tool's own model names (for example "sonnet", "opus", "haiku"). If your Agent tool has no `model` parameter, leave it out and say in your first progress update that the requested model could not be applied.
 
 ## Sources: connectors first
 
@@ -120,13 +115,12 @@ In the next step, you should spawn one subagent for each subtopic and independen
 
 For each subtopic and independent point of view determined above, spawn a foreground research subagent.
 
-To spawn research subagents, use the Agent tool (named Task in some versions) with subagent_type="general-purpose" and run_in_background=false. Ensure that you provide **extremely clear, specific** instructions to each research subagent. Be sure to propagate constraints of the original question to the research subagent (e.g., temporal, geographical). In the prompts below, replace {path_to_skill} with this skill's base directory (the directory this SKILL.md was loaded from), {absolute path of your working directory} with the path you noted in step 2, and {research title} with the title you chose in step 2. Follow the exact format provided below:
+To spawn research subagents, use the Agent tool (named Task in some versions) with subagent_type="general-purpose" and run_in_background=false, and add `model` only as described in "Models per role". Ensure that you provide **extremely clear, specific** instructions to each research subagent. Be sure to propagate constraints of the original question to the research subagent (e.g., temporal, geographical). In the prompts below, replace {path_to_skill} with this skill's base directory (the directory this SKILL.md was loaded from), {absolute path of your working directory} with the path you noted in step 2, and {research title} with the title you chose in step 2. Follow the exact format provided below:
 
 ```
 Agent(
   run_in_background=false
   subagent_type="general-purpose",
-  model="sonnet",
   description="{3-5 words}",
   prompt="Research {specific narrow topic}.
 
@@ -211,7 +205,7 @@ Close each critical gap in the cheapest way available:
 
 ### 6. Spawn foreground report writer subagent
 
-After research is done, spawn a single report writer subagent. Use the Agent tool (named Task in some versions) with subagent_type="general-purpose" and run_in_background=false, leave `model` out so it inherits your model (see "Models per role"), and fill in the placeholders as in step 4. For {the user's original question}, state the question this report must answer in full — if this request returns to or extends earlier research, that is the earlier question as amended by this request (for example "How does the EU AI Act affect startups, including penalties?"), not just the follow-up message. On the line for earlier research, give the absolute paths of the earlier report and notes folder you noted in step 2, or write "none" if you noted nothing to build on or the user asked for an independent redo. Follow the exact format provided below:
+After research is done, spawn a single report writer subagent. Use the Agent tool (named Task in some versions) with subagent_type="general-purpose" and run_in_background=false, set `model` only as described in "Models per role", and fill in the placeholders as in step 4. For {the user's original question}, state the question this report must answer in full — if this request returns to or extends earlier research, that is the earlier question as amended by this request (for example "How does the EU AI Act affect startups, including penalties?"), not just the follow-up message. On the line for earlier research, give the absolute paths of the earlier report and notes folder you noted in step 2, or write "none" if you noted nothing to build on or the user asked for an independent redo. Follow the exact format provided below:
 
 ```
 Agent(
