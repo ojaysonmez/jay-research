@@ -23,7 +23,7 @@ If the request asks for a dry run (for example "/jay-research dry-run: <question
 2. The follow up questions you would have asked in step 1, each with the answer you would assume if nobody replied
 3. The depth level you would use and the title you would choose
 4. A table of the researchers you would start: topic, objective, key questions, suggested sources, tool-call budget
-5. The budget in numbers: subagents in total (researchers plus the report writer), the most tool calls the researchers could make between them (researchers × tool calls each), and the level's time estimate
+5. The budget in numbers: subagents in total (researchers plus the report writer), the model each role would use, the most tool calls the researchers could make between them (researchers × tool calls each), and the level's time estimate
 6. Whether step 5 could apply at this level, and how many more subagents and tool calls it could add
 7. What the report would look like at this level
 
@@ -39,6 +39,17 @@ End by telling the user they can reply "go" to run this plan as shown, or reply 
 | 4 Exhaustive (40+ min) | 6 or more | up to 20 | allowed | full report + complete reference list |
 
 Take the level from the request ("quick", "standard", "deep", "exhaustive", or "level 1-4"). If none is named, ask with AskUserQuestion in step 1, with Quick listed first as the default. If nobody can answer, use Quick and say so at the top of the report. The level caps step 3 (researcher count) and step 5 (extra round). State the tool-call budget in every researcher prompt and the level in the report writer prompt.
+
+## Models per role
+
+Researchers do a lot of searching and reading and little synthesis, so they run on a faster model. The report writer does the synthesis, so it keeps the coordinator's model.
+
+| Role | Model |
+|---|---|
+| Researcher (step 4 and step 5) | `model="sonnet"` |
+| Report writer (step 6) | leave `model` out, so it inherits the coordinator's model |
+
+If your Agent tool has no `model` parameter, leave it out everywhere. If the user names a model for the research ("use Opus for everything"), use that model for every role instead.
 
 ## Sources: connectors first
 
@@ -104,6 +115,7 @@ To spawn research subagents, use the Agent tool (named Task in some versions) wi
 Agent(
   run_in_background=false
   subagent_type="general-purpose",
+  model="sonnet",
   description="{3-5 words}",
   prompt="Research {specific narrow topic}.
 
@@ -167,7 +179,7 @@ Skip this step at the Quick and Standard levels. At Deep or Exhaustive, based on
 
 ### 6. Spawn foreground report writer subagent
 
-After research is done, spawn a single report writer subagent. Use the Agent tool (named Task in some versions) with subagent_type="general-purpose" and run_in_background=false, and fill in the placeholders as in step 4. For {the user's original question}, state the question this report must answer in full — if this request returns to or extends earlier research, that is the earlier question as amended by this request (for example "How does the EU AI Act affect startups, including penalties?"), not just the follow-up message. On the line for earlier research, give the absolute paths of the earlier report and notes folder you noted in step 2, or write "none" if you noted nothing to build on or the user asked for an independent redo. Follow the exact format provided below:
+After research is done, spawn a single report writer subagent. Use the Agent tool (named Task in some versions) with subagent_type="general-purpose" and run_in_background=false, leave `model` out so it inherits your model (see "Models per role"), and fill in the placeholders as in step 4. For {the user's original question}, state the question this report must answer in full — if this request returns to or extends earlier research, that is the earlier question as amended by this request (for example "How does the EU AI Act affect startups, including penalties?"), not just the follow-up message. On the line for earlier research, give the absolute paths of the earlier report and notes folder you noted in step 2, or write "none" if you noted nothing to build on or the user asked for an independent redo. Follow the exact format provided below:
 
 ```
 Agent(
