@@ -7,7 +7,7 @@ description: Jay's own copy of deep-research. Use it instead of the built-in dee
 
 ## Your Role
 
-You are acting as the **coordinator**. Your job is to analyze the user's question, spawn subagents, and manage output files. In order to keep your context clean, you should never conduct research or write files directly. For the same reason, you also should not read the researcher.md or report-writer.md files.
+You are acting as the **coordinator**. Your job is to analyze the user's question, spawn subagents, and manage output files. In order to keep your context clean, you should never conduct research or write files directly. The only file you write yourself is agents.md (step 4). For the same reason, you also should not read the researcher.md or report-writer.md files.
 
 As you work, if you have a to-do or task-list tool (for example TodoWrite, or TaskCreate and TaskUpdate), use it to keep the user informed of your plan and progress. For clarity, don't reference subagents in those items. For example, you might say "Conduct research" instead of "Spawn research subagents".
 
@@ -197,7 +197,7 @@ Researchers working in parallel cannot see each other, so give every researcher 
 
 In order to ensure research is conducted as quickly as possible, it's essential that all subagents are spawned in parallel, i.e., that you make all your calls to the Agent tool in a single turn.
 
-Each researcher replies with a short status report, not its notes (the format is in researcher.md). Do not open the notes files yourself. For each researcher, keep track of its topic, its notes path and the agent ID or name the Agent tool returned. Step 5 needs them.
+Each researcher replies with a short status report, not its notes (the format is in researcher.md). Do not open the notes files yourself. For each researcher, keep track of its topic, its notes path and the agent ID or name the Agent tool returned. Step 5 and later follow-up questions need them. Write them to {absolute path of your working directory}/research_notes/{research title}/agents.md, one line per researcher (topic, notes path, agent ID or name), so they survive if your context is compacted.
 
 ### 5. [If absolutely necessary] Conduct one additional round of research
 
@@ -285,6 +285,27 @@ Do not correct the report automatically. The user decides which corrections to a
 
 ### 8. Deliver report to user
 
-After the report writer is done, make the report available to the user: if you have a tool for sending files to the user (for example SendUserFile), send reports/{research title}.md with it; otherwise, if your environment has a user-visible outputs folder, copy the report there under the same filename; otherwise leave it at reports/{research title}.md. Then send the user a brief summary (aim for 3-5 sentences) that says where the full report is (sent to them, in the outputs folder, or its absolute path). Build the summary from the report writer's reply, which already carries one (see report-writer.md). Open the report yourself only if that reply is missing, unclear, or says the report could not be saved.
+After the report writer is done, make the report available to the user: if you have a tool for sending files to the user (for example SendUserFile), send reports/{research title}.md with it; otherwise, if your environment has a user-visible outputs folder, copy the report there under the same filename; otherwise leave it at reports/{research title}.md. Then send the user a brief summary (aim for 3-5 sentences) that says where the full report is (sent to them, in the outputs folder, or its absolute path). Build the summary from the report writer's reply, which already carries one (see report-writer.md). Open the report yourself only if that reply is missing, unclear, or says the report could not be saved (follow-up questions after delivery are the other exception, see below).
 
 If step 7 ran, deliver reports/{research title} verification.md the same way, alongside the report, and add one sentence to the summary with the outcome (PASS, PARTIAL or FAIL) and the number of HIGH-WARN claims. Never describe a report as verified while a HIGH-WARN claim stands.
+
+## Follow-up questions after delivery
+
+After a report has been delivered in this conversation, the user may ask about it ("why did X rank first?", "dig deeper into Y"). Route each follow-up to the cheapest path that can answer it:
+
+1. **The report already answers it.** Answer directly, without subagents. Search the report (and, if needed, the notes of the one topic involved) for the relevant passage rather than reading everything, and cite the sources the report cites. If you are not sure whether the user wants new research, answer from the report first and offer to dig deeper.
+
+2. **It needs more research inside one or more existing researchers' topics.** Continue those researchers instead of starting new ones, since they have already read the relevant sources. Choose a title as in step 2's "returning to an earlier topic" case and create its notes folder (never write into the earlier folder). Then send each researcher, via SendMessage with the agent ID or name from the agents.md file you wrote in step 4 (read it back first), all in one turn:
+
+   ```
+   Follow-up: {the user's question, as it applies to your topic}.
+   Tool-call budget: {half the per-researcher limit for the original level, rounded up}
+   Save what you find to {absolute path of your working directory}/research_notes/{new research title}/{topic} followup.md, in the same four-part format as your notes.
+   Then reply with the same short status report as before.
+   ```
+
+   Answer the user from those follow-up files, with their sources, and offer an updated report. If they want one, spawn the report writer as in step 6 with the new title, passing the earlier report and notes folder as earlier research to build on. Verification (step 7) runs on that updated report only if the user asks for it again.
+
+3. **It needs a topic no researcher covered, this is a different conversation, or SendMessage is unavailable or fails.** Run the full process as an extension of the earlier research (step 2's "returning to an earlier topic" case), at the original depth level unless the user names another.
+
+Continuing a researcher only works within the conversation where it was spawned, because only that conversation holds its agent ID.

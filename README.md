@@ -13,7 +13,7 @@ A personal [Claude Code](https://claude.com/claude-code) skill for multi-source 
 7. **Verify (optional)** – only when requested with `verify`. Fresh subagents fact-check the report's claims, DOIs and registry numbers with the [verify-claims](#verify-mode) skill and write `reports/{title} verification.md`. The report itself is never edited automatically.
 8. **Deliver** – the coordinator sends or copies the report (and the verification file, if any) and passes on the summary.
 
-The coordinator never researches, writes files, or reads notes itself, which keeps its context clean. Subagents return fixed-format replies rather than their findings, for the same reason.
+During a run, the coordinator never researches, writes files, or reads notes itself, which keeps its context clean. Only when answering a follow-up question after delivery does it search the report, and at most one topic's notes, for the relevant passage. Subagents return fixed-format replies rather than their findings, for the same reason.
 
 ### Models
 
@@ -72,7 +72,7 @@ reports/
 
 Reports use a BLUF opening paragraph, 3–5 narrative sections with signpost headers, and a short conclusion. The depth level appears directly under the title.
 
-Follow-up requests on an earlier topic get a new title and a new folder. The earlier report and notes are passed to the report writer as background, and earlier folders are never overwritten.
+Follow-up questions after a report are routed to the cheapest path. If the report already answers it, the main chat answers from it, with no new folder. If it needs more digging inside an existing topic in the same conversation, the researcher that covered it is continued via `SendMessage`, the new notes go in a new folder, and an updated report is offered (verification is off unless requested again). Anything else becomes a new run with a new title and folder, and the earlier report and notes are passed to the report writer as background. Earlier folders are never overwritten.
 
 ## Repository layout
 
