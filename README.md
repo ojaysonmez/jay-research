@@ -10,7 +10,8 @@ A personal [Claude Code](https://claude.com/claude-code) skill for multi-source 
 4. **Research** – spawns one foreground `general-purpose` researcher per subtopic, all in parallel. Each saves notes to `research_notes/{title}/{topic}.md` and replies with a short status report only.
 5. **Gap-fill (optional)** – at Deep and Exhaustive levels only, one extra round for critical gaps. Where it can, it continues the researcher that owns the gap (via `SendMessage`) instead of starting a new one, so sources are not re-read. It never runs a second time.
 6. **Write** – a report-writer subagent synthesises the notes into `reports/{title}.md` and replies with a 3–5 sentence summary.
-7. **Deliver** – the coordinator sends or copies the report and passes on that summary.
+7. **Verify (optional)** – only when requested with `verify`. Fresh subagents fact-check the report's claims, DOIs and registry numbers with the [verify-claims](#verify-mode) skill and write `reports/{title} verification.md`. The report itself is never edited automatically.
+8. **Deliver** – the coordinator sends or copies the report (and the verification file, if any) and passes on the summary.
 
 The coordinator never researches, writes files, or reads notes itself, which keeps its context clean. Subagents return fixed-format replies rather than their findings, for the same reason.
 
@@ -25,6 +26,7 @@ Every subagent uses the main chat's model unless the request names one. Say "use
 /jay-research deep: <question>
 /jay-research dry-run: <question>
 /jay-research dry-run deep: <question>
+/jay-research deep verify: <question>
 /jay-research help
 ```
 
@@ -40,6 +42,10 @@ If no level is named, the skill asks. If nobody answers, it uses Quick and says 
 | 4 Exhaustive (40+ min) | 6+ | up to 20 | allowed | full report + complete reference list |
 
 You can also say "level 1–4" instead of the name.
+
+### Verify mode
+
+Add `verify` before the colon (for example `/jay-research deep verify: <question>`) to fact-check the finished report. A claim extractor pulls every factual claim, DOI, FDA number and trial number from the report; fresh verifier subagents, which never see the report, check each one against its source in batches of up to 25; the results are merged into `reports/{title} verification.md` with an overall PASS, PARTIAL or FAIL. Expect it to add about one research round of time. It needs a `verify-claims` skill installed; without one, the step is skipped with a note.
 
 ### Dry-run mode
 
@@ -79,6 +85,7 @@ Follow-up requests on an earlier topic get a new title and a new folder. The ear
 ## Requirements
 
 - A Claude Code environment with the `Agent` (or `Task`) tool for spawning subagents. Without it, research the question directly.
+- Optional: a `verify-claims` skill, for verify mode.
 - Optional: a `model` parameter on the Agent tool (needed only when a request names a model) and the `SendMessage` tool (otherwise gap-fill starts new researchers).
 - Optional: connected research databases for better sourcing.
 
