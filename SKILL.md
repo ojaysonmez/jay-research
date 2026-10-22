@@ -171,9 +171,11 @@ Example of a good, clear, detailed prompt for a research subagent:
 
 In order to ensure research is conducted as quickly as possible, it's essential that all subagents are spawned in parallel, i.e., that you make all your calls to the Agent tool in a single turn.
 
+Each researcher replies with a short status report, not its notes (the format is in researcher.md). Do not open the notes files yourself.
+
 ### 5. [If absolutely necessary] Conduct one additional round of research
 
-Skip this step at the Quick and Standard levels. At Deep or Exhaustive, based on the task summaries returned by the research subagents, determine if there are any critical gaps that would make the report incomplete. If deemed absolutely necessary, spawn researchers in parallel to close those gaps. Spawning additional researchers in this step delays delivery of the report to the user, leading to a much worse experience, so this must be used with extreme care.
+Skip this step at the Quick and Standard levels. At Deep or Exhaustive, based on the status reports returned by the research subagents (their "Critical gaps" lines), determine if there are any critical gaps that would make the report incomplete. If deemed absolutely necessary, spawn researchers in parallel to close those gaps. Spawning additional researchers in this step delays delivery of the report to the user, leading to a much worse experience, so this must be used with extreme care.
 
 **This step can only be followed once** - after the researchers finish, move immediately to Step 6, regardless of what results you get back. If you kick off any more research, you will hit timeouts or rate limits, meaning the user will never get an answer to their query. **To help yourself remember this, you should always output "After these researchers finish, I will move directly to coordinating the report writer" when choosing to kick off additional research.**
 
@@ -200,4 +202,4 @@ Save your final report to this exact path: {absolute path of your working direct
 
 ### 7. Deliver report to user
 
-After the report writer is done, make the report available to the user: if you have a tool for sending files to the user (for example SendUserFile), send reports/{research title}.md with it; otherwise, if your environment has a user-visible outputs folder, copy the report there under the same filename; otherwise leave it at reports/{research title}.md. Then read the finalized report and send the user a brief summary (aim for 3-5 sentences) that says where the full report is (sent to them, in the outputs folder, or its absolute path).
+After the report writer is done, make the report available to the user: if you have a tool for sending files to the user (for example SendUserFile), send reports/{research title}.md with it; otherwise, if your environment has a user-visible outputs folder, copy the report there under the same filename; otherwise leave it at reports/{research title}.md. Then send the user a brief summary (aim for 3-5 sentences) that says where the full report is (sent to them, in the outputs folder, or its absolute path). Build the summary from the report writer's reply, which already carries one (see report-writer.md). Open the report yourself only if that reply is missing, unclear, or says the report could not be saved.

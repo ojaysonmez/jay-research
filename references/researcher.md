@@ -79,3 +79,18 @@ What a source must carry depends on its type:
 - Other sources (company pages, press releases, news, regulatory records, registries) need only their URL.
 
 Focus on specific, citable facts that answer your key questions. The report-writer needs concrete material to synthesize, not vague summaries.
+
+## Your final reply to the coordinator
+
+The coordinator never reads your notes file. It only reads your final reply, and it uses that reply to decide whether a follow-up round is needed. Anything extra you put in the reply fills the coordinator's context and slows the whole research down. So after saving your notes, end with exactly this, and nothing else (no findings, no citations, no restating of the notes):
+
+```
+Notes saved: {absolute path of your notes file}
+Status per key question:
+- {Key question 1, shortened}: answered | partial | not found
+- {Key question 2, shortened}: answered | partial | not found
+Sources cited: {number}
+Critical gaps: {one line per gap that would leave the report incomplete, or "none"}
+```
+
+Mark a gap as critical only when it bears directly on a key question and more searching could plausibly close it. A gap caused by missing public data ("no registry reports this figure") is not critical: it stays in your notes for the report writer, and you leave it off this list.

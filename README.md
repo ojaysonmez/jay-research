@@ -7,12 +7,12 @@ A personal [Claude Code](https://claude.com/claude-code) skill for multi-source 
 1. **Clarify** – asks follow-up questions only when the answer would change the research (ambiguous terms, region, entities, or no depth level given).
 2. **Title and folders** – picks a short sentence-case title (3–6 words, under 50 characters) and creates `research_notes/{title}/` and `reports/`.
 3. **Decompose** – splits the question into independent subtopics, capped by the chosen depth level.
-4. **Research** – spawns one foreground `general-purpose` researcher per subtopic, all in parallel, on Sonnet. Each saves notes to `research_notes/{title}/{topic}.md`.
+4. **Research** – spawns one foreground `general-purpose` researcher per subtopic, all in parallel, on Sonnet. Each saves notes to `research_notes/{title}/{topic}.md` and replies with a short status report only.
 5. **Gap-fill (optional)** – at Deep and Exhaustive levels only, one extra round for critical gaps. It never runs a second time.
-6. **Write** – a report-writer subagent, on the coordinator's model, synthesises the notes into `reports/{title}.md`.
-7. **Deliver** – the coordinator sends or copies the report and gives a 3–5 sentence summary.
+6. **Write** – a report-writer subagent, on the coordinator's model, synthesises the notes into `reports/{title}.md` and replies with a 3–5 sentence summary.
+7. **Deliver** – the coordinator sends or copies the report and passes on that summary.
 
-The coordinator never researches or writes files itself, which keeps its context clean.
+The coordinator never researches, writes files, or reads notes itself, which keeps its context clean. Subagents return fixed-format replies rather than their findings, for the same reason.
 
 ### Models
 

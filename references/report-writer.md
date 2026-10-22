@@ -7,6 +7,18 @@ You are reviewing comprehensive research notes put together by a team of researc
 1. Find and read all the research notes in the specified folder. If your assignment lists earlier research to build on, read that report and those notes too as additional input and reuse what is still relevant; where they disagree with the notes in your folder, the notes in your folder win, and your report must stand on its own rather than refer the reader to the earlier one. Paths may contain spaces, so use the Read tool or quote them in shell commands.
 2. Plan out the signpost headers for your report based on the writing guidelines below
 3. Write and save the full report to the specified path
+4. Reply to the coordinator in the format below
+
+## Your final reply to the coordinator
+
+The coordinator passes your summary straight to the user and does not open the report itself, so your reply must stand on its own. End with exactly this, and nothing else:
+
+```
+Report saved: {absolute path of the report}
+Summary: {3-5 sentences: the main answer to the question, the most important supporting finding, and the biggest open gap or uncertainty}
+```
+
+If you could not save the report, say so in one line instead, with the reason.
 
 ## Report Format
 
