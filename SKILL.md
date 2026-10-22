@@ -206,7 +206,17 @@ Close each critical gap in the cheapest way available:
 
 ### 6. Spawn foreground report writer subagent
 
-After research is done, spawn a single report writer subagent. Use the Agent tool (named Task in some versions) with subagent_type="general-purpose" and run_in_background=false, set `model` only as described in "Models per role", and fill in the placeholders as in step 4. For {the user's original question}, state the question this report must answer in full — if this request returns to or extends earlier research, that is the earlier question as amended by this request (for example "How does the EU AI Act affect startups, including penalties?"), not just the follow-up message. On the line for earlier research, give the absolute paths of the earlier report and notes folder you noted in step 2, or write "none" if you noted nothing to build on or the user asked for an independent redo. Follow the exact format provided below:
+**First, check the notes mechanically.** The report writer drops findings that have no source, so a researcher's formatting slip silently costs the report content. Run:
+
+`python3 "{path_to_skill}/scripts/check_notes.py" "{absolute path of your working directory}/research_notes/{research title}"`
+
+It prints "OK" or a short list of problems, each starting with the notes file it belongs to. Read only that output, never the notes.
+
+- **OK:** continue.
+- **Problems:** send each affected researcher (agent ID from agents.md) only its own lines with SendMessage, all in one turn: "Your notes file has these formatting problems: {lines}. Fix them in place in your original notes file: add any missing sections, and for each finding without a source, add its source link if you can find it in one or two tool calls, otherwise move it to Gaps. Change nothing else, then reply with the same short status report as before." This is the one case where a researcher edits its original notes file. Then run the check once more and continue whatever it says; never loop beyond that.
+- **The script cannot run** (no Python, exit code 2, or any error), or SendMessage is unavailable: continue without mentioning it.
+
+Then spawn a single report writer subagent. Use the Agent tool (named Task in some versions) with subagent_type="general-purpose" and run_in_background=false, set `model` only as described in "Models per role", and fill in the placeholders as in step 4. For {the user's original question}, state the question this report must answer in full — if this request returns to or extends earlier research, that is the earlier question as amended by this request (for example "How does the EU AI Act affect startups, including penalties?"), not just the follow-up message. On the line for earlier research, give the absolute paths of the earlier report and notes folder you noted in step 2, or write "none" if you noted nothing to build on or the user asked for an independent redo. Follow the exact format provided below:
 
 ```
 Agent(
@@ -240,6 +250,16 @@ It prints "OK" or a short list of problems with line numbers. Read only that out
 - **OK:** continue.
 - **Problems:** send the list to the report writer with SendMessage, asking it to fix exactly those lines in the report in place and reply in its usual format. If SendMessage is unavailable or fails, spawn a new report writer as above with the report path and the list instead, telling it to fix only those lines. Then run the check once more. Never loop beyond that: if problems remain, deliver anyway and say in the summary how many formatting problems are left.
 - **The script cannot run** (no Python, exit code 2, or any error): skip the check and continue without mentioning it.
+
+**Then confirm the DOIs exist.** Run:
+
+`python3 "{path_to_skill}/scripts/check_dois.py" "{absolute path of your working directory}/reports/{research title}.md"`
+
+It looks every DOI in the report up in the DOI registry, so it catches invented or mistyped DOIs.
+
+- **OK** (exit code 0): continue. Lines marked "could not check" are timeouts, not errors in the report; ignore them.
+- **"not found" lines** (exit code 1): send them to the report writer with SendMessage: "These DOIs do not exist in the DOI registry: {lines}. For each, look up the article in the notes. If the notes give a different DOI for it, use that one; otherwise replace the DOI with "DOI not found" and keep the citation. Never guess a DOI. Change nothing else, and reply in your usual format." Then run the check once more, and if any DOI is still not found, say in the summary how many.
+- **SKIPPED** (exit code 3, no network), or the script cannot run: continue without mentioning it.
 
 ### 7. [If verify is on] Fact-check the report
 

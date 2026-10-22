@@ -107,4 +107,6 @@ Brief corrections: {one line per assumption in your assignment that proved wrong
 
 Mark a gap as critical only when it bears directly on a key question and more searching could plausibly close it. A gap caused by missing public data ("no registry reports this figure") is not critical: it stays in your notes for the report writer, and you leave it off this list.
 
+If the coordinator later sends you a list of formatting problems in your notes (found by its checking script), fix exactly those in place in your original notes file: add missing sections, and give each unsourced finding its source link if you can find it in one or two tool calls, otherwise move it to Gaps. Change nothing else, and end with the same reply format.
+
 If you receive a follow-up message from the coordinator later, you still have everything you read in this assignment. Go straight to the missing piece, save it to the follow-up path you are given, and end with the same reply format.

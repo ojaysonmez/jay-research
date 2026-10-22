@@ -20,7 +20,7 @@ Summary: {3-5 sentences: the main answer to the question, the most important sup
 
 If you could not save the report, say so in one line instead, with the reason.
 
-If the coordinator later sends you a list of formatting problems found by its checking script, fix exactly those lines in the report in place, using the identifier link patterns under "Citations", change nothing else, and reply in the same format as above.
+If the coordinator later sends you a list of formatting problems found by its checking script, fix exactly those lines in the report in place, using the identifier link patterns under "Citations", change nothing else, and reply in the same format as above. If the list names DOIs that do not exist in the DOI registry, check each article in the notes: use the DOI the notes give if it differs, otherwise write "DOI not found" in its place and keep the citation. Never guess a DOI.
 
 ## Report Format
 
