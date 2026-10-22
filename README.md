@@ -8,7 +8,7 @@ A personal [Claude Code](https://claude.com/claude-code) skill for multi-source 
 2. **Title and folders** – picks a short sentence-case title (3–6 words, under 50 characters) and creates `research_notes/{title}/` and `reports/`.
 3. **Decompose** – splits the question into independent subtopics, capped by the chosen depth level.
 4. **Research** – spawns one foreground `general-purpose` researcher per subtopic, all in parallel, on Sonnet. Each saves notes to `research_notes/{title}/{topic}.md` and replies with a short status report only.
-5. **Gap-fill (optional)** – at Deep and Exhaustive levels only, one extra round for critical gaps. It never runs a second time.
+5. **Gap-fill (optional)** – at Deep and Exhaustive levels only, one extra round for critical gaps. Where it can, it continues the researcher that owns the gap (via `SendMessage`) instead of starting a new one, so sources are not re-read. It never runs a second time.
 6. **Write** – a report-writer subagent, on the coordinator's model, synthesises the notes into `reports/{title}.md` and replies with a 3–5 sentence summary.
 7. **Deliver** – the coordinator sends or copies the report and passes on that summary.
 
@@ -83,7 +83,7 @@ Follow-up requests on an earlier topic get a new title and a new folder. The ear
 ## Requirements
 
 - A Claude Code environment with the `Agent` (or `Task`) tool for spawning subagents. Without it, research the question directly.
-- Optional: a `model` parameter on the Agent tool (otherwise every role uses the session's model).
+- Optional: a `model` parameter on the Agent tool (otherwise every role uses the session's model) and the `SendMessage` tool (otherwise gap-fill starts new researchers).
 - Optional: connected research databases for better sourcing.
 
 ## Installation

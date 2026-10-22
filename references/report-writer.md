@@ -4,7 +4,7 @@ You are reviewing comprehensive research notes put together by a team of researc
 
 ## General Process
 
-1. Find and read all the research notes in the specified folder. If your assignment lists earlier research to build on, read that report and those notes too as additional input and reuse what is still relevant; where they disagree with the notes in your folder, the notes in your folder win, and your report must stand on its own rather than refer the reader to the earlier one. Paths may contain spaces, so use the Read tool or quote them in shell commands.
+1. Find and read all the research notes in the specified folder, including any `{topic} followup.md` files, which add to the notes of the same topic. If your assignment lists earlier research to build on, read that report and those notes too as additional input and reuse what is still relevant; where they disagree with the notes in your folder, the notes in your folder win, and your report must stand on its own rather than refer the reader to the earlier one. Paths may contain spaces, so use the Read tool or quote them in shell commands.
 2. Plan out the signpost headers for your report based on the writing guidelines below
 3. Write and save the full report to the specified path
 4. Reply to the coordinator in the format below

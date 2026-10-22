@@ -94,3 +94,5 @@ Critical gaps: {one line per gap that would leave the report incomplete, or "non
 ```
 
 Mark a gap as critical only when it bears directly on a key question and more searching could plausibly close it. A gap caused by missing public data ("no registry reports this figure") is not critical: it stays in your notes for the report writer, and you leave it off this list.
+
+If you receive a follow-up message from the coordinator later, you still have everything you read in this assignment. Go straight to the missing piece, save it to the follow-up path you are given, and end with the same reply format.

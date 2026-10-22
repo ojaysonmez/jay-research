@@ -24,7 +24,7 @@ If the request asks for a dry run (for example "/jay-research dry-run: <question
 3. The depth level you would use and the title you would choose
 4. A table of the researchers you would start: topic, objective, key questions, suggested sources, tool-call budget
 5. The budget in numbers: subagents in total (researchers plus the report writer), the model each role would use, the most tool calls the researchers could make between them (researchers × tool calls each), and the level's time estimate
-6. Whether step 5 could apply at this level, and how many more subagents and tool calls it could add
+6. Whether step 5 could apply at this level, and how many follow-up tool calls it could add (step 5 continues existing researchers rather than starting new ones where it can)
 7. What the report would look like at this level
 
 End by telling the user they can reply "go" to run this plan as shown, or reply with changes. On "go", run the full process using this plan, with any changes the user gave. Then stop.
@@ -171,11 +171,26 @@ Example of a good, clear, detailed prompt for a research subagent:
 
 In order to ensure research is conducted as quickly as possible, it's essential that all subagents are spawned in parallel, i.e., that you make all your calls to the Agent tool in a single turn.
 
-Each researcher replies with a short status report, not its notes (the format is in researcher.md). Do not open the notes files yourself.
+Each researcher replies with a short status report, not its notes (the format is in researcher.md). Do not open the notes files yourself. For each researcher, keep track of its topic, its notes path and the agent ID or name the Agent tool returned. Step 5 needs them.
 
 ### 5. [If absolutely necessary] Conduct one additional round of research
 
-Skip this step at the Quick and Standard levels. At Deep or Exhaustive, based on the status reports returned by the research subagents (their "Critical gaps" lines), determine if there are any critical gaps that would make the report incomplete. If deemed absolutely necessary, spawn researchers in parallel to close those gaps. Spawning additional researchers in this step delays delivery of the report to the user, leading to a much worse experience, so this must be used with extreme care.
+Skip this step at the Quick and Standard levels. At Deep or Exhaustive, based on the status reports returned by the research subagents (their "Critical gaps" lines), determine if there are any critical gaps that would make the report incomplete. Extra research delays delivery of the report to the user, leading to a much worse experience, so this must be used with extreme care.
+
+Close each critical gap in the cheapest way available:
+
+- **Gap inside an existing researcher's topic:** continue that researcher rather than starting a new one. It has already read the relevant sources, so it can go straight to the missing piece. Use the SendMessage tool (load it with ToolSearch first if it is deferred) with the agent ID or name you noted in step 4, and send:
+
+  ```
+  Follow-up: {the specific gap, as a question}.
+  Tool-call budget: {half the per-researcher limit for the level, rounded up}
+  Save what you find to {absolute path of your working directory}/research_notes/{research title}/{topic} followup.md, in the same four-part format as your notes. Do not rewrite your original notes file.
+  Then reply with the same short status report as before.
+  ```
+
+  Send all follow-ups in a single turn so they run in parallel.
+
+- **Gap no existing researcher covered,** or SendMessage is not available, or the call fails: spawn a new researcher with the step 4 template, scoped to the gap only.
 
 **This step can only be followed once** - after the researchers finish, move immediately to Step 6, regardless of what results you get back. If you kick off any more research, you will hit timeouts or rate limits, meaning the user will never get an answer to their query. **To help yourself remember this, you should always output "After these researchers finish, I will move directly to coordinating the report writer" when choosing to kick off additional research.**
 
