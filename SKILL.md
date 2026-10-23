@@ -1,6 +1,6 @@
 ---
 name: jay-research
-description: Jay's own copy of deep-research. Use it instead of the built-in deep-research skill when the user asks for research, a report, or a literature or market scan that needs multiple sources synthesized into a report. Requires a tool for spawning subagents (Agent or Task); otherwise research the question directly.
+description: Jay's own copy of deep-research. Run it ONLY when Jay explicitly asks for it by name (for example 'use jay-research' or '/jay-research'). Never start it on your own, even for research, report or literature-scan requests. If a question looks like a good fit, suggest jay-research in one sentence and wait for Jay to decide. Requires a tool for spawning subagents (Agent or Task); otherwise research the question directly.
 ---
 
 # Coordinating Deep Research

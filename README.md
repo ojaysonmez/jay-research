@@ -31,6 +31,8 @@ Every subagent uses the main chat's model unless the request names one. Say "use
 /jay-research help
 ```
 
+The skill only runs when you invoke it by name; for other research questions it suggests itself in one sentence.
+
 If no level is named, the skill asks. If nobody answers, it uses Quick and says so at the top of the report.
 
 ### Depth levels
