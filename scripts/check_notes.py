@@ -11,7 +11,9 @@ rules in researcher.md that have an exact answer:
 1. The file has at least one key-question section ("## ...").
 2. Each key-question section has the four sub-sections: Takeaway, Cited
    Findings, Inferences and Gaps.
-3. Every top-level finding under "Cited Findings", and every top-level line
+3. Every researcher that agents.md lists has a notes file in the folder
+   (reported as "no notes saved" otherwise).
+4. Every top-level finding under "Cited Findings", and every top-level line
    under the optional "## Leads for other topics", carries a source link (a
    Markdown link to a web address). Indented sub-bullets are detail under a
    finding and are not checked.
@@ -36,6 +38,27 @@ SOURCE_LINK = re.compile(r"\[[^\]]+\]\(https?://[^)\s]+")
 # finding, and the source link belongs on the finding itself.
 BULLET = re.compile(r"^(?:[-*+]|\d+[.)])\s+(.*)$")
 MAX_LINES = 40
+
+
+NOTES_PATH = re.compile(r"research_notes[/\\][^/\\\n]+[/\\]([^/\\\n`|]*?\.md)", re.I)
+
+
+def expected_notes(folder):
+    """File names of the notes agents.md lists, so a researcher that saved
+    nothing (budget hit, crash, cut-off reply) is noticed. The first line of
+    agents.md is the run header, not a researcher. Returns [] if agents.md is
+    missing or lists no notes paths."""
+    try:
+        with open(os.path.join(folder, "agents.md"), encoding="utf-8") as f:
+            lines = f.read().splitlines()[1:]
+    except OSError:
+        return []
+    found = []
+    for line in lines:
+        for name in NOTES_PATH.findall(line):
+            if not SKIP.match(name) and name not in found:
+                found.append(name)
+    return found
 
 
 def shorten(text, limit=80):
@@ -112,11 +135,13 @@ def main():
     except OSError as error:
         print(f"cannot read folder: {error}")
         return 2
-    if not names:
+
+    report = [f"{name}: no notes saved (listed in agents.md, file not found)"
+              for name in expected_notes(folder) if name not in names]
+    if not names and not report:
         print(f"no notes files in {folder}")
         return 1
 
-    report = []
     for name in names:
         try:
             problems = check_file(os.path.join(folder, name))
