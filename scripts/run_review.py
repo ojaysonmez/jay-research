@@ -39,7 +39,8 @@ Abnormality flags (review):
                   not a skill issue; recorded for the patterns)
 
 Features screened (each run: ok, failed, or not used):
-  notes-check, report-check, doi-check   from "checks:" in the report end
+  notes-check, report-check, doi-check, records-check (structured mode only)
+                                         from "checks:" in the report end
                                          event, for example "checks: notes
                                          fixed, report OK, doi 2 not found 0
                                          remain". OK/fixed = ok; "N remain"
@@ -67,7 +68,7 @@ import sys
 
 FMT = "%Y-%m-%dT%H:%M:%SZ"
 DEPTHS = ["Quick", "Standard", "Deep", "Exhaustive"]
-FEATURES = ["notes-check", "report-check", "doi-check", "gap-sendmessage", "verify", "verify-merge"]
+FEATURES = ["notes-check", "report-check", "doi-check", "records-check", "gap-sendmessage", "verify", "verify-merge"]
 HISTORY_HEADER = (
     "# jay-research run history\n\n"
     "One line per run, written by scripts/run_review.py. May name confidential "
@@ -164,7 +165,7 @@ def analyse(events):
             if m:
                 for item in m.group(1).split(","):
                     name = item.strip().split(" ")[0].lower()
-                    feature = {"notes": "notes-check", "report": "report-check", "doi": "doi-check"}.get(name)
+                    feature = {"notes": "notes-check", "report": "report-check", "doi": "doi-check", "records": "records-check"}.get(name)
                     status = check_status(item)
                     if feature and status:
                         facts["features"][feature] = status

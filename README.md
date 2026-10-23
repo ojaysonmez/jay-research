@@ -6,7 +6,7 @@ A personal [Claude Code](https://claude.com/claude-code) skill for multi-source 
 
 1. **Clarify** – asks follow-up questions only when the answer would change the research (ambiguous terms, region, entities, or no depth level given).
 2. **Title and folders** – picks a short sentence-case title (3–6 words, under 50 characters) and creates `research_notes/{title}/` and `reports/`.
-3. **Decompose** – splits the question into independent subtopics, capped by the chosen depth level.
+3. **Decompose** – splits the question into independent subtopics, capped by the chosen depth level. For comparison scans (many companies, products, papers or trials compared on the same criteria) it also turns on **structured mode**: researchers return one record per item with a fixed set of fields, and a script merges them into one comparison table for the report. Add `table:` or `no table:` to the request to force it on or off; dry-run shows the proposed fields so you can change them first.
 4. **Research** – spawns one foreground `general-purpose` researcher per subtopic, all in parallel. Each saves notes to `research_notes/{title}/{topic}.md` and replies with a short status report only.
 5. **Gap-fill (optional)** – at Deep and Exhaustive levels only, one extra round for critical gaps. Where it can, it continues the researcher that owns the gap (via `SendMessage`) instead of starting a new one, so sources are not re-read. It never runs a second time.
 6. **Write** – a report-writer subagent synthesises the notes into `reports/{title}.md` and replies with a 3–5 sentence summary, then a script checks the report's links and identifiers, and the writer fixes any flagged lines. Scripts also check the researchers' notes before the report is written and confirm that every DOI exists in the DOI registry.
@@ -27,6 +27,7 @@ Every subagent uses the main chat's model unless the request names one. Say "use
 /jay-research dry-run: <question>
 /jay-research dry-run deep: <question>
 /jay-research deep verify: <question>
+/jay-research deep table: <question>
 /jay-research help
 ```
 
@@ -90,9 +91,11 @@ Follow-up questions after a report are routed to the cheapest path. If the repor
 | [references/report-writer.md](references/report-writer.md) | Instructions the report writer reads: structure, style, citations |
 | [references/modes.md](references/modes.md) | Help and dry-run modes, read by the coordinator only when requested |
 | [references/verify.md](references/verify.md) | The optional fact-check step, read only when `verify` is on |
+| [references/records.md](references/records.md) | Structured mode for comparison scans: choosing fields, briefing researchers, checking and merging records |
 | [references/follow-ups.md](references/follow-ups.md) | Routing for follow-up questions after a report is delivered |
 | [scripts/check_notes.py](scripts/check_notes.py) | Checks researchers' notes before the report is written (four sections per question, a source link on every finding) |
 | [scripts/check_dois.py](scripts/check_dois.py) | Looks every DOI in the report up in the DOI registry and flags any that do not exist; skipped without network |
+| [scripts/records.py](scripts/records.py) | Structured mode: records the field list, checks each researcher's records, merges them into one comparison table with duplicates and conflicts handled |
 | [scripts/run_review.py](scripts/run_review.py) | Flags abnormalities in a run against fixed thresholds, records one line per run in a private history file, and reports issues that recur across runs |
 | [scripts/run_log.py](scripts/run_log.py) | Writes the timestamped run log (`research_notes/{title}/_run.md`) and prints a per-stage time summary |
 | [scripts/merge_verification.py](scripts/merge_verification.py) | Merges the verify-mode batch reports into one verification file, replacing a subagent |

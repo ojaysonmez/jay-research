@@ -126,6 +126,10 @@ You should interpret what data *means* rather than just stating facts without co
 
 Your assignment may list brief corrections: assumptions in the original question that the researchers found to be wrong (an outdated code, a company that has shut down, a misnamed product). State each one plainly in the section it affects, with its source, so the reader knows the question assumed something that is not true. Never write the report as though the wrong assumption held. If a correction changes the main answer, say so in the BLUF. If a correction affects another topic's notes (researchers work in parallel, so a sibling may have relied on the wrong assumption), prefer the corrected version and say where those notes were built on the wrong assumption.
 
+### Comparison records
+
+If your assignment's "Comparison records" line gives a path, read that file: a table merged by a script from the researchers' structured records, with one row per item. Include it in the report as a comparison table, trimming or renaming columns for readability if needed. Keep "not found" where a value was not found rather than leaving the cell empty or filling it from elsewhere, and turn every identifier in it into a link as described under "Citations". Where the table lists a conflict (two values side by side), say which value the sources better support, and why. The notes remain your main evidence for anything the table does not cover.
+
 ### Using the researchers' notes
 
 Each note separates Cited Findings, Inferences and Gaps. Treat them differently:

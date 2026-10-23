@@ -7,7 +7,7 @@ description: Jay's own copy of deep-research. Use it instead of the built-in dee
 
 ## Your Role
 
-You are acting as the **coordinator**. Your job is to analyze the user's question, spawn subagents, and manage output files. In order to keep your context clean, you should never conduct research or write files directly. The only files you write yourself are agents.md (step 4) and the run log _run.md, which you add to only through scripts/run_log.py (see "Run log"). For the same reason, you also should not read the researcher.md or report-writer.md files. The other files in references/ (modes.md, verify.md, follow-ups.md) are for you, and you read each one only when its feature is used. In these instructions, {path_to_skill} means this skill's base directory (the folder this SKILL.md was loaded from).
+You are acting as the **coordinator**. Your job is to analyze the user's question, spawn subagents, and manage output files. In order to keep your context clean, you should never conduct research or write files directly. The only files you write yourself are agents.md (step 4) and the run log _run.md, which you add to only through scripts/run_log.py (see "Run log"), plus, in structured mode, the fields.json and _records.md files that scripts/records.py writes for you. For the same reason, you also should not read the researcher.md or report-writer.md files. The other files in references/ (modes.md, verify.md, follow-ups.md, records.md) are for you, and you read each one only when its feature is used. In these instructions, {path_to_skill} means this skill's base directory (the folder this SKILL.md was loaded from).
 
 As you work, if you have a to-do or task-list tool (for example TodoWrite, or TaskCreate and TaskUpdate), use it to keep the user informed of your plan and progress. For clarity, don't reference subagents in those items. For example, you might say "Conduct research" instead of "Spawn research subagents".
 
@@ -62,7 +62,7 @@ The script adds the time, so never write times yourself. Each call costs time an
 - `run start` right after step 2: the question (shortened), depth level, verify on or off, and the model setting
 - `research start` when you spawn the researchers in step 4
 - `research end` once research is finished, after step 5 if it runs. In its detail, put every researcher's result from its status report in this exact form, separated by semicolons: "{topic} {tool calls used} of {budget}, critical gaps: {number, or none}". If step 5 ran, end with "gap round: N continued, M spawned". For example: "Segment A 8 of 10, critical gaps: none; Segment B 10 of 10, critical gaps: 1; gap round: 1 continued, 0 spawned"
-- `report start` when you spawn the report writer, and `report end` once the report checks in step 6 are done. In its detail, give every check's result in this exact form: "saved; checks: notes {result}, report {result}, doi {result}", where a result is OK, fixed (problems found and cleared), "N remain" (still unfixed after the fix round) or skipped (the script could not run). For the DOI check, also give how many were not found, for example "doi 2 not found 0 remain". This one line is how the review knows which checks ran and how they went, so checks are not logged separately.
+- `report start` when you spawn the report writer, and `report end` once the report checks in step 6 are done. In its detail, give every check's result in this exact form: "saved; checks: notes {result}, report {result}, doi {result}" (in structured mode, add ", records {result}"), where a result is OK, fixed (problems found and cleared), "N remain" (still unfixed after the fix round) or skipped (the script could not run). For the DOI check, also give how many were not found, for example "doi 2 not found 0 remain". This one line is how the review knows which checks ran and how they went, so checks are not logged separately.
 - `verify start` and `verify end` around step 7, if it runs, with the outcome
 - `run end` just before you write the delivery summary in step 8
 
@@ -73,6 +73,14 @@ Log these only when they happen:
 - `observation`, in step 8: all suggestions in one event, separated by semicolons. Start each with its flag kind ("budget-hit: ...") or with "lesson:" for experience from researchers, and use commas, never semicolons, inside a suggestion
 
 Stages named "<name> start" and "<name> end" are timed as a pair. If the script cannot run, skip the log; it must never hold up the research. Questions about a run afterwards are covered in references/follow-ups.md.
+
+## Structured mode
+
+Some questions compare many similar items (companies, products, devices, papers, trials, people) on the same criteria. For these, researchers also return one structured record per item, and a script merges the records into one comparison table for the report writer. The notes stay as they are, so findings that do not fit a field are not lost.
+
+Decide in step 3. Turn it on when the decomposition splits the work by entities or regions and the user wants the items compared on shared criteria, such as a partner, competitor or product scan. Leave it off for open questions about how something works, what the evidence says, or what a single entity is doing. The request overrides your choice: "table:" turns it on, and "no table:" turns it off (for example "/jay-research deep table: <question>").
+
+When it is on, read {path_to_skill}/references/records.md before writing the researcher briefs, and follow it in steps 3, 4 and 6.
 
 ## Process
 
@@ -125,6 +133,8 @@ In order to effectively spawn and task subagents, determine if and how the user'
 | 5 | Multiple independent entities, regions, or domains | "AI regulation landscape" → (1) US federal, (2) EU/GDPR-AI Act, (3) China, (4) UK, (5) industry self-regulation |
 | 6+ | Large enumerable set requiring systematic coverage | "Electric vehicle adoption rates by US state" → researchers assigned to regional clusters |
 
+Also decide here whether structured mode applies (see "Structured mode"); if it does, choose the fields as references/records.md describes.
+
 In the next step, you should spawn one subagent for each subtopic and independent point of view that you identified. The depth level caps the count: if the decomposition calls for more researchers than the level allows, merge subtopics rather than exceed it. If in step 2 you noted earlier research to build on, decompose only what this request adds or needs re-checked; the report writer will have the earlier material.
 
 ### 4. Spawn foreground research subagents (in parallel)
@@ -159,6 +169,8 @@ Tool-call budget: {the per-researcher limit for the chosen depth level}
 Connected databases to search first: {the connected databases available, or "none"}
 
 Scientific evidence topic: {yes or no}
+
+Structured records: {"none", or the field list from references/records.md and the path {absolute path of your working directory}/research_notes/{research title}/{topic}.records.json}
 
 Save your output notes to {absolute path of your working directory}/research_notes/{research title}/{topic}.md
 
@@ -195,6 +207,8 @@ Example of a good, clear, detailed prompt for a research subagent:
 > Connected databases to search first: none
 >
 > Scientific evidence topic: no
+>
+> Structured records: none
 >
 > Save your output notes to {absolute path of your working directory}/research_notes/Semiconductor supply chain outlook 2026/semiconductor_supply_chain.md
 >
@@ -239,6 +253,8 @@ It prints "OK" or a short list of problems, each starting with the notes file it
 - **Problems:** send each affected researcher (agent ID from agents.md) only its own lines with SendMessage, all in one turn: "Your notes file has these formatting problems: {lines}. Fix them in place in your original notes file: add any missing sections, and for each finding without a source, add its source link if you can find it in one or two tool calls, otherwise move it to Gaps. Change nothing else, then reply with the same short status report as before." This is the one case where a researcher edits its original notes file. Then run the check once more and continue whatever it says; never loop beyond that.
 - **The script cannot run** (no Python, exit code 2, or any error), or SendMessage is unavailable: continue without mentioning it.
 
+If structured mode is on, check and merge the records next, as references/records.md describes.
+
 Then spawn a single report writer subagent. Use the Agent tool (named Task in some versions) with subagent_type="general-purpose" and run_in_background=false, set `model` only as described in "Models per role", and fill in the placeholders as in step 4. For {the user's original question}, state the question this report must answer in full — if this request returns to or extends earlier research, that is the earlier question as amended by this request (for example "How does the EU AI Act affect startups, including penalties?"), not just the follow-up message. On the line for earlier research, give the absolute paths of the earlier report and notes folder you noted in step 2, or write "none" if you noted nothing to build on or the user asked for an independent redo. Follow the exact format provided below:
 
 ```
@@ -251,6 +267,8 @@ Agent(
 Earlier research in this conversation to build on: {absolute paths of the earlier report and notes folder from step 2, or "none"}
 
 Brief corrections reported by researchers: {the "Brief corrections" lines from the researchers' status reports, merged where they repeat each other, or "none"}
+
+Comparison records: {the absolute path of _records.md if structured mode ran and the merge succeeded, or "none"}
 
 Research depth: {the level, for example "1 Quick"; add "(default, no level was chosen)" if you fell back to Quick}
 

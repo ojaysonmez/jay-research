@@ -91,6 +91,26 @@ What a source must carry depends on its type:
 
 Focus on specific, citable facts that answer your key questions. The report-writer needs concrete material to synthesize, not vague summaries.
 
+## Structured records
+
+If your assignment's "Structured records" line gives a field list and a path, write a records file there in addition to your notes. The records do not replace your notes: everything you found still goes in the notes, including findings that fit no field.
+
+The file is a JSON array with one object per item in your topic (one company, product, paper, trial or person):
+
+```json
+[
+  {"company": "Example Inc", "FDA status": "cleared", "clearance number": "K123456", "funding USD": null, "sources": ["https://example.com/page"]}
+]
+```
+
+- Use exactly the fields you were given, every one of them, in every record.
+- Write null when you searched and found nothing. Never guess a value to fill a field.
+- Write numbers as numbers when the field holds a number, and identifiers (DOI, FDA number, NCT number) as plain text.
+- "sources" lists the links that support that record's values.
+- Include only items in your own topic. An item that belongs to a sibling's topic goes under "Leads for other topics" in your notes.
+
+If the line says "none", do not write a records file.
+
 ## Your final reply to the coordinator
 
 The coordinator never reads your notes file. It only reads your final reply, and it uses that reply to decide whether a follow-up round is needed. Anything extra you put in the reply fills the coordinator's context and slows the whole research down. So after saving your notes, end with exactly this, and nothing else (no findings, no citations, no restating of the notes):
@@ -104,6 +124,7 @@ Sources cited: {number}
 Tool calls used: {number} of {your tool-call budget}
 Source tips: {one line about a source that worked unusually well, or a site that blocked access and what you used instead, or "none"}
 Critical gaps: {one line per gap that would leave the report incomplete, or "none"}
+Records written: {number of items, or "none"}
 Brief corrections: {one line per assumption in your assignment that proved wrong: what it said, what is correct, and the source, or "none"}
 ```
 

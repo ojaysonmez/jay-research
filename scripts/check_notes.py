@@ -4,9 +4,9 @@
 Usage: python3 check_notes.py <notes folder>
 
 For every notes file in the folder (the researchers' {topic}.md and
-{topic} followup.md files; agents.md and the claims / verification batch
-files are skipped), checks the rules in researcher.md that have an exact
-answer:
+{topic} followup.md files; agents.md, files starting with "_" such as the
+run log, and the claims / verification batch files are skipped), checks the
+rules in researcher.md that have an exact answer:
 
 1. The file has at least one key-question section ("## ...").
 2. Each key-question section has the four sub-sections: Takeaway, Cited
@@ -28,7 +28,9 @@ import sys
 
 REQUIRED = ["Takeaway", "Cited Findings", "Inferences", "Gaps"]
 LEADS = "leads for other topics"
-SKIP = re.compile(r"^(agents\.md|claims batch \d+\.md|verification batch \d+\.md)$", re.I)
+# agents.md, the run log (_run.md), the merged records table (_records.md) and
+# the verify-mode batch files are not researcher notes.
+SKIP = re.compile(r"^(_.*|agents|claims batch \d+|verification batch \d+)\.md$", re.I)
 SOURCE_LINK = re.compile(r"\[[^\]]+\]\(https?://[^)\s]+")
 # Only top-level bullets are findings. Indented sub-bullets are detail under a
 # finding, and the source link belongs on the finding itself.
