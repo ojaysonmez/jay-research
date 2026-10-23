@@ -126,7 +126,10 @@ Source tips: {one line about a source that worked unusually well, or a site that
 Critical gaps: {one line per gap that would leave the report incomplete, or "none"}
 Records written: {number of items, or "none"}
 Brief corrections: {one line per assumption in your assignment that proved wrong: what it said, what is correct, and the source, or "none"}
+Open questions: {one line per ambiguity in your assignment that you could not settle yourself and that would change your findings: the question, the reading you took, and the other reading, or "none"}
 ```
+
+You cannot ask the coordinator anything while you work. When your assignment is ambiguous in a way that matters, do not stop and do not guess silently: take the most plausible reading, cover the other reading too if it costs no more than one or two tool calls, say which is which in your notes, and list it under "Open questions". If the coordinator later sends you an answer, update only the findings it affects, in your existing notes file, and end with the same reply format.
 
 Mark a gap as critical only when it bears directly on a key question and more searching could plausibly close it. A gap caused by missing public data ("no registry reports this figure") is not critical: it stays in your notes for the report writer, and you leave it off this list.
 
