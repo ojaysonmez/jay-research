@@ -2,7 +2,7 @@
 
 Changes to the jay-research skill that test runs suggested. Nothing here has been applied. Pick items up when there is time, and change **Status** to `done` (with the commit) or `rejected` (with the reason).
 
-Source runs: **R1** = "CGM MARD accuracy comparison" (Quick, 2026-10-24), **R2** = "CGM device comparison table" (Quick, structured mode, 2026-10-24), **R3** = "CGM device comparison table 2" (Quick, structured mode, verify on, independent redo, 2026-10-24). The raw text is in each run's `_run.md` (gitignored, lost when the container ends), so this file is the lasting record.
+Source runs: **R1** = "CGM MARD accuracy comparison" (Quick, 2026-10-24), **R2** = "CGM device comparison table" (Quick, structured mode, 2026-10-24), **R3** = "CGM device comparison table 2" (Quick, structured mode, verify on, independent redo, 2026-10-24), **R4** = "Libre 3 labeled MARD follow-up" (follow-up route 2, 2026-10-24). The raw text is in each run's `_run.md` (gitignored, lost when the container ends), so this file is the lasting record.
 
 Not a skill change: in the cloud container the run history is written to `research_notes/history.md` because `~/.jay-research/` does not exist there. The default location only persists on the user's own computer.
 
@@ -21,3 +21,4 @@ The coordinator appends new rows to the end of this table at the end of each run
 | 9 | open | `scripts/run_review.py` | Accept depth written as a level number (for example "level 1") when reading `run start`, so the history shows the depth instead of `?`. | In my script test the depth showed `?`. A real run wrote "Quick", so this is low priority. | script test |
 | 10 | open | `references/records.md` (section 1) | Tell the coordinator to settle choices like original versus latest FDA clearance number in the field name (for example "FDA clearance number latest"), so researchers do not guess. | Run R2 used the latest listing (G7 K261402) and R3 the original (G7 K213919). Both are defensible, so the two reports disagree. | R3 |
 | 11 | open | `references/verify.md` | Note that direct accessdata.fda.gov PDF links are blocked from the shell, so verifiers should read them with the fetch tool. | A verifier had to work around blocked FDA PDF links. | R3 |
+| 12 | open | `references/researcher.md` (Sources) | Note that freestyleserver.com IFU PDFs do not give their tables as text, so try the manufacturer's formulary or payer kit, which reproduces the User's Manual tables. | A follow-up researcher could not extract the Libre 3 accuracy table from the IFU and found it in Abbott's payer formulary kit instead. | R4 |
