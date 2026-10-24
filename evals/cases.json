@@ -1,89 +1,468 @@
 {
-  "about": "Questions with known answers. Run each with its options, then score the merged records with score.py. status 'draft' means the expected values come from two agreeing runs, not from an independent source: confirm them against the FDA label before trusting a score.",
-  "cases": [
+ "about": "Questions with known answers. status 'claude-confirmed' means the expected values were read from the registry named in 'confirmed_from' by someone other than the research pipeline (but by Claude, so spot-check a few before relying on a score). status 'draft' means the values come from agreeing runs only. 'as_of' marks answers that can change over time.",
+ "cases": [
+  {
+   "id": "cgm-4-devices",
+   "status": "draft",
+   "options": "quick table:",
+   "question": "Compare the FDA-cleared continuous glucose monitors Dexcom G7, FreeStyle Libre 3, Medtronic Simplera and Senseonics Eversense 365 on shared criteria: manufacturer, FDA clearance number, cleared age range, sensor wear duration, reported MARD, and warm-up time.",
+   "fields": [
+    "device",
+    "manufacturer",
+    "FDA clearance number",
+    "cleared age range",
+    "sensor wear days",
+    "reported MARD percent",
+    "warm-up minutes"
+   ],
+   "expected": [
     {
-      "id": "cgm-4-devices",
-      "status": "draft",
-      "options": "quick table:",
-      "question": "Compare the FDA-cleared continuous glucose monitors Dexcom G7, FreeStyle Libre 3, Medtronic Simplera and Senseonics Eversense 365 on shared criteria: manufacturer, FDA clearance number, cleared age range, sensor wear duration, reported MARD, and warm-up time.",
-      "fields": [
-        "device",
-        "manufacturer",
-        "FDA clearance number",
-        "cleared age range",
-        "sensor wear days",
-        "reported MARD percent",
-        "warm-up minutes"
-      ],
-      "expected": [
-        {
-          "item": "G7",
-          "field": "cleared age range",
-          "contains": "2"
-        },
-        {
-          "item": "G7",
-          "field": "sensor wear days",
-          "number": 10
-        },
-        {
-          "item": "Libre 3",
-          "field": "cleared age range",
-          "contains": "4"
-        },
-        {
-          "item": "Libre 3",
-          "field": "sensor wear days",
-          "number": 14
-        },
-        {
-          "item": "Libre 3",
-          "field": "warm-up minutes",
-          "number": 60
-        },
-        {
-          "item": "Simplera",
-          "field": "FDA clearance number",
-          "contains": "P250012"
-        },
-        {
-          "item": "Simplera",
-          "field": "sensor wear days",
-          "number": 6
-        },
-        {
-          "item": "Simplera",
-          "field": "reported MARD percent",
-          "number": 10.2,
-          "tolerance": 0.3
-        },
-        {
-          "item": "Eversense",
-          "field": "FDA clearance number",
-          "contains": "K241335"
-        },
-        {
-          "item": "Eversense",
-          "field": "cleared age range",
-          "contains": "18"
-        },
-        {
-          "item": "Eversense",
-          "field": "sensor wear days",
-          "number": 365
-        },
-        {
-          "item": "Eversense",
-          "field": "reported MARD percent",
-          "number": 8.8,
-          "tolerance": 0.3
-        },
-        {
-          "item": "Eversense",
-          "field": "warm-up minutes",
-          "number": 1440
-        }
-      ]
+     "item": "G7",
+     "field": "cleared age range",
+     "contains": "2"
+    },
+    {
+     "item": "G7",
+     "field": "sensor wear days",
+     "number": 10
+    },
+    {
+     "item": "Libre 3",
+     "field": "cleared age range",
+     "contains": "4"
+    },
+    {
+     "item": "Libre 3",
+     "field": "sensor wear days",
+     "number": 14
+    },
+    {
+     "item": "Libre 3",
+     "field": "warm-up minutes",
+     "number": 60
+    },
+    {
+     "item": "Simplera",
+     "field": "FDA clearance number",
+     "contains": "P250012"
+    },
+    {
+     "item": "Simplera",
+     "field": "sensor wear days",
+     "number": 6
+    },
+    {
+     "item": "Simplera",
+     "field": "reported MARD percent",
+     "number": 10.2,
+     "tolerance": 0.3
+    },
+    {
+     "item": "Eversense",
+     "field": "FDA clearance number",
+     "contains": "K241335"
+    },
+    {
+     "item": "Eversense",
+     "field": "cleared age range",
+     "contains": "18"
+    },
+    {
+     "item": "Eversense",
+     "field": "sensor wear days",
+     "number": 365
+    },
+    {
+     "item": "Eversense",
+     "field": "reported MARD percent",
+     "number": 8.8,
+     "tolerance": 0.3
+    },
+    {
+     "item": "Eversense",
+     "field": "warm-up minutes",
+     "number": 1440
     }
-  ]
+   ]
+  },
+  {
+   "id": "icd10-t2d-complications",
+   "status": "claude-confirmed",
+   "as_of": "2026-10-24 (FY2027 code set)",
+   "confirmed_from": "ICD-10 lookup tool, FY2027 code set",
+   "options": "quick table:",
+   "question": "For type 2 diabetes mellitus, give the ICD-10-CM code and whether it is billable (answer yes or no) for each of these: with diabetic nephropathy, with diabetic chronic kidney disease, with foot ulcer, with hypoglycemia without coma, and with hyperglycemia.",
+   "fields": [
+    "condition",
+    "ICD-10-CM code",
+    "billable"
+   ],
+   "expected": [
+    {
+     "item": "nephropathy",
+     "field": "ICD-10-CM code",
+     "contains": "E11.21"
+    },
+    {
+     "item": "chronic kidney",
+     "field": "ICD-10-CM code",
+     "contains": "E11.22"
+    },
+    {
+     "item": "foot ulcer",
+     "field": "ICD-10-CM code",
+     "contains": "E11.621"
+    },
+    {
+     "item": "without coma",
+     "field": "ICD-10-CM code",
+     "contains": "E11.649"
+    },
+    {
+     "item": "hyperglycemia",
+     "field": "ICD-10-CM code",
+     "contains": "E11.65"
+    },
+    {
+     "item": "nephropathy",
+     "field": "billable",
+     "contains": "yes"
+    },
+    {
+     "item": "chronic kidney",
+     "field": "billable",
+     "contains": "yes"
+    },
+    {
+     "item": "foot ulcer",
+     "field": "billable",
+     "contains": "yes"
+    },
+    {
+     "item": "without coma",
+     "field": "billable",
+     "contains": "yes"
+    },
+    {
+     "item": "hyperglycemia",
+     "field": "billable",
+     "contains": "yes"
+    }
+   ]
+  },
+  {
+   "id": "glp1-trials-registry",
+   "status": "claude-confirmed",
+   "as_of": "2026-10-24",
+   "confirmed_from": "ClinicalTrials.gov via the Clinical_Trials tool (get_trial_details)",
+   "options": "quick table:",
+   "question": "For the trials SURPASS-2, SURMOUNT-1, SUSTAIN-6, SELECT and FLOW, give the NCT number, the sponsor, the phase, the actual enrollment, and the overall status on ClinicalTrials.gov.",
+   "fields": [
+    "trial",
+    "NCT number",
+    "sponsor",
+    "phase",
+    "enrollment n",
+    "status"
+   ],
+   "expected": [
+    {
+     "item": "SURPASS-2",
+     "field": "NCT number",
+     "contains": "NCT03987919"
+    },
+    {
+     "item": "SURPASS-2",
+     "field": "sponsor",
+     "contains": "Lilly"
+    },
+    {
+     "item": "SURPASS-2",
+     "field": "enrollment n",
+     "number": 1879
+    },
+    {
+     "item": "SURMOUNT-1",
+     "field": "NCT number",
+     "contains": "NCT04184622"
+    },
+    {
+     "item": "SURMOUNT-1",
+     "field": "sponsor",
+     "contains": "Lilly"
+    },
+    {
+     "item": "SURMOUNT-1",
+     "field": "enrollment n",
+     "number": 2539
+    },
+    {
+     "item": "SUSTAIN",
+     "field": "NCT number",
+     "contains": "NCT01720446"
+    },
+    {
+     "item": "SUSTAIN",
+     "field": "sponsor",
+     "contains": "Novo"
+    },
+    {
+     "item": "SUSTAIN",
+     "field": "enrollment n",
+     "number": 3297
+    },
+    {
+     "item": "SELECT",
+     "field": "NCT number",
+     "contains": "NCT03574597"
+    },
+    {
+     "item": "SELECT",
+     "field": "sponsor",
+     "contains": "Novo"
+    },
+    {
+     "item": "SELECT",
+     "field": "enrollment n",
+     "number": 17604
+    },
+    {
+     "item": "FLOW",
+     "field": "NCT number",
+     "contains": "NCT03819153"
+    },
+    {
+     "item": "FLOW",
+     "field": "sponsor",
+     "contains": "Novo"
+    },
+    {
+     "item": "FLOW",
+     "field": "enrollment n",
+     "number": 3533
+    },
+    {
+     "item": "SURPASS-2",
+     "field": "phase",
+     "contains": "3"
+    },
+    {
+     "item": "SURMOUNT-1",
+     "field": "phase",
+     "contains": "3"
+    },
+    {
+     "item": "SUSTAIN",
+     "field": "phase",
+     "contains": "3"
+    },
+    {
+     "item": "SELECT",
+     "field": "phase",
+     "contains": "3"
+    },
+    {
+     "item": "FLOW",
+     "field": "phase",
+     "contains": "3"
+    },
+    {
+     "item": "SURPASS-2",
+     "field": "status",
+     "contains": "complete"
+    },
+    {
+     "item": "SURMOUNT-1",
+     "field": "status",
+     "contains": "complete"
+    },
+    {
+     "item": "SUSTAIN",
+     "field": "status",
+     "contains": "complete"
+    },
+    {
+     "item": "SELECT",
+     "field": "status",
+     "contains": "complete"
+    },
+    {
+     "item": "FLOW",
+     "field": "status",
+     "contains": "complete"
+    }
+   ]
+  },
+  {
+   "id": "cms-glucose-monitor-lcds",
+   "status": "claude-confirmed",
+   "as_of": "2026-10-24",
+   "confirmed_from": "CMS Medicare Coverage Database via the CMS_Coverage tool (search_local_coverage, keyword 'glucose monitor')",
+   "options": "quick table:",
+   "question": "List the Medicare local coverage determinations (LCDs) titled 'Glucose Monitors' or 'Implantable Continuous Glucose Monitors (I-CGM)' that are in effect today (24 Oct 2026). For each give the LCD ID, the title and the contractor that administers it.",
+   "fields": [
+    "LCD ID",
+    "title",
+    "contractor"
+   ],
+   "expected": [
+    {
+     "item": "L33822",
+     "field": "title",
+     "contains": "Glucose Monitors"
+    },
+    {
+     "item": "L33822",
+     "field": "contractor",
+     "contains": "Noridian"
+    },
+    {
+     "item": "L38662",
+     "field": "title",
+     "contains": "Implantable"
+    },
+    {
+     "item": "L38662",
+     "field": "contractor",
+     "contains": "CGS"
+    },
+    {
+     "item": "L38623",
+     "field": "title",
+     "contains": "Implantable"
+    },
+    {
+     "item": "L38623",
+     "field": "contractor",
+     "contains": "Wellpoint"
+    },
+    {
+     "item": "L38686",
+     "field": "title",
+     "contains": "Implantable"
+    },
+    {
+     "item": "L38686",
+     "field": "contractor",
+     "contains": "WPS"
+    },
+    {
+     "item": "L38657",
+     "field": "title",
+     "contains": "Implantable"
+    },
+    {
+     "item": "L38657",
+     "field": "contractor",
+     "contains": "Noridian"
+    },
+    {
+     "item": "L38743",
+     "field": "title",
+     "contains": "Implantable"
+    },
+    {
+     "item": "L38743",
+     "field": "contractor",
+     "contains": "Palmetto"
+    },
+    {
+     "item": "L38664",
+     "field": "title",
+     "contains": "Implantable"
+    },
+    {
+     "item": "L38664",
+     "field": "contractor",
+     "contains": "First Coast"
+    },
+    {
+     "item": "L38617",
+     "field": "title",
+     "contains": "Implantable"
+    },
+    {
+     "item": "L38617",
+     "field": "contractor",
+     "contains": "Novitas"
+    }
+   ]
+  },
+  {
+   "id": "fda-nda-glp1",
+   "status": "claude-confirmed",
+   "as_of": "2026-10-24",
+   "confirmed_from": "Drugs@FDA approval letters and reviews on accessdata.fda.gov (Ozempic 209637, Wegovy injection 215256, Rybelsus 213051) and FDALabel (Mounjaro 215866)",
+   "options": "quick table:",
+   "question": "For Mounjaro, Ozempic, Rybelsus and Wegovy injection (not the Wegovy tablets), give the FDA new drug application (NDA) number, the applicant, and the active ingredient.",
+   "fields": [
+    "product",
+    "NDA number",
+    "applicant",
+    "active ingredient"
+   ],
+   "expected": [
+    {
+     "item": "Mounjaro",
+     "field": "NDA number",
+     "contains": "215866"
+    },
+    {
+     "item": "Mounjaro",
+     "field": "applicant",
+     "contains": "Lilly"
+    },
+    {
+     "item": "Mounjaro",
+     "field": "active ingredient",
+     "contains": "tirzepatide"
+    },
+    {
+     "item": "Ozempic",
+     "field": "NDA number",
+     "contains": "209637"
+    },
+    {
+     "item": "Ozempic",
+     "field": "applicant",
+     "contains": "Novo"
+    },
+    {
+     "item": "Ozempic",
+     "field": "active ingredient",
+     "contains": "semaglutide"
+    },
+    {
+     "item": "Rybelsus",
+     "field": "NDA number",
+     "contains": "213051"
+    },
+    {
+     "item": "Rybelsus",
+     "field": "applicant",
+     "contains": "Novo"
+    },
+    {
+     "item": "Rybelsus",
+     "field": "active ingredient",
+     "contains": "semaglutide"
+    },
+    {
+     "item": "Wegovy",
+     "field": "NDA number",
+     "contains": "215256"
+    },
+    {
+     "item": "Wegovy",
+     "field": "applicant",
+     "contains": "Novo"
+    },
+    {
+     "item": "Wegovy",
+     "field": "active ingredient",
+     "contains": "semaglutide"
+    }
+   ]
+  }
+ ]
 }

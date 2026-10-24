@@ -51,7 +51,7 @@ def check(expect, record):
         return "MISSING", "value is null or the field is absent"
     if "number" in expect:
         try:
-            number = float(re.search(r"-?\d+(?:\.\d+)?", str(value)).group())
+            number = float(re.search(r"-?\d+(?:\.\d+)?", str(value).replace(",", "")).group())
         except (AttributeError, ValueError):
             return "WRONG", f"got {value!r}, not a number"
         tolerance = expect.get("tolerance", 0)
@@ -85,8 +85,10 @@ def score_records(case_id, target):
         print(f"{status:7} {expect['item']} / {expect['field']}: {detail}")
     total = len(case["expected"])
     print(f"score: {counts['PASS']}/{total} pass, {counts['WRONG']} wrong, {counts['MISSING']} missing")
-    if case["status"] != "confirmed":
+    if case["status"] == "draft":
         print("note: this case is a draft, so the expected values are not independently confirmed")
+    elif case["status"] == "claude-confirmed":
+        print("note: expected values were confirmed by Claude from a registry, so spot-check a few before relying on the score")
     return 0 if counts["PASS"] == total else 1
 
 
