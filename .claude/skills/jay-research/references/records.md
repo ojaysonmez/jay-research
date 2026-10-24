@@ -10,7 +10,7 @@ Choose one key field and up to 8 other fields, the same for every researcher.
 
 - **Key field:** the item's name, for example "company", "device" or "trial".
 - **Other fields:** the facts the user needs to compare the items. Prefer facts that can be checked against a source (status, identifiers, dates, amounts, yes/no answers) over opinions. Put the unit in the field name ("funding USD", "enrolment n"). Allow at most one judgement field, such as a fit score, and state its scale and rule in its name ("fit 1-5").
-- **Identifiers** (DOI, FDA number, NCT number) go in their own fields as plain text. The report writer turns them into links.
+- **Identifiers** (DOI, FDA number, NCT number) go in their own fields as plain text. The report writer turns them into links. When an item can have several valid values for a field, such as the original or the latest FDA clearance number, or a base product and its newer variant, settle the choice in the field name (for example "FDA clearance number latest") and in the brief, so researchers do not guess and two runs do not disagree.
 - **"sources"** is always added: every record lists the links that support it.
 
 Then record the fields with:

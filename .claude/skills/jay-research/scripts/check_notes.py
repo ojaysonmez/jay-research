@@ -66,6 +66,22 @@ def shorten(text, limit=80):
     return text if len(text) <= limit else text[: limit - 1] + "…"
 
 
+def sourced(lines, i):
+    """True if the top-level bullet at lines[i] carries a source link, either
+    on its own line or, for a header-style bullet ending in a colon, on one of
+    the indented sub-bullets that follow it."""
+    if SOURCE_LINK.search(lines[i]):
+        return True
+    if not lines[i].rstrip().endswith(":"):
+        return False
+    for line in lines[i + 1:]:
+        if line[:1] not in (" ", "\t"):
+            break
+        if SOURCE_LINK.search(line):
+            return True
+    return False
+
+
 def check_file(path):
     """Return a list of problem strings for one notes file."""
     with open(path, encoding="utf-8") as f:
@@ -112,14 +128,16 @@ def check_file(path):
         missing = [r for r in REQUIRED if r not in subs]
         if missing:
             problems.append(f"'{shorten(title, 60)}' is missing: {', '.join(missing)}")
-        for line in subs.get("Cited Findings", []):
+        findings = subs.get("Cited Findings", [])
+        for i, line in enumerate(findings):
             m = BULLET.match(line)
-            if m and not SOURCE_LINK.search(line):
+            if m and not sourced(findings, i):
                 problems.append(f"'{shorten(title, 40)}' finding without a source link: {shorten(m.group(1))}")
 
-    for line in leads or []:
+    leads = leads or []
+    for i, line in enumerate(leads):
         m = BULLET.match(line)
-        if m and not SOURCE_LINK.search(line):
+        if m and not sourced(leads, i):
             problems.append(f"lead without a source link: {shorten(m.group(1))}")
 
     return problems

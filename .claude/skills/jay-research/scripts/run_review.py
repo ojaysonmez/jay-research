@@ -138,6 +138,9 @@ def analyse(events):
     for when, stage, detail in events:
         if stage == "run start":
             depth = next((d for d in DEPTHS if d.lower() in detail.lower()), None)
+            if depth is None:
+                level = re.search(r"\b(?:level|l)\s*([1-4])\b", detail, re.I)
+                depth = DEPTHS[int(level.group(1)) - 1] if level else None
             facts["depth"] = depth or "?"
         if stage == "research end":
             # One segment per researcher: "{topic} {used} of {budget}, critical gaps: {n|none}".

@@ -42,4 +42,6 @@ Then reply with exactly: the outcome (PASS, PARTIAL or FAIL), the tier counts, a
 
 On success (exit code 0) it prints one line with the overall outcome and the tier counts; use that line in step 8 and do not open the file. If it exits with code 2 or 4, or cannot run at all, fall back to a subagent: spawn one subagent to merge the batch reports into {absolute path of your working directory}/reports/{research title} verification.md, using verify-claims section "4. Report": overall outcome and tier counts first, then each HIGH-WARN claim with its evidence and the correct value from the source, then the claims that could not be verified and why. It must not edit the report itself. It replies with the overall outcome, the tier counts and the number of HIGH-WARN claims, and nothing else.
 
+Verifiers may find that direct accessdata.fda.gov PDF links are blocked from the shell; they should read those with the fetch tool instead.
+
 Do not correct the report automatically. The user decides which corrections to apply.

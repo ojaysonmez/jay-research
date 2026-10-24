@@ -25,7 +25,7 @@ When it is on, step 7 fact-checks the finished report with the user's verify-cla
 
 | Level | Researchers | Tool calls per researcher | Extra research round | Report |
 |---|---|---|---|---|
-| 1 Quick (default, ~5-10 min) | 1-2 | up to 6 | never | 1-2 pages, key findings only |
+| 1 Quick (default, ~5-10 min) | 1-2 | up to 8 | never | 1-2 pages, key findings only |
 | 2 Standard (~10-20 min) | 3 | up to 10 | never | 3-4 focused sections |
 | 3 Deep (~20-35 min) | 4-5 | up to 15 | only for a critical gap | full report |
 | 4 Exhaustive (40+ min) | 6 or more | up to 20 | allowed | full report + complete reference list |
@@ -61,7 +61,7 @@ The script adds the time, so never write times yourself. Each call costs time an
 
 - `run start` right after step 2: the question (shortened), depth level, verify on or off, and the model setting
 - `research start` when you spawn the researchers in step 4
-- `research end` once research is finished, after step 5 if it runs. In its detail, put every researcher's result from its status report in this exact form, separated by semicolons: "{topic} {tool calls used} of {budget}, critical gaps: {number, or none}". If step 5 ran, end with "gap round: N continued, M spawned". For example: "Segment A 8 of 10, critical gaps: none; Segment B 10 of 10, critical gaps: 1; gap round: 1 continued, 0 spawned"
+- `research end` once research is finished, after step 5 if it runs. In its detail, put every researcher's result from its status report in this exact form, separated by semicolons: "{topic} {tool calls used} of {budget}, critical gaps: {number, or none}". Use each researcher's count from its first status report; calls it spent on a follow-up or answer round are not added to it. If step 5 ran, end with "gap round: N continued, M spawned". For example: "Segment A 8 of 10, critical gaps: none; Segment B 10 of 10, critical gaps: 1; gap round: 1 continued, 0 spawned"
 - `report start` when you spawn the report writer, and `report end` once the report checks in step 6 are done. In its detail, give every check's result in this exact form: "saved; checks: notes {result}, report {result}, doi {result}" (in structured mode, add ", records {result}"), where a result is OK, fixed (problems found and cleared), "N remain" (still unfixed after the fix round) or skipped (the script could not run). For the DOI check, also give how many were not found, for example "doi 2 not found 0 remain". This one line is how the review knows which checks ran and how they went, so checks are not logged separately.
 - `verify start` and `verify end` around step 7, if it runs, with the outcome
 - `run end` just before you write the delivery summary in step 8

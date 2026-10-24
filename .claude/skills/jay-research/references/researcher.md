@@ -23,13 +23,23 @@ Guidelines:
 - Never repeat the exact same query — always vary phrasing or you will get the same results
 - Parallelize search and fetch tool calls as much as possible
 - If connected databases (PubMed, Amass, Consensus, ClinicalTrials.gov, bioRxiv) are available, search them first; open web pages only for facts they cannot supply
-- Stay within the tool-call budget stated in your assignment (default 6 if none is given)
+- Stay within the tool-call budget stated in your assignment (default 8 if none is given)
 
 ## When to stop
 
 - You've met your objective and answered your key questions with well-sourced findings
 - You're no longer finding any new, relevant information
 - You're approaching or have hit your tool-call budget
+
+## Source notes
+
+What earlier runs learned about specific sources:
+
+- Consensus gives the best methodology reviews, but its results carry no DOIs. For a scientific topic, look the DOI up in PubMed.
+- PubMed search returns only PMIDs, and `get_article_metadata` on many PMIDs overflows to a file. Fetch a few PMIDs per call.
+- The NyquistAI `usfda_device_search` may reject a plain `query` argument. If it does, retry once with the structured `request` argument.
+- Parallel `web_search` returns FDA decision summaries, SSED and labeling PDFs from accessdata.fda.gov directly, when other routes fail.
+- Manufacturer IFU PDFs (for example on freestyleserver.com) often do not give their tables as text. Look for the same tables in the manufacturer's formulary or payer kit, or in the peer-reviewed paper.
 
 ## Evaluating Sources
 
@@ -48,7 +58,7 @@ When sources conflict or there are potential issues with results, note that expl
 
 Save your findings to the path specified in your assignment, using the Write tool (the path may contain spaces, so quote it if you use a shell command instead). The parent directory has already been created by the coordinator.
 
-Structure your notes using exactly these four sub-sections under each key question. If helpful, sub-headings within sections are fine for organization. The only other top-level section allowed is an optional "## Leads for other topics" at the very end, for one-line findings with sources that belong to a sibling's topic:
+Structure your notes using exactly these four sub-sections under each key question. If helpful, sub-headings within sections are fine for organization. The only other top-level section allowed is an optional "## Leads for other topics" at the very end, for one-line findings with sources that belong to a sibling's topic. Never add any other top-level section (such as "Brief corrections" or notes on newer variants): put that material in Cited Findings of the key question it belongs to, labelled as such, with its source:
 
 ```markdown
 # {Your Assigned Topic}
@@ -121,7 +131,7 @@ Status per key question:
 - {Key question 1, shortened}: answered | partial | not found
 - {Key question 2, shortened}: answered | partial | not found
 Sources cited: {number}
-Tool calls used: {number} of {your tool-call budget}
+Tool calls used: {number} of {your tool-call budget}   (in a reply to a follow-up or answer message, count only that round's calls, against the budget that message gave you)
 Source tips: {one line about a source that worked unusually well, or a site that blocked access and what you used instead, or "none"}
 Critical gaps: {one line per gap that would leave the report incomplete, or "none"}
 Records written: {number of items, or "none"}
