@@ -1,0 +1,89 @@
+{
+  "about": "Questions with known answers. Run each with its options, then score the merged records with score.py. status 'draft' means the expected values come from two agreeing runs, not from an independent source: confirm them against the FDA label before trusting a score.",
+  "cases": [
+    {
+      "id": "cgm-4-devices",
+      "status": "draft",
+      "options": "quick table:",
+      "question": "Compare the FDA-cleared continuous glucose monitors Dexcom G7, FreeStyle Libre 3, Medtronic Simplera and Senseonics Eversense 365 on shared criteria: manufacturer, FDA clearance number, cleared age range, sensor wear duration, reported MARD, and warm-up time.",
+      "fields": [
+        "device",
+        "manufacturer",
+        "FDA clearance number",
+        "cleared age range",
+        "sensor wear days",
+        "reported MARD percent",
+        "warm-up minutes"
+      ],
+      "expected": [
+        {
+          "item": "G7",
+          "field": "cleared age range",
+          "contains": "2"
+        },
+        {
+          "item": "G7",
+          "field": "sensor wear days",
+          "number": 10
+        },
+        {
+          "item": "Libre 3",
+          "field": "cleared age range",
+          "contains": "4"
+        },
+        {
+          "item": "Libre 3",
+          "field": "sensor wear days",
+          "number": 14
+        },
+        {
+          "item": "Libre 3",
+          "field": "warm-up minutes",
+          "number": 60
+        },
+        {
+          "item": "Simplera",
+          "field": "FDA clearance number",
+          "contains": "P250012"
+        },
+        {
+          "item": "Simplera",
+          "field": "sensor wear days",
+          "number": 6
+        },
+        {
+          "item": "Simplera",
+          "field": "reported MARD percent",
+          "number": 10.2,
+          "tolerance": 0.3
+        },
+        {
+          "item": "Eversense",
+          "field": "FDA clearance number",
+          "contains": "K241335"
+        },
+        {
+          "item": "Eversense",
+          "field": "cleared age range",
+          "contains": "18"
+        },
+        {
+          "item": "Eversense",
+          "field": "sensor wear days",
+          "number": 365
+        },
+        {
+          "item": "Eversense",
+          "field": "reported MARD percent",
+          "number": 8.8,
+          "tolerance": 0.3
+        },
+        {
+          "item": "Eversense",
+          "field": "warm-up minutes",
+          "number": 1440
+        }
+      ]
+    }
+  ]
+}

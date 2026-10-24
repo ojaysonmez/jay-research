@@ -1,0 +1,35 @@
+# Four CGMs span 6 to 365 days
+Research depth: 1 Quick
+
+The four sensors differ most on wear time and regulatory pathway. **Eversense 365** is the implanted outlier: **180 days**, adults only, a **24-hour** warm-up, and a reported **8.8%** MARD. The three wearable sensors last 6 to 14 days, with warm-ups of 30 to 120 minutes. **Libre 3** has the lowest reported MARD (7.9%) and the longest wear of the three at 14 days. **Dexcom G7** has the fastest warm-up (30 minutes) and the widest cleared age range (2 years and older). **Simplera** has the highest MARD (10.2%), the shortest wear (6 days) and the longest warm-up of the wearables (2 hours). One correction to the brief: the US product is the **Simplera Sync sensor**, approved by PMA [P250012](https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpma/pma.cfm?id=P250012) on 2025-08-06, not a 510(k) clearance. It was first approved on 2025-04-18 as PMA supplement [P160017/S118](https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpma/pma.cfm?id=P160017S118) for the MiniMed 780G. No separate FDA number was found for a standalone Simplera product. MARD figures come from different studies, populations and labeling revisions, so the rankings are indicative, not head-to-head.
+
+## Side-by-side comparison
+
+| Device | Manufacturer | FDA number | Cleared age range | Wear (days) | Reported MARD | Warm-up |
+|---|---|---|---|---|---|---|
+| Dexcom G7 | Dexcom, Inc. | [K213919](https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K213919) | 2 years and older | 10 | 8.2% | 30 min |
+| FreeStyle Libre 3 | Abbott Diabetes Care Inc. | [K212132](https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K212132) | 6 years and older | 14 | 7.9% (8.2% in current labeling) | 60 min |
+| Medtronic Simplera Sync sensor (with MiniMed 780G) | Medtronic MiniMed, Inc. | PMA [P250012](https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpma/pma.cfm?id=P250012); earlier pairing approval [P160017/S118](https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpma/pma.cfm?id=P160017S118) | 7 years and older | 6 | 10.2% | 120 min |
+| Senseonics Eversense 365 | Senseonics, Incorporated | [K241353](https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K241353) | 18 years and older | 180 | 8.8% | 1440 min (24 h) |
+
+The numbers are the original clearance for each device. Later 510(k)s modify the same lines, for example G7 [K231081](https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K231081) and [K253737](https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K253737), and Libre 3 [K233537](https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K233537), which also covers Libre 3 Plus. The Libre 3 submission [K213996](https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K213996) documents the 1-hour warm-up. Wear for G7 is up to 10 days plus a 12-hour grace period ([FDA summary](https://www.accessdata.fda.gov/cdrh_docs/pdf21/K213919.pdf)). Simplera Sync is up to 6 days plus a 24-hour grace period ([SSED](https://www.accessdata.fda.gov/cdrh_docs/pdf25/P250012B.pdf)).
+
+## Where the accuracy numbers come from and how far to trust them
+
+Dexcom's G7 figure of **8.2%** (arm) is from a pivotal study of 316 adults with 77,774 matched pairs against YSI; the abdomen site was 9.1% ([PubMed](https://pubmed.ncbi.nlm.nih.gov/35157505)). Dexcom reports pediatric MARDs of 8.1% and 7.7% on its own site, which is a manufacturer claim ([Dexcom](https://www.dexcom.com/en-us/accuracy)).
+
+Libre 3 has a conflict. The original pivotal study reported **7.9%** against YSI ([ADA 2022 abstract](https://diabetesjournals.org/diabetes/article/71/Supplement_1/76-LB/145805/76-LB-Performance-of-FreeStyle-Libre-3-System)), while Abbott's payer page lists **8.2%** ([Abbott](https://payer.freestyle.abbott/us-en/ProductPortfolio.html)). The IFU table showing 8.2% appears to belong to the Libre 3 Plus sensor ([IFU](https://freestyleserver.com/Payloads/IFU/2025/q3/ART55025_rev-A-web.pdf)). I favor 7.9% for the original sensor because it comes from a study with a stated comparator. The current labeled figure for the 14-day sensor was not confirmed, since the non-Plus IFU was not opened.
+
+The two weakest figures are Simplera and Eversense. Simplera's **10.2%** adult and 10.8% pediatric MARD come from an ADA consumer guide, a secondary source, with no reference method stated ([ADA](https://consumerguide.diabetes.org/products/cgms/simplera-sync-sensor)). The [P250012](https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpma/pma.cfm?id=P250012) SSED reports no new clinical studies and points to earlier work summarized in the S118 SSED, which was not verified. Eversense's **8.8%** comes from a Senseonics presentation to a federal body ([reginfo.gov](https://www.reginfo.gov/public/do/eoDownloadDocument?documentID=701092&eodoc=true&pubId)). It was not found in the FDA decision summary text, and its reference method is unstated. The pivotal ENHANCE study enrolled 110 adults at 4 US sites ([FDA summary](https://www.accessdata.fda.gov/cdrh_docs/reviews/K241353.pdf)).
+
+## Age ranges and newer variants
+
+Age labeling splits the field. G7 is cleared from age 2, Libre 3 from age 4, and Simplera Sync from age 7 ([SSED](https://www.accessdata.fda.gov/cdrh_docs/pdf25/P250012B.pdf)). The ADA guide adds that for type 2 diabetes Simplera Sync is for insulin-using adults ([ADA](https://consumerguide.diabetes.org/products/cgms/simplera-sync-sensor)). Eversense 365 is adults only ([FDA summary](https://www.accessdata.fda.gov/cdrh_docs/reviews/K241353.pdf)). A Medtronic footnote mentions "ages 2-80". This likely refers to the 780G system, not the sensor indication, but that was not confirmed ([Medtronic](https://news.medtronic.com/2025-04-18-New-Simplera-Sync-TM-sensor-for-the-MiniMed-TM-780G-System-now-FDA-approved)).
+
+Newer variants exist outside this comparison. Dexcom G7 15 Day is cleared in K253737 for adults 18 and older with 15.5 days of wear and an 8.0% MARD ([Dexcom](https://www.dexcom.com/en-us/accuracy)). Libre 3 Plus is listed at 15 days, ages 2 and older, and 8.2% MARD ([Abbott](https://www.freestyle.abbott/us-en/products/freestyle-libre-3.html)). Readers shopping today should check which variant they are comparing.
+
+## Conclusion
+
+The specification that most separates these devices is wear duration, not accuracy. Among the wearables, the MARD spread of 7.9% to 10.2% is only partly comparable because the studies and labeling vintages differ. Eversense 365 trades a 24-hour warm-up and adult-only labeling for a year of wear, and it is the only device here that is not a skin-worn sensor.
+
+Open gaps: Simplera and Eversense accuracy figures lack verified FDA-labeling sources or reference methods. The current Libre 3 labeled MARD is unconfirmed. The original Libre 3 clearance date was not confirmed from the database page (the decision summary is dated June 2022, while Abbott says May 2022). The Medtronic "ages 2-80" footnote and the standalone Simplera status remain unresolved.

@@ -1,0 +1,27 @@
+{
+  "about": "Three errors seeded into a copy of the report 'CGM device comparison table 2'. A verify run on report.md should return FAIL and flag each one in HIGH-WARN or MED-WARN.",
+  "base_report": "CGM device comparison table 2 (2026-10-24)",
+  "errors": [
+    {
+      "id": "S1",
+      "wrong": "180 days",
+      "right": "365 days",
+      "marker": "180",
+      "what": "Eversense 365 wear duration"
+    },
+    {
+      "id": "S2",
+      "wrong": "6 years and older",
+      "right": "4 years and older",
+      "marker": "6 years",
+      "what": "FreeStyle Libre 3 cleared age range"
+    },
+    {
+      "id": "S3",
+      "wrong": "K241353",
+      "right": "K241335",
+      "marker": "K241353",
+      "what": "Eversense 365 510(k) number (digits swapped, link changed with it)"
+    }
+  ]
+}
