@@ -4,6 +4,10 @@ Changes to the jay-research skill that test runs suggested. Nothing here has bee
 
 Source runs: **R1** = "CGM MARD accuracy comparison" (Quick, 2026-10-24), **R2** = "CGM device comparison table" (Quick, structured mode, 2026-10-24). The raw text is in each run's `_run.md` (gitignored, lost when the container ends), so this file is the lasting record.
 
+Not a skill change: in the cloud container the run history is written to `research_notes/history.md` because `~/.jay-research/` does not exist there. The default location only persists on the user's own computer.
+
+The coordinator appends new rows to the end of this table at the end of each run (SKILL.md step 8). Keep the table as the last thing in the file.
+
 | # | Status | Where | Suggested change | Why | Seen in |
 |---|--------|-------|------------------|-----|---------|
 | 1 | open | `references/researcher.md` (Output) | State that a brief correction goes inside Cited Findings of the key question it belongs to, never as its own `## Brief corrections` section. | A researcher added a top-level section, `check_notes.py` rejected it as a key question with no sub-sections, and it cost a fix round. | R2 |
@@ -15,5 +19,3 @@ Source runs: **R1** = "CGM MARD accuracy comparison" (Quick, 2026-10-24), **R2**
 | 7 | open | `references/researcher.md` (Sources) | Note that Parallel `web_search` returns FDA SSED and decision PDFs from accessdata.fda.gov directly. | Two researchers got FDA documents this way when other routes failed. | R1, R2 |
 | 8 | open | `scripts/check_notes.py` | Check whether a top-level bullet ending in a colon (a header-style line whose sources sit in its sub-bullets) should count as a finding without a source. | It flagged "iCGM measurement-related special controls (21 CFR 862.1355):", which looked like a false positive. Not tested yet. | R1 |
 | 9 | open | `scripts/run_review.py` | Accept depth written as a level number (for example "level 1") when reading `run start`, so the history shows the depth instead of `?`. | In my script test the depth showed `?`. A real run wrote "Quick", so this is low priority. | script test |
-
-Also noted, not a skill change: the run history was written to `research_notes/history.md` because `~/.jay-research/` does not exist in the cloud container. The skill's default location only persists on the user's own computer.
