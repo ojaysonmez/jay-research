@@ -88,20 +88,20 @@ Follow-up questions after a report are routed to the cheapest path. If the repor
 
 | File | Purpose |
 |---|---|
-| [SKILL.md](SKILL.md) | Coordinator instructions: depth levels, models, sourcing rules, process, subagent prompt templates |
-| [references/researcher.md](references/researcher.md) | Instructions each researcher reads: search loop, source evaluation, note format |
-| [references/report-writer.md](references/report-writer.md) | Instructions the report writer reads: structure, style, citations |
-| [references/modes.md](references/modes.md) | Help and dry-run modes, read by the coordinator only when requested |
-| [references/verify.md](references/verify.md) | The optional fact-check step, read only when `verify` is on |
-| [references/records.md](references/records.md) | Structured mode for comparison scans: choosing fields, briefing researchers, checking and merging records |
-| [references/follow-ups.md](references/follow-ups.md) | Routing for follow-up questions after a report is delivered |
-| [scripts/check_notes.py](scripts/check_notes.py) | Checks researchers' notes before the report is written (four sections per question, a source link on every finding) |
-| [scripts/check_dois.py](scripts/check_dois.py) | Looks every DOI in the report up in the DOI registry and flags any that do not exist; skipped without network |
-| [scripts/records.py](scripts/records.py) | Structured mode: records the field list, checks each researcher's records, merges them into one comparison table with duplicates and conflicts handled |
-| [scripts/run_review.py](scripts/run_review.py) | Flags abnormalities in a run against fixed thresholds, records one line per run in a private history file, and reports issues that recur across runs |
-| [scripts/run_log.py](scripts/run_log.py) | Writes the timestamped run log (`research_notes/{title}/_run.md`) and prints a per-stage time summary |
-| [scripts/merge_verification.py](scripts/merge_verification.py) | Merges the verify-mode batch reports into one verification file, replacing a subagent |
-| [scripts/check_report.py](scripts/check_report.py) | Mechanical checks on the finished report (identifiers hyperlinked, DOI links match, link targets, depth line); standard library only |
+| [SKILL.md](.claude/skills/jay-research/SKILL.md) | Coordinator instructions: depth levels, models, sourcing rules, process, subagent prompt templates |
+| [references/researcher.md](.claude/skills/jay-research/references/researcher.md) | Instructions each researcher reads: search loop, source evaluation, note format |
+| [references/report-writer.md](.claude/skills/jay-research/references/report-writer.md) | Instructions the report writer reads: structure, style, citations |
+| [references/modes.md](.claude/skills/jay-research/references/modes.md) | Help and dry-run modes, read by the coordinator only when requested |
+| [references/verify.md](.claude/skills/jay-research/references/verify.md) | The optional fact-check step, read only when `verify` is on |
+| [references/records.md](.claude/skills/jay-research/references/records.md) | Structured mode for comparison scans: choosing fields, briefing researchers, checking and merging records |
+| [references/follow-ups.md](.claude/skills/jay-research/references/follow-ups.md) | Routing for follow-up questions after a report is delivered |
+| [scripts/check_notes.py](.claude/skills/jay-research/scripts/check_notes.py) | Checks researchers' notes before the report is written (four sections per question, a source link on every finding) |
+| [scripts/check_dois.py](.claude/skills/jay-research/scripts/check_dois.py) | Looks every DOI in the report up in the DOI registry and flags any that do not exist; skipped without network |
+| [scripts/records.py](.claude/skills/jay-research/scripts/records.py) | Structured mode: records the field list, checks each researcher's records, merges them into one comparison table with duplicates and conflicts handled |
+| [scripts/run_review.py](.claude/skills/jay-research/scripts/run_review.py) | Flags abnormalities in a run against fixed thresholds, records one line per run in a private history file, and reports issues that recur across runs |
+| [scripts/run_log.py](.claude/skills/jay-research/scripts/run_log.py) | Writes the timestamped run log (`research_notes/{title}/_run.md`) and prints a per-stage time summary |
+| [scripts/merge_verification.py](.claude/skills/jay-research/scripts/merge_verification.py) | Merges the verify-mode batch reports into one verification file, replacing a subagent |
+| [scripts/check_report.py](.claude/skills/jay-research/scripts/check_report.py) | Mechanical checks on the finished report (identifiers hyperlinked, DOI links match, link targets, depth line); standard library only |
 
 ## Requirements
 
@@ -112,4 +112,10 @@ Follow-up questions after a report are routed to the cheapest path. If the repor
 
 ## Installation
 
-Place this folder where Claude Code loads skills, for example `~/.claude/skills/jay-research/`, so that `SKILL.md` sits at the folder root.
+The skill lives in `.claude/skills/jay-research/` inside this repository, so a session opened on a clone of the repo (including a cloud session) loads it as a project skill with no setup.
+
+To use it from other folders, link or copy `.claude/skills/jay-research/` to `~/.claude/skills/jay-research/`, so that `SKILL.md` sits at the root of that folder. On Windows, a junction keeps it in sync:
+
+```
+mklink /J "%USERPROFILE%\.claude\skills\jay-research" "<path to this repo>\.claude\skills\jay-research"
+```
