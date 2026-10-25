@@ -4,7 +4,7 @@
   {
    "id": "cgm-4-devices",
    "status": "draft",
-   "options": "quick table:",
+   "options": "light table:",
    "question": "Compare the FDA-cleared continuous glucose monitors Dexcom G7, FreeStyle Libre 3, Medtronic Simplera and Senseonics Eversense 365 on shared criteria: manufacturer, FDA clearance number, cleared age range, sensor wear duration, reported MARD, and warm-up time.",
    "fields": [
     "device",
@@ -90,7 +90,7 @@
    "status": "claude-confirmed",
    "as_of": "2026-10-24 (FY2027 code set)",
    "confirmed_from": "ICD-10 lookup tool, FY2027 code set",
-   "options": "quick table:",
+   "options": "light table:",
    "question": "For type 2 diabetes mellitus, give the ICD-10-CM code and whether it is billable (answer yes or no) for each of these: with diabetic nephropathy, with diabetic chronic kidney disease, with foot ulcer, with hypoglycemia without coma, and with hyperglycemia.",
    "fields": [
     "condition",
@@ -155,7 +155,7 @@
    "status": "claude-confirmed",
    "as_of": "2026-10-24",
    "confirmed_from": "ClinicalTrials.gov via the Clinical_Trials tool (get_trial_details)",
-   "options": "quick table:",
+   "options": "light table:",
    "question": "For the trials SURPASS-2, SURMOUNT-1, SUSTAIN-6, SELECT and FLOW, give the NCT number, the sponsor, the phase, the actual enrollment, and the overall status on ClinicalTrials.gov.",
    "fields": [
     "trial",
@@ -298,7 +298,7 @@
    "status": "claude-confirmed",
    "as_of": "2026-10-24",
    "confirmed_from": "CMS Medicare Coverage Database via the CMS_Coverage tool (search_local_coverage, keyword 'glucose monitor')",
-   "options": "quick table:",
+   "options": "light table:",
    "question": "List the Medicare local coverage determinations (LCDs) titled 'Glucose Monitors' or 'Implantable Continuous Glucose Monitors (I-CGM)' that are in effect today (24 Oct 2026). For each give the LCD ID, the title and the contractor that administers it.",
    "fields": [
     "LCD ID",
@@ -393,7 +393,7 @@
    "status": "claude-confirmed",
    "as_of": "2026-10-24",
    "confirmed_from": "Drugs@FDA approval letters and reviews on accessdata.fda.gov (Ozempic 209637, Wegovy injection 215256, Rybelsus 213051) and FDALabel (Mounjaro 215866)",
-   "options": "quick table:",
+   "options": "light table:",
    "question": "For Mounjaro, Ozempic, Rybelsus and Wegovy injection (not the Wegovy tablets), give the FDA new drug application (NDA) number, the applicant, and the active ingredient.",
    "fields": [
     "product",

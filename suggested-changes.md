@@ -4,6 +4,8 @@ Changes to the jay-research skill that test runs suggested. Pick items up when t
 
 Source runs: **R1** = "CGM MARD accuracy comparison" (Quick, 2026-10-24), **R2** = "CGM device comparison table" (Quick, structured mode, 2026-10-24), **R3** = "CGM device comparison table 2" (Quick, structured mode, verify on, independent redo, 2026-10-24), **R4** = "Libre 3 labeled MARD follow-up" (follow-up route 2, 2026-10-24), **E1-E4** = the four "Eval ..." runs of the registry eval cases (Quick, structured, no report, 2026-10-24). The raw text is in each run's `_run.md` (gitignored, lost when the container ends), so this file is the lasting record.
 
+The depth levels were renamed later: Quick is now Light and Exhaustive is now Max, so rows and run titles from before that use the old names. Both old names still work in requests.
+
 Not a skill change: in the cloud container the run history is written to `research_notes/history.md` because `~/.jay-research/` does not exist there. The default location only persists on the user's own computer.
 
 The coordinator appends new rows to the end of this table at the end of each run (SKILL.md step 8). Keep the table as the last thing in the file.

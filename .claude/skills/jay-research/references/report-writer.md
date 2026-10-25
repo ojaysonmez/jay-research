@@ -89,10 +89,10 @@ You should tailor the report's style and length to match the user's request and 
 A good rule of thumb is to include 3-5 focused sections with clear headers.
 
 If your assignment states a research depth, it sets the length and overrides the rule of thumb above:
-- 1 Quick: 1-2 pages, key findings only
+- 1 Light: 1-2 pages, key findings only
 - 2 Standard: 3-4 focused sections
 - 3 Deep: full report
-- 4 Exhaustive: full report plus a complete reference list at the end
+- 4 Max: full report plus a complete reference list at the end
 
 State the depth level in one line directly under the title, and if the assignment says it was the default because no level was chosen, say that too.
 

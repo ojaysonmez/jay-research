@@ -1,6 +1,8 @@
 # Depth run checklist
 
-What to look for when a real run uses Standard, Deep or Exhaustive. Quick, structured mode, verify mode, help, dry-run and follow-ups have been tested in earlier runs (see `README.md`); the depths below have not. Mark each item pass, fail or not exercised, and keep the evidence: the run's `_run.md`, the end-of-run summary, and `research_notes/history.md`.
+What to look for when a real run uses Standard, Deep or Max. Light, structured mode, verify mode, help, dry-run and follow-ups have been tested in earlier runs (see `README.md`); the depths below have not. Mark each item pass, fail or not exercised, and keep the evidence: the run's `_run.md`, the end-of-run summary, and `research_notes/history.md`.
+
+Light was called Quick and Max was called Exhaustive in earlier runs, and the old names still work.
 
 Run the skill by its repo name (`/jay-research deep: <question>`), commit `suggested-changes.md` afterwards, and keep the same session for follow-up questions.
 
@@ -18,7 +20,7 @@ Run the skill by its repo name (`/jay-research deep: <question>`), commit `sugge
 |---|---|---|---|---|
 | Standard | 3 | up to 10 | never, except open questions | 3-4 focused sections |
 | Deep | 4-5 | up to 15 | only for a critical gap | full report |
-| Exhaustive | 6 or more | up to 20 | only for a critical gap, also allowed to run | full report plus complete reference list |
+| Max | 6 or more | up to 20 | only for a critical gap, also allowed to run | full report plus complete reference list |
 
 ## Standard
 
@@ -33,7 +35,7 @@ Run the skill by its repo name (`/jay-research deep: <question>`), commit `sugge
 - [ ] If no researcher reported a critical gap, mark the gap round "not exercised". It cannot be forced.
 - [ ] Run time is inside the 20 to 35 minute estimate, or the summary explains why not.
 
-## Exhaustive
+## Max
 
 - [ ] 6 or more researchers started in one turn, with no rate-limit or timeout errors. This is the main new risk: more parallel agents than any earlier run.
 - [ ] Up to 20 calls each.

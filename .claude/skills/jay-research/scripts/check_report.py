@@ -43,7 +43,7 @@ IDENTIFIERS = [
 FDA_CONTEXT_LABELS = {"510(k) number", "PMA number", "De Novo number"}
 FDA_CONTEXT = re.compile(r"510\(k\)|\bPMA\b|De Novo|\bFDA\b", re.I)
 
-DEPTH_WORDS = re.compile(r"\b(Quick|Standard|Deep|Exhaustive|level [1-4])\b", re.I)
+DEPTH_WORDS = re.compile(r"\b(Light|Max|Quick|Standard|Deep|Exhaustive|level [1-4])\b", re.I)
 
 
 def clean_doi(text):

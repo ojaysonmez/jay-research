@@ -8,7 +8,7 @@ A personal [Claude Code](https://claude.com/claude-code) skill for multi-source 
 2. **Title and folders** – picks a short sentence-case title (3–6 words, under 50 characters) and creates `research_notes/{title}/` and `reports/`.
 3. **Decompose** – splits the question into independent subtopics, capped by the chosen depth level. For comparison scans (many companies, products, papers or trials compared on the same criteria) it also turns on **structured mode**: researchers return one record per item with a fixed set of fields, and a script merges them into one comparison table for the report. Add `table:` or `no table:` to the request to force it on or off; dry-run shows the proposed fields so you can change them first.
 4. **Research** – spawns one foreground `general-purpose` researcher per subtopic, all in parallel. Each saves notes to `research_notes/{title}/{topic}.md` and replies with a short status report only.
-5. **Gap-fill (optional)** – at Deep and Exhaustive levels only, one extra round for critical gaps. Where it can, it continues the researcher that owns the gap (via `SendMessage`) instead of starting a new one, so sources are not re-read. It never runs a second time.
+5. **Gap-fill (optional)** – at Deep and Max levels only, one extra round for critical gaps. Where it can, it continues the researcher that owns the gap (via `SendMessage`) instead of starting a new one, so sources are not re-read. It never runs a second time.
 6. **Write** – a report-writer subagent synthesises the notes into `reports/{title}.md` and replies with a 3–5 sentence summary, then a script checks the report's links and identifiers, and the writer fixes any flagged lines. Scripts also check the researchers' notes before the report is written and confirm that every DOI exists in the DOI registry.
 7. **Verify (optional)** – only when requested with `verify`. Fresh subagents fact-check the report's claims, DOIs and registry numbers with the [verify-claims](#verify-mode) skill and write `reports/{title} verification.md`. The report itself is never edited automatically.
 8. **Deliver** – the coordinator sends or copies the report (and the verification file, if any) and passes on the summary.
@@ -33,16 +33,16 @@ Every subagent uses the main chat's model unless the request names one. Say "use
 
 The skill only runs when you invoke it by name; for other research questions it suggests itself in one sentence.
 
-If no level is named, the skill asks. If nobody answers, it uses Quick and says so at the top of the report.
+If no level is named, the skill asks. If nobody answers, it uses Light and says so at the top of the report.
 
 ### Depth levels
 
 | Level | Researchers | Tool calls each | Extra round | Report |
 |---|---|---|---|---|
-| 1 Quick (default, ~5–10 min) | 1–2 | up to 8 | never | 1–2 pages, key findings |
+| 1 Light (default, ~5–10 min) | 1–2 | up to 8 | never | 1–2 pages, key findings |
 | 2 Standard (~10–20 min) | 3 | up to 10 | never | 3–4 focused sections |
 | 3 Deep (~20–35 min) | 4–5 | up to 15 | only for a critical gap | full report |
-| 4 Exhaustive (40+ min) | 6+ | up to 20 | allowed | full report + complete reference list |
+| 4 Max (40+ min) | 6+ | up to 20 | allowed | full report + complete reference list |
 
 You can also say "level 1–4" instead of the name.
 

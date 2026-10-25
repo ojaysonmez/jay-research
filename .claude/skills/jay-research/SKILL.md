@@ -25,12 +25,12 @@ When it is on, step 7 fact-checks the finished report with the user's verify-cla
 
 | Level | Researchers | Tool calls per researcher | Extra research round | Report |
 |---|---|---|---|---|
-| 1 Quick (default, ~5-10 min) | 1-2 | up to 8 | never | 1-2 pages, key findings only |
+| 1 Light (default, ~5-10 min) | 1-2 | up to 8 | never | 1-2 pages, key findings only |
 | 2 Standard (~10-20 min) | 3 | up to 10 | never | 3-4 focused sections |
 | 3 Deep (~20-35 min) | 4-5 | up to 15 | only for a critical gap | full report |
-| 4 Exhaustive (40+ min) | 6 or more | up to 20 | allowed | full report + complete reference list |
+| 4 Max (40+ min) | 6 or more | up to 20 | allowed | full report + complete reference list |
 
-Take the level from the request ("quick", "standard", "deep", "exhaustive", or "level 1-4"). If none is named, ask with AskUserQuestion in step 1, with Quick listed first as the default. If nobody can answer, use Quick and say so at the top of the report. The level caps step 3 (researcher count) and step 5 (extra round). State the tool-call budget in every researcher prompt and the level in the report writer prompt.
+Take the level from the request ("light", "standard", "deep", "max", or "level 1-4"). The earlier names "quick" (Light) and "exhaustive" (Max) still work. If none is named, ask with AskUserQuestion in step 1, with Light listed first as the default. If nobody can answer, use Light and say so at the top of the report. The level caps step 3 (researcher count) and step 5 (extra round). State the tool-call budget in every researcher prompt and the level in the report writer prompt.
 
 ## Models per role
 
@@ -90,7 +90,7 @@ Agents can fail. Handle each case once, never in a loop. When a failure happens,
 - **A tool keeps failing.** Researchers handle this themselves (researcher.md): after two failures of the same kind they switch source or record a gap. Do not retry on their behalf.
 - **The report writer errors, or the report file is missing.** Before the report checks, confirm that the report file exists. If it does not, start one new report writer with the same brief. If that also fails, deliver the path of the notes folder (and `_records.md`, if any) and say the report was not produced. A missing report is a failure, so never treat it as a reason to skip the report checks.
 - **A verifier batch has no verification file.** Run that batch once more. If it is still missing, deliver the verification with what exists, say which batch was not checked, and never describe the report as verified.
-- **Time.** Agents cannot be timed out from here, so check the clock at the one optional point. Before step 5, run `run_log.py summary` and read the total. If it already exceeds the upper time estimate for the level (Quick 10 minutes, Standard 20, Deep 35, Exhaustive 60), skip step 5 and say so in the summary.
+- **Time.** Agents cannot be timed out from here, so check the clock at the one optional point. Before step 5, run `run_log.py summary` and read the total. If it already exceeds the upper time estimate for the level (Light 10 minutes, Standard 20, Deep 35, Max 60), skip step 5 and say so in the summary.
 - **Never** retry an agent more than once, and never invent findings to fill a gap.
 
 ## Process
@@ -233,7 +233,7 @@ Each researcher replies with a short status report, not its notes (the format is
 
 ### 5. [If absolutely necessary] Conduct one additional round of research
 
-Skip this step at the Quick and Standard levels, except for open questions (below). At Deep or Exhaustive, based on the status reports returned by the research subagents (their "Critical gaps" lines), determine if there are any critical gaps that would make the report incomplete. A brief correction (their "Brief corrections" lines) that changes what another researcher should have covered also counts as a critical gap, because researchers run in parallel and that researcher worked from the wrong assumption. Do not redo its whole topic: send that researcher the correction and have it re-check only the findings that relied on the wrong assumption. Extra research delays delivery of the report to the user, leading to a much worse experience, so this must be used with extreme care.
+Skip this step at the Light and Standard levels, except for open questions (below). At Deep or Max, based on the status reports returned by the research subagents (their "Critical gaps" lines), determine if there are any critical gaps that would make the report incomplete. A brief correction (their "Brief corrections" lines) that changes what another researcher should have covered also counts as a critical gap, because researchers run in parallel and that researcher worked from the wrong assumption. Do not redo its whole topic: send that researcher the correction and have it re-check only the findings that relied on the wrong assumption. Extra research delays delivery of the report to the user, leading to a much worse experience, so this must be used with extreme care.
 
 **Open questions.** A researcher cannot ask you anything while it runs, so it proceeds on its most plausible reading and lists what it could not settle in an "Open questions" line. Ignore the line when it says "none", or when the researcher already covered both readings. Otherwise, at any depth: if the user's request or the conversation already answers a question, send that answer to the researcher with SendMessage and ask it to update only the affected findings in its existing notes. If it does not, and the answer would change the notes materially, ask the user once, covering all researchers together, then send the answers. If you cannot ask, or the answer would change little, name the assumption the researcher made in the step 8 summary. This uses the single additional round of research. If a researcher has an answer to apply and also a critical gap or brief correction, put them in one SendMessage, and send all messages in a single turn. That is still one round. In a combined message, apply the answer in place in the existing notes, and write the gap findings to the follow-up file. Send an answer like this: "Answer to your open question: {answer}. Update only the findings it affects, in place in your existing notes file (this overrides the follow-up-file rule), then reply with the same short status report as before."
 
@@ -283,7 +283,7 @@ Brief corrections reported by researchers: {the "Brief corrections" lines from t
 
 Comparison records: {the absolute path of _records.md if structured mode ran and the merge succeeded, or "none"}
 
-Research depth: {the level, for example "1 Quick"; add "(default, no level was chosen)" if you fell back to Quick}
+Research depth: {the level, for example "1 Light"; add "(default, no level was chosen)" if you fell back to Light}
 
 Scientific evidence topic: {yes or no}
 

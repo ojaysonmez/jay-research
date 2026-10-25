@@ -6,7 +6,7 @@ Two checks that measure whether the skill gets things right, not only whether it
 
 Each case has a question, the options to run it with, and expected values for the merged records.
 
-1. Run the case's question with its options, for example `/jay-research quick table: <question>`. The case must use structured mode, because the scorer reads `_records.json`.
+1. Run the case's question with its options, for example `/jay-research light table: <question>`. The case must use structured mode, because the scorer reads `_records.json`.
 2. Score the run: `python3 evals/score.py records <case id> "research_notes/<run title>"`
 3. Each expectation is `PASS`, `WRONG` (different value) or `MISSING` (no record, or null). The exit code is 0 only if all pass.
 
@@ -22,7 +22,7 @@ A case with `"status": "draft"` has expected values that nobody has confirmed ag
 | `fda-nda-glp1` | claude-confirmed | NDA number, applicant and active ingredient for four GLP-1 products (Drugs@FDA) |
 | `cgm-4-devices` | draft | built from values two runs agreed on; leaves out the disputed ones |
 
-**Last results (2026-10-24, Quick, structured, one run each, no report written):** `icd10-t2d-complications` 10/10, `glp1-trials-registry` 25/25, `cms-glucose-monitor-lcds` 16/16, `fda-nda-glp1` 12/12.
+**Last results (2026-10-24, Light, then called Quick, structured, one run each, no report written):** `icd10-t2d-complications` 10/10, `glp1-trials-registry` 25/25, `cms-glucose-monitor-lcds` 16/16, `fda-nda-glp1` 12/12.
 
 **Reading the scores:** these four cases are registry lookups, and the researchers use the same registries that confirmed the answers, so a perfect score shows the pipeline carries registry facts through intact. It does not show that the skill handles conflicting sources, since none of these cases has a conflict. Cases that test that need an answer a person has confirmed against a primary source, such as the disputed CGM values (G7 and Libre 3 clearance numbers, G7 warm-up, Libre 3 MARD). The `claude-confirmed` status means Claude read the registry, so spot-check a few values.
 

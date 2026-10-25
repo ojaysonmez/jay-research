@@ -67,7 +67,16 @@ import re
 import sys
 
 FMT = "%Y-%m-%dT%H:%M:%SZ"
-DEPTHS = ["Quick", "Standard", "Deep", "Exhaustive"]
+DEPTHS = ["Light", "Standard", "Deep", "Max"]
+# Earlier names, still accepted in requests and in older history lines.
+ALIASES = {"quick": "Light", "exhaustive": "Max"}
+
+
+def normalize_depth(word):
+    """Map a depth word (any case, old or new name) to its current name, or None."""
+    word = (word or "").strip().lower()
+    word = ALIASES.get(word, word).lower()
+    return next((d for d in DEPTHS if d.lower() == word), None)
 FEATURES = ["notes-check", "report-check", "doi-check", "records-check", "gap-sendmessage", "verify", "verify-merge"]
 HISTORY_HEADER = (
     "# jay-research run history\n\n"
@@ -137,7 +146,11 @@ def analyse(events):
 
     for when, stage, detail in events:
         if stage == "run start":
-            depth = next((d for d in DEPTHS if d.lower() in detail.lower()), None)
+            named = re.search(r"depth(?: level)?\W+(\w+)", detail, re.I)
+            depth = normalize_depth(named.group(1)) if named else None
+            if depth is None:
+                words = re.findall(r"\b(light|standard|deep|max|quick|exhaustive)\b", detail, re.I)
+                depth = normalize_depth(words[0]) if words else None
             if depth is None:
                 level = re.search(r"\b(?:level|l)\s*([1-4])\b", detail, re.I)
                 depth = DEPTHS[int(level.group(1)) - 1] if level else None
@@ -277,7 +290,7 @@ def read_history(path):
             if len(parts) >= 9 and parts[8] != "none":
                 suggestions = [s.strip() for s in " | ".join(parts[8:]).split(";") if s.strip()]
             runs.append({
-                "date": parts[0], "depth": parts[2],
+                "date": parts[0], "depth": normalize_depth(parts[2]) or parts[2],
                 "kinds": [] if parts[6] == "none" else [k.strip() for k in parts[6].split(",")],
                 "features": features, "suggestions": suggestions,
             })
