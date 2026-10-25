@@ -30,7 +30,7 @@ When it is on, step 7 fact-checks the finished report with the user's verify-cla
 | 3 Deep (~20-35 min) | 4-5 | up to 15 | only for a critical gap | full report |
 | 4 Max (40+ min) | 6 or more | up to 20 (25 for scientific or clinical topics) | allowed | full report + complete reference list |
 
-Take the level from the request ("light", "standard", "deep", "max", or "level 1-4"). The earlier names "quick" (Light) and "exhaustive" (Max) still work. If none is named, ask with AskUserQuestion in step 1, with Light listed first as the default. If nobody can answer, use Light and say so at the top of the report. The level caps step 3 (researcher count) and step 5 (extra round). State the tool-call budget in every researcher prompt and the level in the report writer prompt.
+Take the level from the request ("light", "standard", "deep", "max", or "level 1-4"). The earlier names "quick" (Light) and "exhaustive" (Max) still work. If none is named, ask with AskUserQuestion in step 1, with Light listed first as the default. If nobody can answer, use Light and say so at the top of the report. The level caps step 3 (researcher count) and step 5 (extra round). When a run builds on earlier research (step 2's "returning to an earlier topic" case), give each researcher 2 more calls than the level allows (Standard 12 instead of 10), since it must first read the earlier notes. State the tool-call budget in every researcher prompt and the level in the report writer prompt.
 
 ## Models per role
 

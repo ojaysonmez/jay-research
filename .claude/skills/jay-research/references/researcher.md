@@ -41,7 +41,9 @@ What earlier runs learned about specific sources:
 - The NyquistAI `usfda_device_search` may reject a plain `query` argument. If it does, retry once with the structured `request` argument.
 - Parallel `web_search` returns FDA decision summaries, SSED and labeling PDFs from accessdata.fda.gov directly, when other routes fail.
 - PubMed Central (PMC) article pages fetched with Parallel `web_fetch` give the full text, even when the PubMed connector returns nothing for the article.
-- The EFLM biological variation database pages fetch fully with Parallel `web_fetch`.
+- The EFLM biological variation database pages fetch fully with Parallel `web_fetch`. Its "View Details" pages are not reachable as static URLs; if the source study behind a figure is only there, record in Gaps that it needs a browser or an email to EFLM, and stop trying.
+- ClinicalTrials.gov `get_trial_details` returns protocol eligibility and treatment rules (for example re-infusion criteria) verbatim, often in one call. Its output can be very large; extract only the fields you need.
+- diabetesjournals.org (ADA journals, including the Standards of Care) returns 403 to fetches. Use the PMC or Europe PMC copy of the section, and never guess a URL for a section: a guessed URL can return the wrong one.
 - Manufacturer IFU PDFs (for example on freestyleserver.com) often do not give their tables as text. Look for the same tables in the manufacturer's formulary or payer kit, or in the peer-reviewed paper.
 
 ## Untrusted content
