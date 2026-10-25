@@ -329,12 +329,38 @@ If step 7 ran, deliver reports/{research title} verification.md the same way, al
 
 If there are suggestions, end the summary with a short "Suggested skill changes" list, one line each and at most three (say how many more are in the run log). Leave out `brief-wrong`.
 
-Also keep them where they last: append each suggestion from the `observation` event (skip `brief-wrong`) as a new row at the end of the table in `{path_to_skill}/../../../suggested-changes.md`, the file at the root of the repository that holds this skill. Use the next number, status `open`, the file it belongs in, the change, why (one sentence), and the run title as "Seen in". If a row already asks for the same change, add this run's title to its "Seen in" cell instead of adding a duplicate. Then add one line to the summary naming the rows you added and the rows you extended, with their numbers (for example "suggested-changes.md: added rows 12-13, extended rows 3 and 5"), so the user sees them without opening the file. If that file does not exist (the skill is not running from its own repository), write nothing to it. Instead, end your reply, after the summary, with a section headed "## Copy to the jay-research repository" that holds, in one fenced code block so it copies cleanly:
+Also keep them where they last: append each suggestion from the `observation` event (skip `brief-wrong`) as a new row at the end of the table in `{path_to_skill}/../../../suggested-changes.md`, the file at the root of the repository that holds this skill. Use the next number, status `open`, the file it belongs in, the change, why (one sentence), and the run title as "Seen in". If a row already asks for the same change, add this run's title to its "Seen in" cell instead of adding a duplicate. Then add one line to the summary naming the rows you added and the rows you extended, with their numbers (for example "suggested-changes.md: added rows 12-13, extended rows 3 and 5"), so the user sees them without opening the file. If that file does not exist (the skill is not running from its own repository), write nothing to it. Instead, end your reply, after the summary, with this section, laid out exactly like this (fill in the rows):
 
-1. Every suggestion from the `observation` event, all of them and not only the three in the summary list, each as a ready table row for `suggested-changes.md`: `| ? | open | {file it belongs in} | {the change} | {why, one sentence} | {research title} |`. The `?` is the row number, which is set when the rows are pasted.
-2. Every failure this run logged, each as a ready row for `failure-log.md`: `| {date} | {research title} | {stage} | {what failed} | {what you did} | {outcome} |`. Leave this part out if nothing failed.
+````
+---
 
-Say in one line above the block that it is for pasting into those two files in the jay-research repository, since this run could not write to them. Never shorten or summarize the rows; this section is the only record of them. This file is not one of the skill's files, so writing to it is allowed; the rule against editing the skill still holds.
+## 📋 COPY TO THE JAY-RESEARCH REPOSITORY
+
+This run could not write to the jay-research repository. Paste the rows below into the files named.
+
+### SUGGESTED-CHANGES.MD ROWS
+
+```
+| ? | open | {file it belongs in} | {the change} | {why, one sentence} | {research title} |
+| ? | open | ... | ... | ... | {research title} |
+```
+
+### FAILURE-LOG.MD ROWS
+
+```
+| {date} | {research title} | {stage} | {what failed} | {what you did} | {outcome} |
+```
+
+---
+````
+
+Rules for this section:
+
+- Put every suggestion from the `observation` event in the first block, all of them and not only the three in the summary list, one row per line, all inside that one code block. Never put a row outside the block, never split rows across several blocks, and never shorten or summarize them: this section is the only record of them.
+- The `?` is the row number, which is set when the rows are pasted.
+- If nothing failed, replace the second block with the line "No failures in this run." Keep the heading.
+- Keep the two divider lines (`---`) and the capitalized headings, so the section stands apart from the summary above it.
+- Add nothing else to the section, such as remarks about whether the user wants it. This file is not one of the skill's files, so writing to it is allowed; the rule against editing the skill still holds.
 
 Then run `python3 "{path_to_skill}/scripts/run_review.py" record "{absolute path of your working directory}/research_notes/{research title}"` to add this run to the run history. It writes only when the skill runs from its own repository (to `research_notes/history.md` there, which is gitignored, or to the file the JAY_RESEARCH_HISTORY environment variable names); anywhere else it prints "skipped" and you say nothing about it. After the run's line it prints any recurring issues (PATTERN, with the latest suggestion) and features that keep failing (FAILING). Add those to the "Suggested skill changes" list, at most two lines. The history holds run titles and may name confidential topics, so never put it inside a repository that is or may become public. If the script cannot run, skip it without mentioning it.
 
