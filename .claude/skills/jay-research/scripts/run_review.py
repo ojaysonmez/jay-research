@@ -10,9 +10,10 @@ review    Reads the run log (<notes folder>/_run.md, written by run_log.py)
           and applies fixed thresholds. Prints "No abnormalities." or one
           "FLAG <kind>: <detail>" line per finding, then one line saying
           which skill features this run used and how they went.
-record    Appends one line for this run to the history file (default
-          ~/.jay-research/history.md, or the JAY_RESEARCH_HISTORY
-          environment variable, or --history), including the features used
+record    Appends one line for this run to the history file (--history,
+          or the JAY_RESEARCH_HISTORY environment variable, or by default
+          research_notes/history.md in the skill's own repository; skipped
+          when the skill runs anywhere else), including the features used
           and the suggestions the coordinator logged. Prints that line,
           then any recurring issues (PATTERN) and failing features
           (FAILING), so one call covers both. Untested features and lessons
@@ -94,12 +95,25 @@ CHECKS = re.compile(r"checks?:\s*(.*)$", re.I)
 SHORT = {"ok": "ok", "failed": "fail", "not used": "-"}
 
 
+# The repository that holds this skill, four levels above this script. It counts as the
+# skill's own repository when suggested-changes.md sits at its root.
+REPO_ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "..", "..", ".."))
+OWN_REPO = os.path.isfile(os.path.join(REPO_ROOT, "suggested-changes.md"))
+
+
 def history_path(args):
+    """--history, then JAY_RESEARCH_HISTORY, then research_notes/history.md in the skill's
+    own repository (gitignored). None when the skill runs anywhere else: the history is
+    not written there, because it would not persist or would land in someone else's repo."""
     if "--history" in args:
         i = args.index("--history")
         if i + 1 < len(args):
             return os.path.expanduser(args[i + 1])
-    return os.path.expanduser(os.environ.get("JAY_RESEARCH_HISTORY", "~/.jay-research/history.md"))
+    if os.environ.get("JAY_RESEARCH_HISTORY"):
+        return os.path.expanduser(os.environ["JAY_RESEARCH_HISTORY"])
+    if OWN_REPO:
+        return os.path.join(REPO_ROOT, "research_notes", "history.md")
+    return None
 
 
 def read_events(folder):
@@ -365,9 +379,16 @@ def main():
         if len(args) >= 2 and args[0] == "review":
             return review(args[1])
         if len(args) >= 2 and args[0] == "record":
-            return record(args[1], history_path(args))
+            path = history_path(args)
+            if path is None:
+                print("skipped: not running from the jay-research repository, so no history is kept")
+                return 0
+            return record(args[1], path)
         if args and args[0] == "patterns":
             path = history_path(args)
+            if path is None:
+                print("No history: not running from the jay-research repository.")
+                return 0
             if not os.path.exists(path):
                 print(f"No history file at {path} yet.")
                 return 0
