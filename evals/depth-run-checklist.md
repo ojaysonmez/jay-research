@@ -20,7 +20,7 @@ Run the skill by its repo name (`/jay-research deep: <question>`), commit `sugge
 |---|---|---|---|---|
 | Standard | 3 | up to 10 | never, except open questions | 3-4 focused sections |
 | Deep | 4-5 | up to 15 | only for a critical gap | full report |
-| Max | 6 or more | up to 20 | only for a critical gap, also allowed to run | full report plus complete reference list |
+| Max | 6 or more | up to 20 (25 for scientific or clinical topics) | only for a critical gap, also allowed to run | full report plus complete reference list |
 
 ## Standard
 
@@ -38,7 +38,7 @@ Run the skill by its repo name (`/jay-research deep: <question>`), commit `sugge
 ## Max
 
 - [ ] 6 or more researchers started in one turn, with no rate-limit or timeout errors. This is the main new risk: more parallel agents than any earlier run.
-- [ ] Up to 20 calls each.
+- [ ] Up to 20 calls each, or 25 for a scientific or clinical topic.
 - [ ] The report ends with a complete reference list, and every identifier in it is a hyperlink.
 - [ ] The coordinator's context stays manageable: it still reads only the short replies and script output.
 - [ ] Time check: if the run passed 60 minutes before step 5, the coordinator skipped step 5 and said so.

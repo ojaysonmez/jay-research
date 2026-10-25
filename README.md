@@ -42,7 +42,7 @@ If no level is named, the skill asks. If nobody answers, it uses Light and says 
 | 1 Light (default, ~5–10 min) | 1–2 | up to 8 | never | 1–2 pages, key findings |
 | 2 Standard (~10–20 min) | 3 | up to 10 | never | 3–4 focused sections |
 | 3 Deep (~20–35 min) | 4–5 | up to 15 | only for a critical gap | full report |
-| 4 Max (40+ min) | 6+ | up to 20 | allowed | full report + complete reference list |
+| 4 Max (40+ min) | 6+ | up to 20 (25 for scientific or clinical topics) | allowed | full report + complete reference list |
 
 You can also say "level 1–4" instead of the name.
 

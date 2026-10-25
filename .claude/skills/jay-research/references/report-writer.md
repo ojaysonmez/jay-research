@@ -73,6 +73,7 @@ If helpful for readability, you can include sub-headers within a section. These 
 - Cite facts inline with `([Source](URL))`. You must include citations so the user can review sources.
 - Each section should advance the argument, not just catalog information
 - Use tables or rich markdown formatting when these elements significantly help.
+- Keep an evidence or source table to one row per source: put several findings from the same source in one cell, not one row each, so the report stays readable and quick to write.
 
 ### Conclusion
 - Be concise. Use 1-2 paragraphs maximum
