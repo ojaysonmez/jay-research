@@ -103,16 +103,6 @@ Follow-up questions after a report are routed to the cheapest path. If the repor
 | [scripts/merge_verification.py](.claude/skills/jay-research/scripts/merge_verification.py) | Merges the verify-mode batch reports into one verification file, replacing a subagent |
 | [scripts/check_report.py](.claude/skills/jay-research/scripts/check_report.py) | Mechanical checks on the finished report (identifiers hyperlinked, DOI links match, link targets, depth line); standard library only |
 
-## Safe use
-
-Researchers and verifiers read web pages that anyone can write, and they run with the same tools as the rest of the session, including any connected Gmail, Drive or GitHub tools. A hostile page could try to steer one of them into reading or sending private data. The skill does not enforce a tool allow-list, so the protection sits in how you run it:
-
-1. **Use a research-only session for anything sensitive or any unfamiliar source.** Start the session with only research connectors (literature, trials, FDA, CMS) connected, and leave email, drive and code-hosting connectors off. A tool that is not there cannot be misused. This is the strongest protection.
-2. **Set the connectors that can send or change things to require approval,** in your claude.ai connector settings (for example Gmail send, reply and forward, Drive share, GitHub push). This covers every agent in the session, including the coordinator, but not silent reads.
-3. **The researcher rules** in `references/researcher.md` tell researchers to treat fetched text as data, never as instructions, and to note any attempt in their Gaps.
-
-Reading private data and then fetching a web address with it tucked into the URL is the path none of the rules close on their own, which is why item 1 matters most.
-
 ## Requirements
 
 - A Claude Code environment with the `Agent` (or `Task`) tool for spawning subagents. Without it, research the question directly.
