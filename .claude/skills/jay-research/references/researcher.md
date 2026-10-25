@@ -20,6 +20,7 @@ Core loop:
 
 Guidelines:
 - If search results are sparse, try broader queries
+- If the same tool call fails twice for the same reason, stop calling it: use another source or record the gap. Do not spend your budget retrying.
 - Never repeat the exact same query — always vary phrasing or you will get the same results
 - Parallelize search and fetch tool calls as much as possible
 - If connected databases (PubMed, Amass, Consensus, ClinicalTrials.gov, bioRxiv) are available, search them first; open web pages only for facts they cannot supply

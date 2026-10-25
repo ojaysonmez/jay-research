@@ -82,6 +82,17 @@ Decide in step 3. Turn it on when the decomposition splits the work by entities 
 
 When it is on, read {path_to_skill}/references/records.md before writing the researcher briefs, and follow it in steps 3, 4 and 6.
 
+## Failures and time limits
+
+Agents can fail. Handle each case once, never in a loop, and log a `fallback` event saying what happened.
+
+- **A researcher errors, never replies, or replies without the status report.** Run the notes check (step 6). If that researcher's notes exist and pass, carry on with them. If not, start one replacement researcher for that topic (step 4 template, same brief, half the tool-call budget). If that also fails, carry on without it and name the topic as not covered in the step 8 summary.
+- **A tool keeps failing.** Researchers handle this themselves (researcher.md): after two failures of the same kind they switch source or record a gap. Do not retry on their behalf.
+- **The report writer errors, or the report file is missing.** Before the report checks, confirm that the report file exists. If it does not, start one new report writer with the same brief. If that also fails, deliver the path of the notes folder (and `_records.md`, if any) and say the report was not produced. A missing report is a failure, so never treat it as a reason to skip the report checks.
+- **A verifier batch has no verification file.** Run that batch once more. If it is still missing, deliver the verification with what exists, say which batch was not checked, and never describe the report as verified.
+- **Time.** Agents cannot be timed out from here, so check the clock at the one optional point. Before step 5, run `run_log.py summary` and read the total. If it already exceeds the upper time estimate for the level (Quick 10 minutes, Standard 20, Deep 35, Exhaustive 60), skip step 5 and say so in the summary.
+- **Never** retry an agent more than once, and never invent findings to fill a gap.
+
 ## Process
 
 1. [If necessary] Ask the user follow up questions
@@ -292,7 +303,7 @@ It prints "OK" or a short list of problems with line numbers. Read only that out
 
 - **OK:** continue.
 - **Problems:** send the list to the report writer with SendMessage, asking it to fix exactly those lines in the report in place and reply in its usual format. If SendMessage is unavailable or fails, spawn a new report writer as above with the report path and the list instead, telling it to fix only those lines. Then run the check once more. Never loop beyond that: if problems remain, deliver anyway and say in the summary how many formatting problems are left.
-- **The script cannot run** (no Python, exit code 2, or any error): skip the check and continue without mentioning it.
+- **The script cannot run** (no Python, exit code 2, or any error): skip the check and continue without mentioning it, unless the report file is missing, which is a writer failure (see "Failures and time limits").
 
 **Then confirm the DOIs exist.** Run:
 
