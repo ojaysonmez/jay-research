@@ -12,7 +12,7 @@ Run the skill by its repo name (`/jay-research deep: <question>`), commit `sugge
 - [ ] **Checks ran:** the notes, report and DOI checks (and records, if `table:`) appear on the `report end` line, each as OK or fixed.
 - [ ] **No loops.** Each fix round ran once at most.
 - [ ] **The summary** gives where the report is, run time, suggested changes, the `suggested-changes.md` row line, and the follow-up pointer.
-- [ ] **Failures are logged.** If any agent failed, the run log has a `fallback` event and the summary names any topic not covered (see "Failures and time limits" in `SKILL.md`, which has not been exercised by a real failure yet).
+- [ ] **Failures are logged.** If any agent failed, the run log has a `fallback` event, `failure-log.md` has a row for it (commit that file), and the summary names any topic not covered (see "Failures and time limits" in `SKILL.md`, which has not been exercised by a real failure yet).
 
 | Level | Researchers | Calls each | Step 5 (extra round) | Report |
 |---|---|---|---|---|

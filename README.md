@@ -99,6 +99,7 @@ Follow-up questions after a report are routed to the cheapest path. If the repor
 | [scripts/check_dois.py](.claude/skills/jay-research/scripts/check_dois.py) | Looks every DOI in the report up in the DOI registry and flags any that do not exist; skipped without network |
 | [scripts/records.py](.claude/skills/jay-research/scripts/records.py) | Structured mode: records the field list, checks each researcher's records, merges them into one comparison table with duplicates and conflicts handled |
 | [scripts/run_review.py](.claude/skills/jay-research/scripts/run_review.py) | Flags abnormalities in a run against fixed thresholds, records one line per run in a private history file, and reports issues that recur across runs |
+| [scripts/log_failure.py](.claude/skills/jay-research/scripts/log_failure.py) | Appends one row per agent failure to `failure-log.md` the moment it happens, so a run that dies early still leaves a committed record |
 | [scripts/run_log.py](.claude/skills/jay-research/scripts/run_log.py) | Writes the timestamped run log (`research_notes/{title}/_run.md`) and prints a per-stage time summary |
 | [scripts/merge_verification.py](.claude/skills/jay-research/scripts/merge_verification.py) | Merges the verify-mode batch reports into one verification file, replacing a subagent |
 | [scripts/check_report.py](.claude/skills/jay-research/scripts/check_report.py) | Mechanical checks on the finished report (identifiers hyperlinked, DOI links match, link targets, depth line); standard library only |

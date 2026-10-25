@@ -84,7 +84,7 @@ When it is on, read {path_to_skill}/references/records.md before writing the res
 
 ## Failures and time limits
 
-Agents can fail. Handle each case once, never in a loop, and log a `fallback` event saying what happened.
+Agents can fail. Handle each case once, never in a loop. When a failure happens, record it at once, before you continue: log a `fallback` event saying what happened, and run `python3 "{path_to_skill}/scripts/log_failure.py" "{research title}" "{stage}" "{what failed}" "{what you did}" "{outcome so far}"`. It adds a row to `failure-log.md` at the root of the repository that holds this skill (the file is committed, so a run that dies before step 8 still leaves a record), and skips quietly if that file does not exist. `failure-log.md` is not one of the skill's files, so writing to it is allowed. If the outcome only becomes known later, log a second row with the final outcome. Never let this logging hold up the run.
 
 - **A researcher errors, never replies, or replies without the status report.** Run the notes check (step 6). If that researcher's notes exist and pass, carry on with them. If not, start one replacement researcher for that topic (step 4 template, same brief, half the tool-call budget). If that also fails, carry on without it and name the topic as not covered in the step 8 summary.
 - **A tool keeps failing.** Researchers handle this themselves (researcher.md): after two failures of the same kind they switch source or record a gap. Do not retry on their behalf.
