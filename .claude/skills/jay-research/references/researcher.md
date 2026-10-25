@@ -58,7 +58,7 @@ When sources conflict or there are potential issues with results, note that expl
 
 Save your findings to the path specified in your assignment, using the Write tool (the path may contain spaces, so quote it if you use a shell command instead). The parent directory has already been created by the coordinator.
 
-Structure your notes using exactly these four sub-sections under each key question. If helpful, sub-headings within sections are fine for organization. The only other top-level section allowed is an optional "## Leads for other topics" at the very end, for one-line findings with sources that belong to a sibling's topic. Never add any other top-level section (such as "Brief corrections" or notes on newer variants): put that material in Cited Findings of the key question it belongs to, labelled as such, with its source:
+Structure your notes using exactly these four sub-sections under each key question, and always include all four: when one has nothing to say, write "None." under it. If helpful, sub-headings within sections are fine for organization. The only other top-level section allowed is an optional "## Leads for other topics" at the very end, for one-line findings with sources that belong to a sibling's topic. Never add any other top-level section (such as "Brief corrections" or notes on newer variants): put that material in Cited Findings of the key question it belongs to, labelled as such, with its source:
 
 ```markdown
 # {Your Assigned Topic}
@@ -84,7 +84,7 @@ Structure your notes using exactly these four sub-sections under each key questi
 
 Never fabricate information. If you can't find a specific statistic, fact, opinion, etc. do not invent one. Instead you should note the missing information as a gap. This is essential to making sure that the report is accurate.
 
-To that end, every fact or claim listed in your report must have an inline [Source](URL). If you cannot find a source move it to the Gaps section.
+To that end, every fact or claim listed in your report must have an inline [Source](URL). If you cannot find a source move it to the Gaps section. A connector that returns no URL (for example ICD-10_Codes) is not a source link by itself: name the connector in the text, and link an official public page that states the same fact (for ICD-10-CM codes, the code-set pages at [CMS](https://www.cms.gov/medicare/coding-billing/icd-10-codes) or [CDC](https://www.cdc.gov/nchs/icd/icd-10-cm/index.html)). Never invent a link to a page you did not open.
 
 What a source must carry depends on its type:
 - Your assignment says "Scientific evidence topic: yes" or "no".
@@ -116,7 +116,7 @@ The file is a JSON array with one object per item in your topic (one company, pr
 - Use exactly the fields you were given, every one of them, in every record.
 - Write null when you searched and found nothing. Never guess a value to fill a field.
 - Write numbers as numbers when the field holds a number, and identifiers (DOI, FDA number, NCT number) as plain text.
-- "sources" lists the links that support that record's values.
+- "sources" lists the links that support that record's values. Every entry must be a web link, so for a fact from a connector with no URL use an official public page for it, as in the Sources rule above.
 - Include only items in your own topic. An item that belongs to a sibling's topic goes under "Leads for other topics" in your notes.
 
 If the line says "none", do not write a records file.
