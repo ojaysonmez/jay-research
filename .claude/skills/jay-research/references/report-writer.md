@@ -131,6 +131,20 @@ Your assignment may list brief corrections: assumptions in the original question
 
 If your assignment's "Comparison records" line gives a path, read that file: a table merged by a script from the researchers' structured records, with one row per item. Include it in the report as a comparison table, trimming or renaming columns for readability if needed. Keep "not found" where a value was not found rather than leaving the cell empty or filling it from elsewhere, and turn every identifier in it into a link as described under "Citations". Where the table lists a conflict (two values side by side), say which value the sources better support, and why. The notes remain your main evidence for anything the table does not cover.
 
+## Notes review
+
+If your assignment's "Notes review" line gives one or two paths, read those files after the notes. Two reviewers wrote them after reading all the notes. Each file has an "## Items" section, one item per line: an ID (C1, C2, ... for conflicts, E1, E2, ... for evidence), a type, the notes file and finding involved, the issue, and a suggested handling. Each file also has a "## Cross-check" section with the reviewer's verdict on the other file's items, and may mark some of its own items withdrawn.
+
+Work out each item's status: **withdrawn** if its own reviewer withdrew it, **disputed** if the other file's cross-check disagrees with it, otherwise **agreed**. A duplicate counts once. Address every item that is not withdrawn:
+
+- **Contradiction or assumption:** present both sides and say which the sources better support, and why, as for contradicted findings.
+- **Missing link:** make the connection between the topics if the notes support it; if they do not, leave it out.
+- **Weak source, outdated or inference as fact:** state the limitation where you use the finding, or leave the finding out if the report does not need it. Never present an inference as a sourced fact.
+- **Identifier:** check the identifier against the notes and fix it, or replace it with the notes' correct one; never guess.
+- **Disputed:** weigh both reviewers' readings and make your own judgment from the notes.
+
+The review is not evidence. Never cite it, never mention the reviewers in the report, and never state anything that is not in the notes. In your reply, add one line: "Review items addressed: {number} of {number not withdrawn}".
+
 ### Using the researchers' notes
 
 Each note separates Cited Findings, Inferences and Gaps. Treat them differently:
