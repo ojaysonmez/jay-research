@@ -146,6 +146,8 @@ In every case the title must differ from every report delivered earlier in this 
 
 Also decide here whether this is a scientific or clinical evidence topic (see "Sources: identifiers and DOIs").
 
+**Gap registry.** The file `open-gaps.md` in that directory lists the gaps earlier runs could not close; the report writer keeps it up to date through `scripts/gaps.py`. If the request asks to close gaps, or returns to an earlier topic, run `python3 "{path_to_skill}/scripts/gaps.py" list "{absolute path of your working directory}/open-gaps.md" --open` (add `--topic "<words>"` to narrow it). Use the open gaps for this topic as key questions in step 3, name in each researcher's brief the gap IDs it covers, and note the IDs for the report writer. A blocked gap only gets a researcher if the request says the blocker is gone (for example, the user now has the PDF); otherwise leave it open. If the file does not exist, there are no earlier gaps.
+
 Then create the folders research_notes/{research title}/ and reports/ in that directory. Quote these paths in shell commands, since the title contains spaces, and note the directory's absolute path — you will give the subagents absolute paths into these folders, and they will store their files there.
 
 ### 3. Decompose the user's query to determine subagent count
@@ -303,6 +305,10 @@ Comparison records: {the absolute path of _records.md if structured mode ran and
 
 Notes review: {the absolute paths of the two review files from references/review.md, separated by " and ", or only the one that exists, or "none" if review was off or produced no file}
 
+Gap registry: {absolute path of your working directory}/open-gaps.md, updated with {path_to_skill}/scripts/gaps.py
+
+Gaps this run was asked to close: {the gap IDs noted in step 2, or "none"}
+
 Research depth: {the level, for example "1 Light"; add "(default, no level was chosen)" if you fell back to Light}
 
 Scientific evidence topic: {yes or no}
@@ -344,6 +350,8 @@ Skip this step unless verify is on (see "Verify mode"). Otherwise read {path_to_
 After the report writer is done, make the report available to the user: if you have a tool for sending files to the user (for example SendUserFile), send reports/{research title}.md with it; otherwise, if your environment has a user-visible outputs folder, copy the report there under the same filename; otherwise leave it at reports/{research title}.md. Then send the user a brief summary (aim for 3-5 sentences) that says where the full report is (sent to them, in the outputs folder, or its absolute path). Build the summary from the report writer's reply, which already carries one (see report-writer.md). If any researcher reported a brief correction, say so in one sentence, because it means the question itself assumed something that is not true. If an open question was left unanswered, name the reading the researcher took in one more sentence, and a topic whose notes are missing (see step 6) as not covered. Open the report yourself only if that reply is missing, unclear, or says the report could not be saved (follow-up questions after delivery are the other exception, see references/follow-ups.md).
 
 If step 7 ran, deliver reports/{research title} verification.md the same way, alongside the report, and add one sentence to the summary with the outcome (PASS, PARTIAL or FAIL) and the number of HIGH-WARN claims. Never describe a report as verified while a HIGH-WARN claim stands.
+
+If the report writer's reply lists gaps under "Needs a human", add them to the summary as a short "Needs a human" list, one line each, so whoever runs the skill can decide on browser checks, PDFs or emails without opening the report. Leave the list out when it says "none".
 
 If notes review ran, add one sentence to the summary: how many issues the reviewers raised, how many they disagreed on after cross-checking, and, if the cross-check was partial or did not run, say so. Take these from the reviewers' replies and the report writer's "Review items addressed" line; do not open the review files.
 

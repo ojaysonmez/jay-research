@@ -16,6 +16,7 @@ The coordinator passes your summary straight to the user and does not open the r
 ```
 Report saved: {absolute path of the report}
 Summary: {3-5 sentences: the main answer to the question, the most important supporting finding, and the biggest open gap or uncertainty}
+Needs a human: {one line per gap under "Blocked (needs a person)" in the report's Open gaps section: what is missing and where, or "none"}
 ```
 
 If your assignment's "Notes review" line gave review files, add one more line at the end: "Review items addressed: {number} of {number not withdrawn}" (see "Notes review" below).
@@ -40,6 +41,9 @@ If the coordinator later sends you a list of formatting problems found by its ch
 
 ## Conclusion
 {1-2 paragraphs of novel takeaways and implications only — no repetition of earlier content}
+
+## Open gaps
+{Every gap left open, sorted under three bold labels: **Searchable**, **Blocked (needs a person)** and **Possibly unpublished**. One line per gap: what is missing, the exact page, paper or registry entry to check, and what to look for. Write "None." under a label that has nothing.}
 ```
 
 ## Detailed Specs
@@ -82,6 +86,12 @@ If helpful for readability, you can include sub-headers within a section. These 
 - Include key takeaways and novel insights only
 - Show how understanding has changed or what it implies going forward
 - Don't summarize or repeat earlier content
+
+### Open gaps
+- Every report ends with this section, after the Conclusion (and before the reference list, if the depth calls for one)
+- Collect the gaps from the notes' Gaps sections, any follow-up notes, and any notes review item you could not resolve. One line per gap, merging duplicates, and never invent one
+- Sort each gap into one of three types: **Searchable** (more searching could close it), **Blocked (needs a person)** (it needs a browser session, a paywalled PDF, an email or a login), or **Possibly unpublished** (the data may not exist yet, for example a trial with no results posted)
+- Name the exact place to look (a URL, DOI, registry ID or document section) and what to look for there, so the next run or a person can act on it directly
 
 ## Writing guidelines
 
@@ -146,6 +156,15 @@ Work out each item's status: **withdrawn** if its own reviewer withdrew it, **di
 - **Disputed:** weigh both reviewers' readings and make your own judgment from the notes.
 
 The review is not evidence. Never cite it, never mention the reviewers in the report, and never state anything that is not in the notes. In your reply, add one line: "Review items addressed: {number} of {number not withdrawn}".
+
+### Gap registry
+
+If your assignment's "Gap registry" line gives a path, update that registry with the script it names, after you have saved the report. Use the research title as the run title.
+
+1. For each ID on the "Gaps this run was asked to close" line: if the report now answers it, run `python3 {script} close "{registry}" {ID} "{research title}"`; if not, run `python3 {script} keep "{registry}" {ID} "{research title}" "{what was tried, a few words}"`. Keep that gap in the report's Open gaps section.
+2. For every other gap in the report's Open gaps section, run `python3 {script} add "{registry}" "{research title}" "{topic}" "{searchable, blocked or unpublished}" "{the gap}" "{where to look}"`.
+
+The script writes the table, so never edit the registry by hand. If the line says "none", skip this.
 
 ### Using the researchers' notes
 
