@@ -4,14 +4,18 @@
 Usage:
   python3 gaps.py add   <registry.md> "<run title>" "<topic>" "<type>" "<gap>" "<where to look>"
   python3 gaps.py close <registry.md> <gap ID> "<run title>"
-  python3 gaps.py keep  <registry.md> <gap ID> "<run title>" "<what was tried>"
+  python3 gaps.py keep  <registry.md> <gap ID> "<run title>" "<what was tried>" [<new type>]
   python3 gaps.py list  <registry.md> [--open] [--topic "<words>"]
 
 add    Appends a gap with the next ID (G1, G2, ...) and status "open", creating the
        registry with its header if it does not exist. <type> is searchable, blocked
-       or unpublished. Prints the new ID.
+       or unpublished. Prints the new ID. If an open row already has the same topic
+       and gap text (ignoring case and spacing), adds nothing and prints that row's ID
+       followed by "(already open)", so repeated runs do not pile up duplicates.
 close  Marks a gap "closed" and records which run closed it.
 keep   Leaves a gap open and records the run that tried it and what was tried.
+       With a new type (searchable, blocked or unpublished), also changes its type, for
+       example a blocked gap whose blocker is gone but that still has no answer.
 list   Prints the rows (only open ones with --open; only rows whose topic or gap
        contains all the given words with --topic), or "No gaps." when there are none.
 
@@ -38,6 +42,11 @@ TYPES = ("searchable", "blocked", "unpublished")
 
 def clean(text):
     return " ".join(str(text).split()).replace("|", "\\|")
+
+
+def norm(text):
+    """Comparable form of a topic or gap: no escapes, case or spacing differences."""
+    return " ".join(str(text).replace("\\|", "|").lower().split())
 
 
 def cells(line):
@@ -68,6 +77,11 @@ def add(path, run, topic, kind, gap, where):
     lines = read(path)
     if not lines:
         lines = HEADER.rstrip("\n").split("\n")
+    key = (norm(topic), norm(gap))
+    for _, c in rows(lines):
+        if c[1] == "open" and (norm(c[3]), norm(c[4])) == key:
+            print(f"{c[0]} (already open)")
+            return 0
     numbers = [int(c[0][1:]) for _, c in rows(lines)]
     gap_id = f"G{max(numbers, default=0) + 1}"
     lines.append(f"| {gap_id} | open | {kind} | {clean(topic)} | {clean(gap)} | {clean(where)} | {clean(run)} | {clean(run)} |")
@@ -76,11 +90,18 @@ def add(path, run, topic, kind, gap, where):
     return 0
 
 
-def update(path, gap_id, run, status, note=None):
+def update(path, gap_id, run, status, note=None, kind=None):
+    if kind is not None:
+        kind = kind.strip().lower()
+        if kind not in TYPES:
+            print(f"type must be one of: {', '.join(TYPES)}")
+            return 2
     lines = read(path)
     for i, c in rows(lines):
         if c[0] == gap_id.upper():
             c[1] = status
+            if kind:
+                c[2] = kind
             c[7] = clean(run) + (f" (tried: {clean(note)})" if note else "")
             lines[i] = "| " + " | ".join(c) + " |"
             write(path, lines)
@@ -109,8 +130,8 @@ def main():
             return add(*a[1:])
         if len(a) == 4 and a[0] == "close":
             return update(a[1], a[2], a[3], "closed")
-        if len(a) == 5 and a[0] == "keep":
-            return update(a[1], a[2], a[3], "open", a[4])
+        if len(a) in (5, 6) and a[0] == "keep":
+            return update(a[1], a[2], a[3], "open", a[4], a[5] if len(a) == 6 else None)
         if len(a) >= 2 and a[0] == "list":
             words = []
             if "--topic" in a:

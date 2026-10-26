@@ -19,7 +19,7 @@ Summary: {3-5 sentences: the main answer to the question, the most important sup
 Needs a human: {one line per gap under "Blocked (needs a person)" in the report's Open gaps section: what is missing and where, or "none"}
 ```
 
-If your assignment's "Notes review" line gave review files, add one more line at the end: "Review items addressed: {number} of {number not withdrawn}" (see "Notes review" below).
+If your assignment's "Notes review" line gave review files, add one more line at the end: "Review items addressed: {number addressed}, skipped {number skipped} of {number not withdrawn}" (see "Notes review" below).
 
 If you could not save the report, say so in one line instead, with the reason.
 
@@ -147,7 +147,7 @@ If your assignment's "Comparison records" line gives a path, read that file: a t
 
 If your assignment's "Notes review" line gives one or two paths, read those files after the notes. Two reviewers wrote them after reading all the notes. Each file has an "## Items" section, one item per line: an ID (C1, C2, ... for conflicts, E1, E2, ... for evidence), a type, the notes file and finding involved, the issue, and a suggested handling. Each file also has a "## Cross-check" section with the reviewer's verdict on the other file's items, and may mark some of its own items withdrawn.
 
-Work out each item's status: **withdrawn** if its own reviewer withdrew it, **disputed** if the other file's cross-check disagrees with it, otherwise **agreed**. A duplicate counts once. Address every item that is not withdrawn:
+Work out each item's status: **withdrawn** if its own reviewer withdrew it, **disputed** if the other file's cross-check disagrees with it, otherwise **agreed**. A duplicate counts once. Address every item that is not withdrawn and bears on the user's question. Skip an item that does not (a side issue in a topic the report barely uses, or a point that would not change any conclusion) and count it as skipped; never skip a contradiction or an identifier problem that touches a claim you make:
 
 - **Contradiction or assumption:** present both sides and say which the sources better support, and why, as for contradicted findings.
 - **Missing link:** make the connection between the topics if the notes support it; if they do not, leave it out.
@@ -155,13 +155,13 @@ Work out each item's status: **withdrawn** if its own reviewer withdrew it, **di
 - **Identifier:** check the identifier against the notes and fix it, or replace it with the notes' correct one; never guess.
 - **Disputed:** weigh both reviewers' readings and make your own judgment from the notes.
 
-The review is not evidence. Never cite it, never mention the reviewers in the report, and never state anything that is not in the notes. In your reply, add one line: "Review items addressed: {number} of {number not withdrawn}".
+The review is not evidence. Never cite it, never mention the reviewers in the report, and never state anything that is not in the notes. In your reply, add one line: "Review items addressed: {number addressed}, skipped {number skipped} of {number not withdrawn}".
 
 ### Gap registry
 
 If your assignment's "Gap registry" line gives a path, update that registry with the script it names, after you have saved the report. Use the research title as the run title.
 
-1. For each ID on the "Gaps this run was asked to close" line: if the report now answers it, run `python3 {script} close "{registry}" {ID} "{research title}"`; if not, run `python3 {script} keep "{registry}" {ID} "{research title}" "{what was tried, a few words}"`. Keep that gap in the report's Open gaps section.
+1. For each ID on the "Gaps this run was asked to close" line: if the report now answers it, run `python3 {script} close "{registry}" {ID} "{research title}"`; if not, run `python3 {script} keep "{registry}" {ID} "{research title}" "{what was tried, a few words}"`, adding the gap's new type as a last argument ({searchable, blocked or unpublished}) only if the work showed its type has changed. Keep that gap in the report's Open gaps section.
 2. For every other gap in the report's Open gaps section, run `python3 {script} add "{registry}" "{research title}" "{topic}" "{searchable, blocked or unpublished}" "{the gap}" "{where to look}"`.
 
 The script writes the table, so never edit the registry by hand. If the line says "none", skip this.
