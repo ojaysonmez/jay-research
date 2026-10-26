@@ -18,6 +18,8 @@ Report saved: {absolute path of the report}
 Summary: {3-5 sentences: the main answer to the question, the most important supporting finding, and the biggest open gap or uncertainty}
 ```
 
+If your assignment's "Notes review" line gave review files, add one more line at the end: "Review items addressed: {number} of {number not withdrawn}" (see "Notes review" below).
+
 If you could not save the report, say so in one line instead, with the reason.
 
 If the coordinator later sends you a list of formatting problems found by its checking script, fix exactly those lines in the report in place, using the identifier link patterns under "Citations", change nothing else, and reply in the same format as above. If the list names DOIs that do not exist in the DOI registry, check each article in the notes: use the DOI the notes give if it differs, otherwise write "DOI not found" in its place and keep the citation. Never guess a DOI.
@@ -131,7 +133,7 @@ Your assignment may list brief corrections: assumptions in the original question
 
 If your assignment's "Comparison records" line gives a path, read that file: a table merged by a script from the researchers' structured records, with one row per item. Include it in the report as a comparison table, trimming or renaming columns for readability if needed. Keep "not found" where a value was not found rather than leaving the cell empty or filling it from elsewhere, and turn every identifier in it into a link as described under "Citations". Where the table lists a conflict (two values side by side), say which value the sources better support, and why. The notes remain your main evidence for anything the table does not cover.
 
-## Notes review
+### Notes review
 
 If your assignment's "Notes review" line gives one or two paths, read those files after the notes. Two reviewers wrote them after reading all the notes. Each file has an "## Items" section, one item per line: an ID (C1, C2, ... for conflicts, E1, E2, ... for evidence), a type, the notes file and finding involved, the issue, and a suggested handling. Each file also has a "## Cross-check" section with the reviewer's verdict on the other file's items, and may mark some of its own items withdrawn.
 
