@@ -93,6 +93,7 @@ Follow-up questions after a report are routed to the cheapest path. If the repor
 | [references/report-writer.md](.claude/skills/jay-research/references/report-writer.md) | Instructions the report writer reads: structure, style, citations |
 | [references/modes.md](.claude/skills/jay-research/references/modes.md) | Help and dry-run modes, read by the coordinator only when requested |
 | [references/verify.md](.claude/skills/jay-research/references/verify.md) | The optional fact-check step, read only when `verify` is on |
+| [references/review.md](.claude/skills/jay-research/references/review.md) | Notes review: two reviewer subagents and a cross-check before the report is written; read only when review is on |
 | [references/records.md](.claude/skills/jay-research/references/records.md) | Structured mode for comparison scans: choosing fields, briefing researchers, checking and merging records |
 | [references/follow-ups.md](.claude/skills/jay-research/references/follow-ups.md) | Routing for follow-up questions after a report is delivered |
 | [scripts/check_notes.py](.claude/skills/jay-research/scripts/check_notes.py) | Checks researchers' notes before the report is written (four sections per question, a source link on every finding) |
@@ -104,6 +105,19 @@ Follow-up questions after a report are routed to the cheapest path. If the repor
 | [scripts/run_log.py](.claude/skills/jay-research/scripts/run_log.py) | Writes the timestamped run log (`research_notes/{title}/_run.md`) and prints a per-stage time summary |
 | [scripts/merge_verification.py](.claude/skills/jay-research/scripts/merge_verification.py) | Merges the verify-mode batch reports into one verification file, replacing a subagent |
 | [scripts/check_report.py](.claude/skills/jay-research/scripts/check_report.py) | Mechanical checks on the finished report (identifiers hyperlinked, DOI links match, link targets, depth line); standard library only |
+| [tests/run_tests.py](tests/run_tests.py) | Tests for the scripts on fixed sample inputs. Needs no model or network; run `python3 tests/run_tests.py` after changing a script |
+| [evals/](evals/README.md) | Checks that measure whether the skill gets things right: known-answer registry questions, seeded errors for verify mode, a prompt-injection page, and a checklist for real depth runs |
+| [suggested-changes.md](suggested-changes.md) | Changes to the skill that test runs suggested, with their status |
+| [failure-log.md](failure-log.md) | Evidence for those suggestions: one row per failure during a real run |
+| [ideas.md](ideas.md) | Features discussed but not built yet |
+
+## Tests
+
+```
+python3 tests/run_tests.py
+```
+
+Runs every script in `.claude/skills/jay-research/scripts/` on small fixed inputs in a temporary folder and checks its output and exit code. It needs no model and no network (the DOI check is tested for extraction only, since lookups need the network). Run it after changing a script. `evals/` holds the checks that need real research runs.
 
 ## Requirements
 

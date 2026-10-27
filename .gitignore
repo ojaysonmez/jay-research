@@ -6,3 +6,6 @@ history/
 _run.md
 history.md
 *.zip
+__pycache__/
+*.pyc
+*.skill
