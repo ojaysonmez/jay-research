@@ -41,11 +41,11 @@ When review is off or skipped, skip it entirely and put "Notes review: none" in 
 | Level | Researchers | Tool calls per researcher | Extra research round | Report |
 |---|---|---|---|---|
 | 1 Light (default, ~5-10 min) | 1-2 | up to 8 | never | 1-2 pages, key findings only |
-| 2 Standard (~10-20 min) | 3 | up to 10 | never | 3-4 focused sections |
+| 2 Standard (~10-20 min) | 3 | up to 12 | never | 3-4 focused sections |
 | 3 Deep (~20-35 min) | 4-5 | up to 15 | only for a critical gap | full report |
 | 4 Max (40+ min) | 6 or more | up to 20 (25 for scientific or clinical topics) | allowed | full report + complete reference list |
 
-Take the level from the request ("light", "standard", "deep", "max", or "level 1-4"). The earlier names "quick" (Light) and "exhaustive" (Max) still work. If none is named, ask with AskUserQuestion in step 1, with Light listed first as the default. If nobody can answer, use Light and say so at the top of the report. The level caps step 3 (researcher count) and step 5 (extra round). When a run builds on earlier research (step 2's "returning to an earlier topic" case), give each researcher 2 more calls than the level allows (Standard 12 instead of 10), since it must first read the earlier notes. State the tool-call budget in every researcher prompt and the level in the report writer prompt.
+Take the level from the request ("light", "standard", "deep", "max", or "level 1-4"). The earlier names "quick" (Light) and "exhaustive" (Max) still work. If none is named, ask with AskUserQuestion in step 1, with Light listed first as the default. If nobody can answer, use Light and say so at the top of the report. The level caps step 3 (researcher count) and step 5 (extra round). When a run builds on earlier research (step 2's "returning to an earlier topic" case), give each researcher 2 more calls than the level allows (Standard 14 instead of 12), since it must first read the earlier notes. State the tool-call budget in every researcher prompt and the level in the report writer prompt.
 
 ## Models per role
 
@@ -163,6 +163,8 @@ In order to effectively spawn and task subagents, determine if and how the user'
 | 6+ | Large enumerable set requiring systematic coverage | "Electric vehicle adoption rates by US state" → researchers assigned to regional clusters |
 
 Also decide here whether structured mode applies (see "Structured mode"); if it does, choose the fields as references/records.md describes.
+
+At Max, give commercial products and patents their own researcher when the topic has them, rather than folding them into a researcher who also covers adjacent or transferable formats: a combined researcher used all 25 calls and left 6 critical gaps.
 
 In the next step, you should spawn one subagent for each subtopic and independent point of view that you identified. The depth level caps the count: if the decomposition calls for more researchers than the level allows, merge subtopics rather than exceed it. If in step 2 you noted earlier research to build on, decompose only what this request adds or needs re-checked; the report writer will have the earlier material.
 

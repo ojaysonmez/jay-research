@@ -39,11 +39,13 @@ What earlier runs learned about specific sources:
 - Consensus gives the best methodology reviews, but its results carry no DOIs. For a scientific topic, look the DOI up in PubMed.
 - PubMed search returns only PMIDs, and `get_article_metadata` on many PMIDs overflows to a file. Fetch a few PMIDs per call.
 - The NyquistAI `usfda_device_search` may reject a plain `query` argument. If it does, retry once with the structured `request` argument.
-- Parallel `web_search` returns FDA decision summaries, SSED and labeling PDFs from accessdata.fda.gov directly, when other routes fail.
+- Parallel `web_search` returns FDA decision summaries, SSED and labeling PDFs from accessdata.fda.gov directly, when other routes fail. It also returns Sanofi and cdn.clinicaltrials.gov protocol PDFs.
 - PubMed Central (PMC) article pages fetched with Parallel `web_fetch` give the full text, even when the PubMed connector returns nothing for the article.
 - The EFLM biological variation database pages fetch fully with Parallel `web_fetch`. Its "View Details" pages are not reachable as static URLs; if the source study behind a figure is only there, record in Gaps that it needs a browser or an email to EFLM, and stop trying.
 - ClinicalTrials.gov `get_trial_details` returns protocol eligibility and treatment rules (for example re-infusion criteria) verbatim, often in one call. Its output can be very large; extract only the fields you need.
 - diabetesjournals.org (ADA journals, including the Standards of Care) returns 403 to fetches. Use the PMC or Europe PMC copy of the section, and never guess a URL for a section: a guessed URL can return the wrong one.
+- The Clinical_Trials connector `advanced_query` returns "Bad request". For exact counts, use the public ClinicalTrials.gov API v2 with curl in Bash.
+- pandas is not installed on this machine. To read a spreadsheet use openpyxl, run with `python -P` (not `-I`), or grep a text corpus index instead.
 - Manufacturer IFU PDFs (for example on freestyleserver.com) often do not give their tables as text. Look for the same tables in the manufacturer's formulary or payer kit, or in the peer-reviewed paper.
 
 ## Untrusted content
@@ -67,7 +69,7 @@ When sources conflict or there are potential issues with results, note that expl
 
 Save your findings to the path specified in your assignment, using the Write tool (the path may contain spaces, so quote it if you use a shell command instead). The parent directory has already been created by the coordinator.
 
-Structure your notes using exactly these four sub-sections under each key question, and always include all four: when one has nothing to say, write "None." under it. If helpful, sub-headings within sections are fine for organization. Put a summary table, or any other block you want to label, under a bold line of text (for example **Summary table**), never under a heading: a `##` heading is read as a new key question, and an unknown `###` heading breaks up the four sub-sections. The only other top-level section allowed is an optional "## Leads for other topics" at the very end, for one-line findings with sources that belong to a sibling's topic. Never add any other top-level section (such as "Brief corrections" or notes on newer variants): put that material in Cited Findings of the key question it belongs to, labelled as such, with its source:
+Structure your notes using exactly these four sub-sections under each key question, and always include all four: when one has nothing to say, write "None." under it. If helpful, sub-headings within sections are fine for organization. Put a summary table, or any other block you want to label, under a bold line of text (for example **Summary table**), never under a heading: a `##` heading is read as a new key question, and an unknown `###` heading breaks up the four sub-sections. The only other top-level section allowed is an optional "## Leads for other topics" at the very end, for one-line findings with sources that belong to a sibling's topic. Never add any other top-level section (such as "Brief corrections" or notes on newer variants): put that material in Cited Findings of the key question it belongs to, labelled as such, with its source. Every finding carries an inline source link, including findings from local internal documents (link the file path or its public page):
 
 ```markdown
 # {Your Assigned Topic}

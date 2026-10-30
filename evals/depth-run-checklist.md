@@ -18,7 +18,7 @@ Run the skill by its repo name (`/jay-research deep: <question>`), commit `sugge
 
 | Level | Researchers | Calls each | Step 5 (extra round) | Report |
 |---|---|---|---|---|
-| Standard | 3 | up to 10 | never, except open questions | 3-4 focused sections |
+| Standard | 3 | up to 12 | never, except open questions | 3-4 focused sections |
 | Deep | 4-5 | up to 15 | only for a critical gap | full report |
 | Max | 6 or more | up to 20 (25 for scientific or clinical topics) | only for a critical gap, also allowed to run | full report plus complete reference list |
 
